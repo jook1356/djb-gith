@@ -1,21 +1,16 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function AuthCallback() {
-  const router = useRouter();
-
   useEffect(() => {
     // URL에서 토큰 추출
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
     const error = urlParams.get('error');
 
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-    if (isLocalhost && window.opener) {
-      // 로컬 개발 환경: 팝업 방식 - 부모 창에 메시지 전달
+    if (window.opener) {
+      // 부모 창에 메시지 전달
       if (token) {
         window.opener.postMessage({ 
           type: 'AUTH_SUCCESS', 
@@ -32,16 +27,11 @@ export default function AuthCallback() {
           error: 'No token received' 
         }, window.location.origin);
       }
-      // 팝업 창 닫기
-      window.close();
-    } else {
-      // GitHub Pages 환경: 직접 리다이렉트 방식
-      // useAuth 훅에서 토큰을 처리하므로 잠시 대기 후 메인 페이지로 리다이렉트
-      setTimeout(() => {
-        router.push('/');
-      }, 2000);
     }
-  }, [router]);
+
+    // 팝업 창 닫기
+    window.close();
+  }, []);
 
   return (
     <div style={{
@@ -62,10 +52,7 @@ export default function AuthCallback() {
         }} className="spinner" />
         <p>인증 처리 중...</p>
         <p style={{ fontSize: '14px', color: '#666' }}>
-          {window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-            ? '잠시 후 이 창이 자동으로 닫힙니다.'
-            : '잠시 후 메인 페이지로 이동합니다.'
-          }
+          잠시 후 이 창이 자동으로 닫힙니다.
         </p>
         <style dangerouslySetInnerHTML={{
           __html: `

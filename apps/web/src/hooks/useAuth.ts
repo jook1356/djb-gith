@@ -80,58 +80,49 @@ export function useAuth() {
     const callbackUrl = `${window.location.origin}/auth/callback`;
     const authUrl = `${AUTH_WORKER_URL}/auth/start?redirect_uri=${encodeURIComponent(callbackUrl)}`;
     
-    // GitHub Pages 환경에서는 팝업 대신 직접 리다이렉트 사용
-    // 로컬 개발 환경에서는 팝업 사용
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    
-    if (isLocalhost) {
-      // 로컬 개발 환경: 팝업 방식
-      const popup = window.open(
-        authUrl, 
-        'oauth', 
-        'width=600,height=700,scrollbars=yes,resizable=yes'
-      );
+    // 팝업으로 OAuth 시작
+    const popup = window.open(
+      authUrl, 
+      'oauth', 
+      'width=600,height=700,scrollbars=yes,resizable=yes'
+    );
 
-      // postMessage 리스너 등록
-      const handleMessage = (event: MessageEvent) => {
-        // 보안: 올바른 origin에서 온 메시지인지 확인
-        if (event.origin !== window.location.origin) {
-          return;
-        }
+    // postMessage 리스너 등록
+    const handleMessage = (event: MessageEvent) => {
+      // 보안: 올바른 origin에서 온 메시지인지 확인
+      if (event.origin !== window.location.origin) {
+        return;
+      }
 
-        if (event.data.type === 'AUTH_SUCCESS' && event.data.token) {
-          // 토큰 저장
-          setToken(event.data.token);
-          // 사용자 정보 다시 로드
-          checkAuth();
-          // 리스너 제거
-          window.removeEventListener('message', handleMessage);
-        } else if (event.data.type === 'AUTH_ERROR') {
-          console.error('Authentication error:', event.data.error);
-          setAuthState(prev => ({
-            ...prev,
-            error: event.data.error,
-            loading: false
-          }));
-          // 리스너 제거
-          window.removeEventListener('message', handleMessage);
-        }
-      };
+      if (event.data.type === 'AUTH_SUCCESS' && event.data.token) {
+        // 토큰 저장
+        setToken(event.data.token);
+        // 사용자 정보 다시 로드
+        checkAuth();
+        // 리스너 제거
+        window.removeEventListener('message', handleMessage);
+      } else if (event.data.type === 'AUTH_ERROR') {
+        console.error('Authentication error:', event.data.error);
+        setAuthState(prev => ({
+          ...prev,
+          error: event.data.error,
+          loading: false
+        }));
+        // 리스너 제거
+        window.removeEventListener('message', handleMessage);
+      }
+    };
 
-      // 메시지 리스너 등록
-      window.addEventListener('message', handleMessage);
+    // 메시지 리스너 등록
+    window.addEventListener('message', handleMessage);
 
-      // 팝업이 닫혔는지 체크 (사용자가 수동으로 닫은 경우)
-      const checkClosed = setInterval(() => {
-        if (popup?.closed) {
-          clearInterval(checkClosed);
-          window.removeEventListener('message', handleMessage);
-        }
-      }, 1000);
-    } else {
-      // GitHub Pages 환경: 직접 리다이렉트 방식
-      window.location.href = authUrl;
-    }
+    // 팝업이 닫혔는지 체크 (사용자가 수동으로 닫은 경우)
+    const checkClosed = setInterval(() => {
+      if (popup?.closed) {
+        clearInterval(checkClosed);
+        window.removeEventListener('message', handleMessage);
+      }
+    }, 1000);
   }, [checkAuth, setToken]);
 
   // 로그아웃
@@ -163,33 +154,11 @@ export function useAuth() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     
-    // 콜백 페이지인 경우 URL에서 토큰 추출
-    if (window.location.pathname.includes('/auth/callback')) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const token = urlParams.get('token');
-      const error = urlParams.get('error');
-      
-      if (token) {
-        // 토큰 저장
-        setToken(token);
-        // 사용자 정보 로드
-        checkAuth();
-        // URL에서 토큰 제거 (보안상 이유)
-        const newUrl = new URL(window.location.href);
-        newUrl.searchParams.delete('token');
-        window.history.replaceState({}, '', newUrl.toString());
-      } else if (error) {
-        setAuthState(prev => ({
-          ...prev,
-          error: error,
-          loading: false
-        }));
-      }
-    } else {
-      // 일반 페이지에서는 토큰 체크
+    // 콜백 페이지가 아닌 경우에만 토큰 체크
+    if (!window.location.pathname.includes('/auth/callback')) {
       checkAuth();
     }
-  }, [checkAuth, setToken]);
+  }, [checkAuth]);
 
   return {
     ...authState,
