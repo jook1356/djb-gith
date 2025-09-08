@@ -5,15 +5,15 @@
 echo "🚀 Cloudflare Worker 배포를 시작합니다..."
 
 # Cloudflare Worker 디렉토리로 이동
-cd cloudflare-worker
+cd apps/worker
 
 # 의존성 설치
 echo "📦 의존성을 설치합니다..."
-npm install
+pnpm install
 
 # TypeScript 컴파일 확인
 echo "🔍 TypeScript 컴파일을 확인합니다..."
-npx tsc --noEmit
+pnpm exec tsc --noEmit
 
 if [ $? -ne 0 ]; then
     echo "❌ TypeScript 컴파일 오류가 있습니다. 배포를 중단합니다."
@@ -22,7 +22,7 @@ fi
 
 # 배포
 echo "🌐 Worker를 배포합니다..."
-npx wrangler deploy
+pnpm exec wrangler deploy
 
 if [ $? -eq 0 ]; then
     echo "✅ Worker 배포가 완료되었습니다!"

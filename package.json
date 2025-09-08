@@ -1,30 +1,24 @@
 {
-  "name": "my-blog",
+  "name": "my-blog-monorepo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start",
-    "lint": "eslint",
-    "deploy:worker": "./deploy-worker.sh",
-    "setup:worker": "cd cloudflare-worker && npm install && wrangler login",
-    "dev:worker": "cd cloudflare-worker && wrangler dev",
-    "logs:worker": "cd cloudflare-worker && wrangler tail"
-  },
-  "dependencies": {
-    "next": "15.5.0",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "sass": "^1.92.1"
+    "dev": "pnpm --filter @my-blog/web dev",
+    "build": "pnpm --filter @my-blog/web build",
+    "start": "pnpm --filter @my-blog/web start",
+    "lint": "pnpm --filter @my-blog/web lint",
+    "dev:worker": "pnpm --filter @my-blog/worker dev",
+    "deploy:worker": "pnpm --filter @my-blog/worker deploy",
+    "setup:worker": "pnpm --filter @my-blog/worker install && pnpm --filter @my-blog/worker exec wrangler login",
+    "logs:worker": "pnpm --filter @my-blog/worker exec wrangler tail",
+    "install:all": "pnpm install",
+    "clean": "pnpm --filter @my-blog/web exec rm -rf .next && pnpm --filter @my-blog/worker exec rm -rf dist"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.5.0",
-    "typescript": "^5"
+    "pnpm": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
   }
 }

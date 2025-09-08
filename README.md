@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Blog Monorepo
 
-## Getting Started
+GitHub Pages로 배포되는 블로그와 Cloudflare Worker를 사용한 인증 시스템을 포함한 모노레포입니다.
 
-First, run the development server:
+## 🏗️ 프로젝트 구조
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+my-blog-github-pages/
+├── apps/
+│   ├── web/                 # Next.js 블로그 앱
+│   │   ├── src/
+│   │   ├── public/
+│   │   ├── package.json
+│   │   └── next.config.ts
+│   └── worker/              # Cloudflare Worker (인증)
+│       ├── src/
+│       ├── package.json
+│       └── wrangler.toml
+├── packages/                # 공통 패키지 (향후 확장용)
+├── package.json             # 모노레포 루트
+├── pnpm-workspace.yaml      # pnpm 워크스페이스 설정
+└── deploy-worker.sh         # Worker 배포 스크립트
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 시작하기
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. 의존성 설치
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. 개발 서버 실행
 
-## Learn More
+#### Next.js 웹 앱
+```bash
+pnpm dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+#### Cloudflare Worker
+```bash
+pnpm dev:worker
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. 빌드
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Next.js 웹 앱
+```bash
+pnpm build
+```
 
-## Deploy on Vercel
+#### Cloudflare Worker
+```bash
+pnpm deploy:worker
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📦 사용 가능한 스크립트
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `pnpm dev` - Next.js 개발 서버 실행
+- `pnpm build` - Next.js 프로덕션 빌드
+- `pnpm start` - Next.js 프로덕션 서버 실행
+- `pnpm lint` - Next.js ESLint 검사
+- `pnpm dev:worker` - Cloudflare Worker 개발 서버
+- `pnpm deploy:worker` - Cloudflare Worker 배포
+- `pnpm setup:worker` - Worker 초기 설정 및 로그인
+- `pnpm logs:worker` - Worker 로그 확인
+- `pnpm clean` - 빌드 캐시 정리
+
+## 🔧 개별 앱 작업
+
+각 앱에서 직접 작업하려면:
+
+```bash
+# Next.js 앱
+cd apps/web
+pnpm dev
+
+# Cloudflare Worker
+cd apps/worker
+pnpm dev
+```
+
+## 📚 더 자세한 정보
+
+- [빠른 시작 가이드](QUICK_START.md)
+- [설정 가이드](SETUP_GUIDE.md)

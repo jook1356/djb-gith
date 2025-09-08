@@ -1,5 +1,5 @@
 {
-  "name": "blog-auth-worker",
+  "name": "@my-blog/worker",
   "version": "1.0.0",
   "description": "Cloudflare Worker for GitHub OAuth authentication",
   "main": "src/index.ts",
