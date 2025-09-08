@@ -45,7 +45,7 @@ jobs:
     - name: Build with Next.js
       run: pnpm run build
       env:
-        NEXT_PUBLIC_AUTH_WORKER_URL: ${{ vars.NEXT_PUBLIC_AUTH_WORKER_URL }}
+        NEXT_PUBLIC_AUTH_WORKER_URL: ${{ secrets.NEXT_PUBLIC_AUTH_WORKER_URL }}
         
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
