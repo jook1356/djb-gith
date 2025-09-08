@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy:worker": "./deploy-worker.sh",
+    "setup:worker": "cd cloudflare-worker && npm install && wrangler login",
+    "dev:worker": "cd cloudflare-worker && wrangler dev",
+    "logs:worker": "cd cloudflare-worker && wrangler tail"
   },
   "dependencies": {
     "next": "15.5.0",
