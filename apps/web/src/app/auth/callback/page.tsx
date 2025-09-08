@@ -1,20 +1,26 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function AuthCallback() {
   const router = useRouter();
+  const [isLocalhost, setIsLocalhost] = useState(false);
 
   useEffect(() => {
+    // 클라이언트 사이드에서만 실행
+    if (typeof window === 'undefined') return;
+
     // URL에서 토큰 추출
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
     const error = urlParams.get('error');
 
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const hostname = window.location.hostname;
+    const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
+    setIsLocalhost(isLocal);
 
-    if (isLocalhost && window.opener) {
+    if (isLocal && window.opener) {
       // 로컬 개발 환경: 팝업 방식 - 부모 창에 메시지 전달
       if (token) {
         window.opener.postMessage({ 
@@ -62,7 +68,7 @@ export default function AuthCallback() {
         }} className="spinner" />
         <p>인증 처리 중...</p>
         <p style={{ fontSize: '14px', color: '#666' }}>
-          {window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+          {isLocalhost 
             ? '잠시 후 이 창이 자동으로 닫힙니다.'
             : '잠시 후 메인 페이지로 이동합니다.'
           }
