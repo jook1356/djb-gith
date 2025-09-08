@@ -80,7 +80,7 @@ export function useAuth() {
     // GitHub Pages의 basePath를 고려한 콜백 URL 생성
     // next.config.ts에서 설정된 basePath를 동적으로 감지
     const isGitHubPages = window.location.hostname === 'jook1356.github.io';
-    const repository = isGitHubPages ? 'my-blog-github-pages' : '';
+    const repository = isGitHubPages ? 'djb-gith' : '';
     const callbackUrl = repository 
       ? `${window.location.origin}/${repository}/auth/callback`
       : `${window.location.origin}/auth/callback`;
