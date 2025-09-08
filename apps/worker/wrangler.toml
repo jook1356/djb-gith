@@ -2,11 +2,15 @@ name = "blog-auth-worker"
 main = "src/index.ts"
 compatibility_date = "2024-12-18"
 
+# 로컬 개발 환경 설정
+[env.development]
+name = "blog-auth-worker-dev"
+
 [env.production]
 name = "blog-auth-worker"
 
 [vars]
-# 이 변수들은 wrangler secret put 명령어로 설정해야 합니다
+# 프로덕션 환경에서는 wrangler secret put 명령어로 설정해야 합니다
 # GITHUB_CLIENT_ID = "your_github_client_id"
 # GITHUB_CLIENT_SECRET = "your_github_client_secret"
 # JWT_SECRET = "your_jwt_secret"
