@@ -178,6 +178,7 @@ async function handleAuthCallback(request: Request, env: Env): Promise<Response>
     await env.AUTH_SESSIONS.put(`session:${userData.id}`, jwt, { expirationTtl: 24 * 60 * 60 });
     
     // 프론트엔드로 리다이렉트 (JWT를 쿼리 파라미터로 전달)
+    // GitHub Pages의 basePath를 고려한 URL 생성
     const finalRedirectUrl = `${redirectUri}?token=${jwt}`;
     return Response.redirect(finalRedirectUrl, 302);
     

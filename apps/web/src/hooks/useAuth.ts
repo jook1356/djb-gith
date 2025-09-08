@@ -77,7 +77,14 @@ export function useAuth() {
 
   // 로그인 시작
   const login = useCallback(() => {
-    const callbackUrl = `${window.location.origin}/auth/callback`;
+    // GitHub Pages의 basePath를 고려한 콜백 URL 생성
+    // next.config.ts에서 설정된 basePath를 동적으로 감지
+    const isGitHubPages = window.location.hostname === 'jook1356.github.io';
+    const repository = isGitHubPages ? 'my-blog-github-pages' : '';
+    const callbackUrl = repository 
+      ? `${window.location.origin}/${repository}/auth/callback`
+      : `${window.location.origin}/auth/callback`;
+    
     const authUrl = `${AUTH_WORKER_URL}/auth/start?redirect_uri=${encodeURIComponent(callbackUrl)}`;
     
     // 팝업으로 OAuth 시작
