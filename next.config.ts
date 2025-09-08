@@ -5,7 +5,7 @@ const repository = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? undefined;
 const shouldUseBasePath = isCI && Boolean(repository);
 
 const nextConfig: NextConfig = {
-  output: "export", // GitHub Pages용 정적 내보내기
+  output: "export",
   images: { unoptimized: true },
   trailingSlash: true,
   basePath: shouldUseBasePath ? `/${repository}` : undefined,
