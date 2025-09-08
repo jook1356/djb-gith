@@ -10,24 +10,22 @@ export default function AuthCallback() {
     const error = urlParams.get('error');
 
     if (window.opener) {
-      // 부모 창에 메시지 전달 (origin은 현재 origin 사용)
-      const targetOrigin = window.location.origin;
-      
+      // 부모 창에 메시지 전달
       if (token) {
         window.opener.postMessage({ 
           type: 'AUTH_SUCCESS', 
           token 
-        }, targetOrigin);
+        }, window.location.origin);
       } else if (error) {
         window.opener.postMessage({ 
           type: 'AUTH_ERROR', 
           error 
-        }, targetOrigin);
+        }, window.location.origin);
       } else {
         window.opener.postMessage({ 
           type: 'AUTH_ERROR', 
           error: 'No token received' 
-        }, targetOrigin);
+        }, window.location.origin);
       }
     }
 

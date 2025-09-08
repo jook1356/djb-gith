@@ -77,12 +77,7 @@ export function useAuth() {
 
   // 로그인 시작
   const login = useCallback(() => {
-    // GitHub Pages basePath를 고려한 콜백 URL 생성
-    const basePath = window.location.pathname.split('/')[1] || '';
-    const callbackUrl = basePath 
-      ? `${window.location.origin}/${basePath}/auth/callback`
-      : `${window.location.origin}/auth/callback`;
-    
+    const callbackUrl = `${window.location.origin}/auth/callback`;
     const authUrl = `${AUTH_WORKER_URL}/auth/start?redirect_uri=${encodeURIComponent(callbackUrl)}`;
     
     // 팝업으로 OAuth 시작
@@ -94,13 +89,8 @@ export function useAuth() {
 
     // postMessage 리스너 등록
     const handleMessage = (event: MessageEvent) => {
-      // 보안: 올바른 origin에서 온 메시지인지 확인 (basePath 고려)
-      const currentOrigin = window.location.origin;
-      const currentPath = window.location.pathname;
-      const basePath = currentPath.split('/')[1] || '';
-      const expectedOrigin = basePath ? `${currentOrigin}/${basePath}` : currentOrigin;
-      
-      if (event.origin !== currentOrigin) {
+      // 보안: 올바른 origin에서 온 메시지인지 확인
+      if (event.origin !== window.location.origin) {
         return;
       }
 
