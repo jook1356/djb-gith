@@ -187,7 +187,7 @@ npm run build
 
 ### 5.1 기본 테스트
 
-1. GitHub Pages URL에 접속: `https://your-username.github.io/your-repository-name`
+1. GitHub Pages URL에 접속: `https://jook1356.github.io/djb-gith`
 2. **"Login with GitHub"** 버튼 클릭
 3. GitHub OAuth 승인 페이지에서 **"Authorize"** 클릭
 4. 로그인 성공 시 사용자 정보와 **"Logout"** 버튼이 표시되어야 함
