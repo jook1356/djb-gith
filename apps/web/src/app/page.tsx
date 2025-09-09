@@ -1,5 +1,5 @@
 import './page.scss';
-import { AuthButton } from '@/components/AuthButton';
+import { AuthButton } from '@/components/Auth/AuthButton';
 
 export default function Home() {
   return (
