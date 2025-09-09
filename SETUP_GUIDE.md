@@ -29,7 +29,6 @@
 ### 1.2 Client ID와 Secret 저장
 
 OAuth App 생성 후:
-
 - **Client ID** 복사하여 저장
 - **"Generate a new client secret"** 클릭하여 **Client Secret** 생성 및 저장
 
@@ -89,9 +88,8 @@ wrangler secret put JWT_SECRET
 # → 강력한 랜덤 문자열 입력 (예: openssl rand -base64 32)
 
 # 허용할 오리진 URL 설정 (쉼표로 구분하여 여러 개 설정 가능)
-# ⚠️ 중요: Origin 헤더는 도메인만 포함하므로 basePath 제외!
 wrangler secret put ALLOWED_ORIGINS
-# → https://jook1356.github.io,http://localhost:3000
+# → https://jook1356.github.io/djb-gith,http://localhost:3000
 ```
 
 ### 3.2 wrangler.toml 수정
@@ -114,15 +112,13 @@ wrangler secret put ALLOWED_ORIGINS
 ```bash
 # 여러 오리진을 쉼표로 구분하여 설정
 wrangler secret put ALLOWED_ORIGINS
-# 입력 예시: https://your-username.github.io,http://localhost:3000
-# ⚠️ 주의: Origin 헤더는 도메인만 포함 (repository 경로 제외!)
+# 입력 예시: https://your-username.github.io/your-repository-name,http://localhost:3000
 
 # 또는 더 많은 오리진 설정
-# 입력 예시: https://your-username.github.io,http://localhost:3000,http://localhost:3001,https://your-custom-domain.com
+# 입력 예시: https://your-username.github.io/your-repository-name,http://localhost:3000,http://localhost:3001,https://your-custom-domain.com
 ```
 
 ⚠️ **주의사항**:
-
 - 오리진들을 쉼표(`,`)로 구분하세요
 - 공백 없이 입력하세요
 - 프로토콜(`http://` 또는 `https://`)을 반드시 포함하세요
@@ -148,10 +144,9 @@ GitHub Actions에서 사용할 환경 변수를 설정:
    - **Name**: `NEXT_PUBLIC_AUTH_WORKER_URL`
    - **Value**: `https://blog-auth-worker.your-username.workers.dev`
 
-⚠️ **중요**:
-
+⚠️ **중요**: 
 - `your-username`을 실제 Cloudflare 계정 이름으로 변경하세요!
-- Secrets가 아닌 **Variables**에 추가해야 합니다 (NEXT*PUBLIC* 접두사가 있는 변수는 클라이언트에서 접근 가능)
+- Secrets가 아닌 **Variables**에 추가해야 합니다 (NEXT_PUBLIC_ 접두사가 있는 변수는 클라이언트에서 접근 가능)
 
 ---
 
@@ -200,7 +195,6 @@ npm run build
 ### 5.2 문제 확인
 
 브라우저 개발자 도구(F12)에서:
-
 - **Console** 탭: 에러 메시지 확인
 - **Network** 탭: API 호출 상태 확인
 
@@ -211,31 +205,26 @@ npm run build
 ### 6.1 일반적인 문제들
 
 #### "CORS 에러"
-
 - `ALLOWED_ORIGINS` 환경 변수가 정확한지 확인
 - GitHub Pages URL과 정확히 일치하는지 확인
 - 로컬 개발 시 `http://localhost:3000`이 포함되어 있는지 확인
 - 쉼표로 구분된 형식이 올바른지 확인 (공백 없이)
 
 #### "OAuth callback 에러"
-
 - GitHub OAuth App의 callback URL이 정확한지 확인
 - Worker URL이 올바른지 확인
 
 #### "Authentication failed"
-
 - GitHub OAuth App의 Client ID/Secret이 정확한지 확인
 - KV Namespace가 올바르게 연결되었는지 확인
 
 #### "Session expired"
-
 - JWT_SECRET이 설정되어 있는지 확인
 - 브라우저 localStorage를 클리어하고 다시 시도
 
 ### 6.2 로그 확인
 
 Cloudflare Worker 로그 확인:
-
 ```bash
 wrangler tail
 ```
@@ -243,7 +232,6 @@ wrangler tail
 ### 6.3 환경 변수 확인
 
 설정된 환경 변수 확인:
-
 ```bash
 wrangler secret list
 ```
@@ -280,7 +268,6 @@ npm run dev
 ```
 
 로컬 개발 시 `.env.local`에서 Worker URL을 로컬 URL로 변경:
-
 ```env
 NEXT_PUBLIC_AUTH_WORKER_URL=http://localhost:8787
 ```

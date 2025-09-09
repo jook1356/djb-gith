@@ -5,7 +5,6 @@ GitHub OAuth가 구현된 정적 블로그를 빠르게 설정하는 방법입�
 ## ⚡ 5분 설정
 
 ### 1단계: GitHub OAuth App 생성
-
 1. [GitHub Developer Settings](https://github.com/settings/developers) → **OAuth Apps** → **New OAuth App**
 2. 정보 입력:
    - Homepage URL: `https://your-username.github.io/your-repository-name`
@@ -13,7 +12,6 @@ GitHub OAuth가 구현된 정적 블로그를 빠르게 설정하는 방법입�
 3. **Client ID**와 **Client Secret** 저장
 
 ### 2단계: Cloudflare 설정
-
 ```bash
 # Wrangler 설치 및 로그인
 npm install -g wrangler
@@ -29,12 +27,10 @@ npm install
 wrangler secret put GITHUB_CLIENT_ID      # 1단계의 Client ID
 wrangler secret put GITHUB_CLIENT_SECRET  # 1단계의 Client Secret
 wrangler secret put JWT_SECRET            # 랜덤 문자열 (예: openssl rand -base64 32)
-wrangler secret put ALLOWED_ORIGINS       # https://your-username.github.io,http://localhost:3000
-# ⚠️ 중요: Origin 헤더는 도메인만! repository 경로 제외
+wrangler secret put ALLOWED_ORIGINS       # https://your-username.github.io/your-repository-name,http://localhost:3000
 ```
 
 ### 3단계: KV Namespace 생성
-
 1. [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → **KV**
 2. **Create a namespace**: `AUTH_SESSIONS`
 3. `wrangler.toml`에서 KV ID 업데이트:
@@ -48,22 +44,17 @@ wrangler secret put ALLOWED_ORIGINS       # https://your-username.github.io,http
 ### 4단계: 환경 변수 설정
 
 #### 로컬 개발용
-
 프로젝트 루트에 `.env.local` 생성:
-
 ```env
 NEXT_PUBLIC_AUTH_WORKER_URL=https://blog-auth-worker.your-username.workers.dev
 ```
 
 #### GitHub Pages 배포용
-
 GitHub 저장소 → Settings → Secrets and variables → Actions → Variables에서:
-
 - **Name**: `NEXT_PUBLIC_AUTH_WORKER_URL`
 - **Value**: `https://blog-auth-worker.your-username.workers.dev`
 
 ### 5단계: 배포
-
 ```bash
 # Worker 배포
 npm run deploy:worker
