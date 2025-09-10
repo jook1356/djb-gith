@@ -62,19 +62,9 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     setTheme(newTheme);
   };
 
-  // 하이드레이션 에러 방지를 위해 마운트 전까지는 기본 테마로 렌더링
+  // 테마 로딩 완료 전까지는 렌더링하지 않음
   if (!mounted) {
-    return (
-      <ThemeContext.Provider
-        value={{
-          theme: "light",
-          toggleTheme: () => {},
-          setTheme: () => {},
-        }}
-      >
-        {children}
-      </ThemeContext.Provider>
-    );
+    return null;
   }
 
   return (
