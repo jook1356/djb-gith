@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useAuthContext } from "./AuthProvider";
 import styles from "./AuthButton.module.scss";
 import { Button } from "../Button/Button";
@@ -20,9 +21,11 @@ export function AuthButton() {
     return (
       <div className={styles.authButton}>
         <div className={styles.userInfo}>
-          <img
+          <Image
             src={user.avatar_url}
             alt={user.login}
+            width={32}
+            height={32}
             className={styles.avatar}
           />
           <span className={styles.username}>{user.login}</span>

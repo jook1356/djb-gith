@@ -110,7 +110,7 @@ export default function DummyHome() {
                   <span className={styles.indent}>  </span>
                   <span className={styles.property}>name</span>
                   <span className={styles.operator}>: </span>
-                  <span className={styles.string}>'김개발자'</span>
+                  <span className={styles.string}>&apos;김개발자&apos;</span>
                   <span className={styles.operator}>,</span>
                 </div>
                 <div className={styles.codeLine}>
@@ -119,9 +119,9 @@ export default function DummyHome() {
                   <span className={styles.property}>skills</span>
                   <span className={styles.operator}>: </span>
                   <span className={styles.bracket}>[</span>
-                  <span className={styles.string}>'React'</span>
+                  <span className={styles.string}>&apos;React&apos;</span>
                   <span className={styles.operator}>, </span>
-                  <span className={styles.string}>'Node.js'</span>
+                  <span className={styles.string}>&apos;Node.js&apos;</span>
                   <span className={styles.bracket}>]</span>
                   <span className={styles.operator}>,</span>
                 </div>
@@ -130,7 +130,7 @@ export default function DummyHome() {
                   <span className={styles.indent}>  </span>
                   <span className={styles.property}>passion</span>
                   <span className={styles.operator}>: </span>
-                  <span className={styles.string}>'∞'</span>
+                  <span className={styles.string}>&apos;∞&apos;</span>
                 </div>
                 <div className={styles.codeLine}>
                   <span className={styles.lineNumber}>5</span>

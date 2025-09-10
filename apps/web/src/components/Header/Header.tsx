@@ -38,7 +38,7 @@ export default function Header() {
         isScrollingDown ? styles.header__hidden : ""
       }`}
     >
-      <h1>Dongju's Portfolio</h1>
+      <h1>Dongju&apos;s Portfolio</h1>
       <div className={styles.header__controls}>
         <AuthButton />
         <ThemeToggle />

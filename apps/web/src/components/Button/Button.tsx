@@ -9,7 +9,6 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'medium' | 'large';
 }
 
-type ButtonTheme = 'primary'
 
 export function Button({ 
   children, 
