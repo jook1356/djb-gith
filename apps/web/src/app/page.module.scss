@@ -1,0 +1,28 @@
+// 모바일 (768px 이하)
+@media (max-width: 768px) {
+  .main {
+    // PC/태블릿 전용 스타일
+    padding: 0 12px;
+  }
+}
+
+// PC/태블릿 (769px 이상)
+@media (min-width: 769px) {
+  .main {
+    // PC/태블릿 전용 스타일
+    padding: 0 10rem;
+  }
+}
+
+.main {
+  display: flex;
+}
+
+.content-wrapper {
+  flex: 1;
+  display: grid;
+}
+
+.content {
+  width: 100%;
+}

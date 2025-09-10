@@ -11,6 +11,7 @@
   background: var(--background-blur);
   backdrop-filter: blur(6px) !important;
   -webkit-backdrop-filter: blur(6px);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   h1 {
     margin: 0;
@@ -23,5 +24,9 @@
     display: flex;
     align-items: center;
     gap: 4px;
+  }
+
+  &__hidden {
+    transform: translateY(-100%);
   }
 }
