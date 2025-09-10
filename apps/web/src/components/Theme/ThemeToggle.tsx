@@ -1,17 +1,19 @@
 "use client";
 
+import { Button } from "../Button/Button";
 import { useTheme } from "./ThemeContext";
-import "./ThemeToggle.scss";
+import styles from "./ThemeToggle.module.scss";
 
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <button
-      className="theme-toggle"
+    <Button
+      className={styles[`theme-toggle`]}
       onClick={toggleTheme}
       aria-label={`${theme === "light" ? "다크" : "라이트"} 모드로 전환`}
       title={`${theme === "light" ? "다크" : "라이트"} 모드로 전환`}
+      size="large"
     >
       <div className="theme-toggle__icon">
         {theme === "light" ? (
@@ -46,6 +48,6 @@ export const ThemeToggle = () => {
       <span className="theme-toggle__text">
         {theme === "light" ? "다크" : "라이트"}
       </span>
-    </button>
+    </Button>
   );
 };

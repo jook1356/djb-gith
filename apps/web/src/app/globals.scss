@@ -1,13 +1,18 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  &[data-theme="light"] {
+    --background: #ffffff;
+    --background-secondary: #f6f8fa;
+    --foreground: #171717;
+    --border: #e1e5e9;
+    
   }
+  &[data-theme="dark"] {
+    --background: #0a0a0a;
+    --background-secondary: #1f2937;
+    --foreground: #ededed;
+    --border: #374151;
+  }
+
 }
 
 html,
@@ -17,11 +22,11 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--background);
+  color: var(--foreground);
 }
 
 * {

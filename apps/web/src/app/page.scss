@@ -1,8 +1,4 @@
-.test {
-  min-height: 100vh;
-  padding: 20px;
-  font-family: var(--font-geist-sans);
-}
+
 
 .header {
   display: flex;
@@ -14,7 +10,7 @@
 
   h1 {
     margin: 0;
-    color: #24292f;
+
     font-size: 32px;
     font-weight: 600;
   }
@@ -31,5 +27,5 @@ main {
   margin: 0 auto;
   font-size: 18px;
   line-height: 1.6;
-  color: #24292f;
+
 }

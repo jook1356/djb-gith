@@ -1,0 +1,34 @@
+.theme-toggle {
+  gap: 0.5rem;
+
+  svg {
+    transition: all 0.2s ease-in-out;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  &__text {
+    transition: opacity 0.2s ease-in-out;
+  }
+
+
+  &:hover svg {
+    transform: scale(1.1);
+  }
+}
+
+// 작은 화면에서 텍스트 숨기기 (선택사항)
+@media (max-width: 640px) {
+  .theme-toggle {
+    padding: 0.5rem;
+
+    &__text {
+      display: none;
+    }
+  }
+}

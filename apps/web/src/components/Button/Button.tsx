@@ -6,6 +6,7 @@ import styles from './Button.module.scss';
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   theme?: 'primary';
+  size?: 'medium' | 'large';
 }
 
 type ButtonTheme = 'primary'
@@ -13,13 +14,15 @@ type ButtonTheme = 'primary'
 export function Button({ 
   children, 
   theme = 'primary',
+  size = 'medium',
   ...rest
 }: Props) {
 
   return (
     <button
-      className={styles[`button-${theme}`]}
+      
       {...rest}
+      className={`${styles[`button-${theme}`]} ${styles[`button-size-${size}`]} ${rest.className}`}
     >
       {children}
     </button>
