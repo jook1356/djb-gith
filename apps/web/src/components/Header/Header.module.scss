@@ -1,21 +1,27 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 12px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 40px;
-  
-    h1 {
-      margin: 0;
-  
-      font-size: 32px;
-      font-weight: 600;
-    }
-  
-    &__controls {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--background-blur);
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px);
+
+  h1 {
+    margin: 0;
+
+    font-size: 32px;
+    font-weight: 600;
   }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}

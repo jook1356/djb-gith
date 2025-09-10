@@ -4,21 +4,21 @@
     --background-secondary: #f6f8fa;
     --foreground: #171717;
     --border: #e1e5e9;
-    
+    --background-blur: rgba(255, 255, 255, 0.8);
   }
   &[data-theme="dark"] {
     --background: #0a0a0a;
     --background-secondary: #1f2937;
     --foreground: #ededed;
     --border: #374151;
+    --background-blur: rgba(10, 10, 10, 0.8);
   }
-
 }
 
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  // overflow-x: hidden;
 }
 
 body {

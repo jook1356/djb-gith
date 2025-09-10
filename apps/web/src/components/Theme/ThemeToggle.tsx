@@ -45,9 +45,9 @@ export const ThemeToggle = () => {
           </svg>
         )}
       </div>
-      <span className="theme-toggle__text">
+      {/* <span className="theme-toggle__text">
         {theme === "light" ? "다크" : "라이트"}
-      </span>
+      </span> */}
     </Button>
   );
 };
