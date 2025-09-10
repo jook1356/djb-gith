@@ -72,6 +72,87 @@
   overflow-x: hidden;
 }
 
+// 스크롤 애니메이션 효과
+.scrollFade {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scrollFade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+// 각 카드별 딜레이 효과
+.techItem.scrollFade {
+  transition-delay: 0.1s;
+}
+
+.techItem:nth-child(2).scrollFade {
+  transition-delay: 0.2s;
+}
+
+.techItem:nth-child(3).scrollFade {
+  transition-delay: 0.3s;
+}
+
+.techItem:nth-child(4).scrollFade {
+  transition-delay: 0.4s;
+}
+
+.techItem:nth-child(5).scrollFade {
+  transition-delay: 0.5s;
+}
+
+.techItem:nth-child(6).scrollFade {
+  transition-delay: 0.6s;
+}
+
+.techItem:nth-child(7).scrollFade {
+  transition-delay: 0.7s;
+}
+
+.techItem:nth-child(8).scrollFade {
+  transition-delay: 0.8s;
+}
+
+.featureCard.scrollFade {
+  transition-delay: 0.1s;
+}
+
+.featureCard:nth-child(2).scrollFade {
+  transition-delay: 0.2s;
+}
+
+.featureCard:nth-child(3).scrollFade {
+  transition-delay: 0.3s;
+}
+
+.featureCard:nth-child(4).scrollFade {
+  transition-delay: 0.4s;
+}
+
+.featureCard:nth-child(5).scrollFade {
+  transition-delay: 0.5s;
+}
+
+.featureCard:nth-child(6).scrollFade {
+  transition-delay: 0.6s;
+}
+
+.timelineItem.scrollFade {
+  transition-delay: 0.2s;
+}
+
+.timelineItem:nth-child(2).scrollFade {
+  transition-delay: 0.4s;
+}
+
+.timelineItem:nth-child(3).scrollFade {
+  transition-delay: 0.6s;
+}
+
 // 배경 동적 요소들
 .backgroundElements {
   position: absolute;

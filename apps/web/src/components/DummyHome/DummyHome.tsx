@@ -1,6 +1,40 @@
+'use client';
+
+import { useEffect, useRef } from "react";
 import styles from "./DummyHome.module.scss";
 
 export default function DummyHome() {
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    // Intersection Observer 설정
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    observerRef.current = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add(styles.visible);
+        } else {
+          entry.target.classList.remove(styles.visible);
+        }
+      });
+    }, observerOptions);
+
+    // 애니메이션 대상 요소들 선택
+    const animatedElements = document.querySelectorAll(`.${styles.scrollFade}`);
+    animatedElements.forEach((el) => {
+      observerRef.current?.observe(el);
+    });
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, []);
   return (
     <div className={styles.container}>
       {/* 배경 동적 요소들 */}
@@ -134,48 +168,48 @@ export default function DummyHome() {
         </div>
       </div>
 
-      <div className={styles.techStack}>
+      <div className={`${styles.techStack} ${styles.scrollFade}`}>
         <h2 className={styles.sectionTitle}>🛠️ 기술 스택</h2>
         <div className={styles.techGrid}>
-          <div className={styles.techItem}>
+          <div className={`${styles.techItem} ${styles.scrollFade}`}>
             <div className={styles.techIcon}>⚛️</div>
             <span>React</span>
           </div>
-          <div className={styles.techItem}>
+          <div className={`${styles.techItem} ${styles.scrollFade}`}>
             <div className={styles.techIcon}>📘</div>
             <span>TypeScript</span>
           </div>
-          <div className={styles.techItem}>
+          <div className={`${styles.techItem} ${styles.scrollFade}`}>
             <div className={styles.techIcon}>🟢</div>
             <span>Node.js</span>
           </div>
-          <div className={styles.techItem}>
+          <div className={`${styles.techItem} ${styles.scrollFade}`}>
             <div className={styles.techIcon}>🍃</div>
             <span>MongoDB</span>
           </div>
-          <div className={styles.techItem}>
+          <div className={`${styles.techItem} ${styles.scrollFade}`}>
             <div className={styles.techIcon}>🐳</div>
             <span>Docker</span>
           </div>
-          <div className={styles.techItem}>
+          <div className={`${styles.techItem} ${styles.scrollFade}`}>
             <div className={styles.techIcon}>☁️</div>
             <span>AWS</span>
           </div>
-          <div className={styles.techItem}>
+          <div className={`${styles.techItem} ${styles.scrollFade}`}>
             <div className={styles.techIcon}>🔥</div>
             <span>Firebase</span>
           </div>
-          <div className={styles.techItem}>
+          <div className={`${styles.techItem} ${styles.scrollFade}`}>
             <div className={styles.techIcon}>📱</div>
             <span>React Native</span>
           </div>
         </div>
       </div>
       
-      <div className={styles.features}>
+      <div className={`${styles.features} ${styles.scrollFade}`}>
         <h2 className={styles.sectionTitle}>📚 블로그 컨텐츠</h2>
         <div className={styles.featureGrid}>
-          <div className={styles.featureCard}>
+          <div className={`${styles.featureCard} ${styles.scrollFade}`}>
             <div className={styles.featureIcon}>📝</div>
             <h3>기술 블로그</h3>
             <p>개발 경험과 인사이트를 공유합니다</p>
@@ -184,7 +218,7 @@ export default function DummyHome() {
               <span className={styles.tag}>JavaScript</span>
             </div>
           </div>
-          <div className={styles.featureCard}>
+          <div className={`${styles.featureCard} ${styles.scrollFade}`}>
             <div className={styles.featureIcon}>💡</div>
             <h3>프로젝트 소개</h3>
             <p>흥미로운 프로젝트들을 소개합니다</p>
@@ -193,7 +227,7 @@ export default function DummyHome() {
               <span className={styles.tag}>Open Source</span>
             </div>
           </div>
-          <div className={styles.featureCard}>
+          <div className={`${styles.featureCard} ${styles.scrollFade}`}>
             <div className={styles.featureIcon}>🚀</div>
             <h3>성장 이야기</h3>
             <p>개발자로서의 성장 과정을 기록합니다</p>
@@ -202,7 +236,7 @@ export default function DummyHome() {
               <span className={styles.tag}>Learning</span>
             </div>
           </div>
-          <div className={styles.featureCard}>
+          <div className={`${styles.featureCard} ${styles.scrollFade}`}>
             <div className={styles.featureIcon}>🔧</div>
             <h3>개발 팁</h3>
             <p>실무에서 유용한 개발 팁과 트릭을 공유합니다</p>
@@ -211,7 +245,7 @@ export default function DummyHome() {
               <span className={styles.tag}>Best Practice</span>
             </div>
           </div>
-          <div className={styles.featureCard}>
+          <div className={`${styles.featureCard} ${styles.scrollFade}`}>
             <div className={styles.featureIcon}>🌐</div>
             <h3>웹 트렌드</h3>
             <p>최신 웹 개발 트렌드와 기술을 분석합니다</p>
@@ -220,7 +254,7 @@ export default function DummyHome() {
               <span className={styles.tag}>Analysis</span>
             </div>
           </div>
-          <div className={styles.featureCard}>
+          <div className={`${styles.featureCard} ${styles.scrollFade}`}>
             <div className={styles.featureIcon}>🤝</div>
             <h3>커뮤니티</h3>
             <p>개발자 커뮤니티 활동과 네트워킹 이야기</p>
@@ -232,24 +266,24 @@ export default function DummyHome() {
         </div>
       </div>
 
-      <div className={styles.timeline}>
+      <div className={`${styles.timeline} ${styles.scrollFade}`}>
         <h2 className={styles.sectionTitle}>🛤️ 개발 여정</h2>
         <div className={styles.timelineContainer}>
-          <div className={styles.timelineItem}>
+          <div className={`${styles.timelineItem} ${styles.scrollFade}`}>
             <div className={styles.timelineDate}>2024</div>
             <div className={styles.timelineContent}>
               <h4>풀스택 개발자로 성장</h4>
               <p>React, Node.js를 활용한 다양한 프로젝트 경험</p>
             </div>
           </div>
-          <div className={styles.timelineItem}>
+          <div className={`${styles.timelineItem} ${styles.scrollFade}`}>
             <div className={styles.timelineDate}>2023</div>
             <div className={styles.timelineContent}>
               <h4>첫 오픈소스 기여</h4>
               <p>오픈소스 프로젝트에 기여하며 협업 경험 쌓기</p>
             </div>
           </div>
-          <div className={styles.timelineItem}>
+          <div className={`${styles.timelineItem} ${styles.scrollFade}`}>
             <div className={styles.timelineDate}>2022</div>
             <div className={styles.timelineContent}>
               <h4>개발자 커리어 시작</h4>
