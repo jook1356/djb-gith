@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import styles from './Button.module.scss';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -17,7 +18,7 @@ export function Button({
 
   return (
     <button
-      className={`button-${theme}`}
+      className={styles[`button-${theme}`]}
       {...rest}
     >
       {children}

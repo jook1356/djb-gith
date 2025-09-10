@@ -1,0 +1,75 @@
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid;
+  border-radius: 0.5rem;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+
+  // 라이트 테마 스타일
+  :root.light & {
+    border-color: #e5e7eb;
+    color: #374151;
+
+    &:hover {
+      border-color: #d1d5db;
+      background-color: #f9fafb;
+    }
+
+    &:focus {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+  }
+
+  // 다크 테마 스타일
+  :root.dark & {
+    border-color: #374151;
+    color: #d1d5db;
+
+    &:hover {
+      border-color: #4b5563;
+      background-color: #1f2937;
+    }
+
+    &:focus {
+      outline: 2px solid #60a5fa;
+      outline-offset: 2px;
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  &__text {
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  &:hover &__icon {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// 작은 화면에서 텍스트 숨기기 (선택사항)
+@media (max-width: 640px) {
+  .theme-toggle {
+    padding: 0.5rem;
+
+    &__text {
+      display: none;
+    }
+  }
+}
