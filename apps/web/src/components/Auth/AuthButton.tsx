@@ -27,7 +27,7 @@ export function AuthButton() {
           />
           <span className={styles.username}>{user.login}</span>
         </div>
-        <Button onClick={logout}>Logout</Button>
+        <Button onClick={logout} size="large">Logout</Button>
       </div>
     );
   }
