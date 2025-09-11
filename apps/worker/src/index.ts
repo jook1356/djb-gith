@@ -97,15 +97,41 @@ function corsHeaders(origin: string): Record<string, string> {
   };
 }
 
+// 쿠키 파싱 유틸리티
+function getCookie(request: Request, name: string): string | null {
+  const cookie = request.headers.get('Cookie');
+  if (!cookie) return null;
+  const cookies = cookie.split(';').map(c => c.trim());
+  for (const part of cookies) {
+    const [k, ...rest] = part.split('=');
+    if (k === name) {
+      return rest.join('=');
+    }
+  }
+  return null;
+}
+
 // GitHub OAuth 시작
 async function handleAuthStart(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url);
   const redirectUri = url.searchParams.get('redirect_uri') || env.ALLOWED_ORIGINS.split(',')[0].trim();
-  
+
+  // 클라이언트 오리진(브라우저) 추출
+  const requestOrigin = request.headers.get('Origin');
+  const clientOrigin = isAllowedOrigin(requestOrigin, env.ALLOWED_ORIGINS)
+    ? requestOrigin!
+    : env.ALLOWED_ORIGINS.split(',')[0].trim();
+
+  // GitHub Pages(정적)인지 여부에 따라 콜백 베이스 결정
+  // - 정적 배포(github.io): 워커 도메인으로 콜백 (쿠키는 워커 도메인에 설정)
+  // - 개발/로컬: 프록시 경유 콜백(/api/worker), 브라우저는 localhost 도메인으로 쿠키 수신
+  const isGithubPages = /github\.io$/.test(new URL(clientOrigin).hostname);
+  const callbackBase = isGithubPages ? url.origin : `${clientOrigin}/api/worker`;
+
   const state = crypto.randomUUID();
-  const authUrl = `https://github.com/login/oauth/authorize?client_id=${env.GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(`${url.origin}/auth/callback`)}&scope=repo&state=${state}`;
-  // const authUrl = `https://github.com/login/oauth/authorize?client_id=${env.GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(`${url.origin}/auth/callback`)}&scope=user:email&state=${state}`;
-  
+  const githubRedirectUri = `${callbackBase}/auth/callback`;
+  const authUrl = `https://github.com/login/oauth/authorize?client_id=${env.GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(githubRedirectUri)}&scope=repo&state=${state}`;
+
   // state를 KV에 저장 (5분 후 만료)
   await env.AUTH_SESSIONS.put(`state:${state}`, redirectUri, { expirationTtl: 300 });
   
@@ -178,10 +204,38 @@ async function handleAuthCallback(request: Request, env: Env): Promise<Response>
     // 세션을 KV에 저장 (24시간)
     await env.AUTH_SESSIONS.put(`session:${userData.id}`, jwt, { expirationTtl: 24 * 60 * 60 });
     
-    // 프론트엔드로 리다이렉트 (JWT를 쿼리 파라미터로 전달)
-    // GitHub Pages의 basePath를 고려한 URL 생성
-    const finalRedirectUrl = `${redirectUri}?token=${jwt}`;
-    return Response.redirect(finalRedirectUrl, 302);
+    // httpOnly 쿠키로 토큰 설정 후 프론트엔드로 리다이렉트
+    const finalRedirectUrl = `${redirectUri}`;
+
+    // 로컬(프록시)에서는 브라우저가 localhost:3000에서 쿠키를 수신하므로 SameSite=Lax, Secure 없음
+    // 배포(서브도메인 교차)에서는 SameSite=None; Secure 필수
+    let sameSite = 'SameSite=Lax';
+    let secureAttr = '';
+    try {
+      const target = new URL(finalRedirectUrl);
+      const isLocal = target.hostname === 'localhost' || target.hostname === '127.0.0.1';
+      if (!isLocal) {
+        sameSite = 'SameSite=None';
+        secureAttr = 'Secure';
+      }
+    } catch {}
+
+    const cookie = [
+      `AUTH_TOKEN=${jwt}`,
+      'Path=/',
+      'HttpOnly',
+      sameSite,
+      'Max-Age=86400',
+      secureAttr,
+    ].filter(Boolean).join('; ');
+
+    return new Response(null, {
+      status: 302,
+      headers: {
+        'Location': finalRedirectUrl,
+        'Set-Cookie': cookie,
+      },
+    });
     
   } catch (error) {
     console.error('Auth callback error:', error);
@@ -191,13 +245,14 @@ async function handleAuthCallback(request: Request, env: Env): Promise<Response>
 
 // 사용자 정보 검증
 async function handleUserInfo(request: Request, env: Env): Promise<Response> {
+  // 우선 쿠키에서 토큰 추출, 없으면 Authorization 헤더 사용(호환)
+  const cookieToken = getCookie(request, 'AUTH_TOKEN');
   const authHeader = request.headers.get('Authorization');
-  
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  const token = cookieToken || (authHeader && authHeader.startsWith('Bearer ') ? authHeader.substring(7) : null);
+
+  if (!token) {
     return new Response('Unauthorized', { status: 401 });
   }
-  
-  const token = authHeader.substring(7);
   
   try {
     const payload = await verifyJWT(token, env.JWT_SECRET);
@@ -234,13 +289,13 @@ async function handleUserInfo(request: Request, env: Env): Promise<Response> {
 
 // 로그아웃 처리
 async function handleLogout(request: Request, env: Env): Promise<Response> {
+  const cookieToken = getCookie(request, 'AUTH_TOKEN');
   const authHeader = request.headers.get('Authorization');
-  
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  const token = cookieToken || (authHeader && authHeader.startsWith('Bearer ') ? authHeader.substring(7) : null);
+
+  if (!token) {
     return new Response('Unauthorized', { status: 401 });
   }
-  
-  const token = authHeader.substring(7);
   
   try {
     const payload = await verifyJWT(token, env.JWT_SECRET);
@@ -254,10 +309,33 @@ async function handleLogout(request: Request, env: Env): Promise<Response> {
       ? requestOrigin! 
       : env.ALLOWED_ORIGINS.split(',')[0].trim();
 
+    // 쿠키 제거: 로컬은 Lax, 배포는 None; Secure로 맞춰서 삭제
+    const origin = request.headers.get('Origin') || '';
+    let sameSite = 'SameSite=Lax';
+    let secureAttr = '';
+    try {
+      const o = new URL(origin);
+      const isLocal = o.hostname === 'localhost' || o.hostname === '127.0.0.1';
+      if (!isLocal) {
+        sameSite = 'SameSite=None';
+        secureAttr = 'Secure';
+      }
+    } catch {}
+
+    const deleteCookie = [
+      'AUTH_TOKEN=;',
+      'Path=/',
+      'HttpOnly',
+      sameSite,
+      'Max-Age=0',
+      secureAttr,
+    ].filter(Boolean).join('; ');
+
     return new Response(JSON.stringify({ success: true }), {
       headers: {
         'Content-Type': 'application/json',
         ...corsHeaders(allowedOrigin),
+        'Set-Cookie': deleteCookie,
       },
     });
     
@@ -283,8 +361,9 @@ export default {
       });
     }
     
-    // 라우팅
-    switch (url.pathname) {
+    // 라우팅 (끝 슬래시 제거)
+    const pathname = url.pathname.replace(/\/$/, '');
+    switch (pathname) {
       case '/auth/start':
         return handleAuthStart(request, env);
         

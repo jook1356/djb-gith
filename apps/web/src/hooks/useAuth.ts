@@ -1,176 +1,110 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { User, AuthState } from '@/types/auth';
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AuthContextType, User } from "@/types/auth";
 
-const AUTH_WORKER_URL = process.env.NEXT_PUBLIC_AUTH_WORKER_URL || 'https://blog-auth-worker.jook1356.workers.dev';
-const TOKEN_KEY = 'auth_token';
+function getBasePath(): string {
+  return process.env.NEXT_PUBLIC_BASE_PATH || "";
+}
 
-export function useAuth() {
-  const [authState, setAuthState] = useState<AuthState>({
-    user: null,
-    loading: true,
-    error: null,
-  });
+function getWorkerBaseUrl(): string {
+  // 개발: Next 프록시 경유
+  if (process.env.NODE_ENV === "development") {
+    return "/api/worker";
+  }
+  // 배포: 워커 절대 URL 필요 (예: https://blog-auth-worker.workers.dev)
+  return process.env.NEXT_PUBLIC_AUTH_WORKER_URL || "/api/worker";
+}
 
-  // 토큰을 로컬 스토리지에서 가져오기
-  const getToken = useCallback((): string | null => {
-    if (typeof window === 'undefined') return null;
-    return localStorage.getItem(TOKEN_KEY);
-  }, []);
+export function useAuth(): AuthContextType {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // 토큰을 로컬 스토리지에 저장
-  const setToken = useCallback((token: string | null) => {
-    if (typeof window === 'undefined') return;
-    if (token) {
-      localStorage.setItem(TOKEN_KEY, token);
-    } else {
-      localStorage.removeItem(TOKEN_KEY);
-    }
-  }, []);
+  const workerBase = useMemo(() => getWorkerBaseUrl(), []);
+  const basePath = useMemo(() => getBasePath(), []);
+  const loginWindowRef = useRef<Window | null>(null);
 
-  // 사용자 정보 확인
   const checkAuth = useCallback(async () => {
-    const token = getToken();
-    
-    if (!token) {
-      setAuthState({
-        user: null,
-        loading: false,
-        error: null,
-      });
-      return;
-    }
-
     try {
-      const response = await fetch(`${AUTH_WORKER_URL}/auth/user`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+      setLoading(true);
+      setError(null);
+      const res = await fetch(`${workerBase}/auth/user`, {
+        method: "GET",
+        credentials: "include",
       });
-
-      if (response.ok) {
-        const user: User = await response.json();
-        setAuthState({
-          user,
-          loading: false,
-          error: null,
-        });
-      } else {
-        // 토큰이 유효하지 않음
-        setToken(null);
-        setAuthState({
-          user: null,
-          loading: false,
-          error: null,
-        });
-      }
-    } catch (error) {
-      console.error('Auth check failed:', error);
-      setAuthState({
-        user: null,
-        loading: false,
-        error: 'Authentication check failed',
-      });
-    }
-  }, [getToken, setToken]);
-
-  // 로그인 시작
-  const login = useCallback(() => {
-    // GitHub Pages의 basePath를 고려한 콜백 URL 생성
-    // next.config.ts에서 설정된 basePath를 동적으로 감지
-    const isGitHubPages = window.location.hostname === 'jook1356.github.io';
-    const repository = isGitHubPages ? 'djb-gith' : '';
-    const callbackUrl = repository 
-      ? `${window.location.origin}/${repository}/auth/callback`
-      : `${window.location.origin}/auth/callback`;
-    
-    const authUrl = `${AUTH_WORKER_URL}/auth/start?redirect_uri=${encodeURIComponent(callbackUrl)}`;
-    
-    // 팝업으로 OAuth 시작
-    const popup = window.open(
-      authUrl, 
-      'oauth', 
-      'width=600,height=700,scrollbars=yes,resizable=yes'
-    );
-
-    // postMessage 리스너 등록
-    const handleMessage = (event: MessageEvent) => {
-      // 보안: 올바른 origin에서 온 메시지인지 확인
-      if (event.origin !== window.location.origin) {
+      if (!res.ok) {
+        setUser(null);
         return;
       }
+      const data = (await res.json()) as User;
+      setUser(data);
+    } catch (e: any) {
+      setError(e?.message || "Auth check failed");
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  }, [workerBase]);
 
-      if (event.data.type === 'AUTH_SUCCESS' && event.data.token) {
-        // 토큰 저장
-        setToken(event.data.token);
-        // 사용자 정보 다시 로드
+  const login = useCallback(() => {
+    const callbackUrl = `${window.location.origin}${basePath}/auth/callback`;
+    const authStartUrl = `${workerBase}/auth/start?redirect_uri=${encodeURIComponent(
+      callbackUrl
+    )}`;
+
+    // 팝업 열기
+    const width = 600;
+    const height = 700;
+    const left = window.screenX + (window.outerWidth - width) / 2;
+    const top = window.screenY + (window.outerHeight - height) / 2;
+    loginWindowRef.current = window.open(
+      authStartUrl,
+      "github_oauth",
+      `width=${width},height=${height},left=${left},top=${top}`
+    );
+
+    // 콜백 페이지가 성공 메시지를 보내면 인증 재검사
+    const handler = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+      const { type } = (event.data || {}) as { type?: string };
+      if (type === "AUTH_SUCCESS") {
+        window.removeEventListener("message", handler);
+        try {
+          loginWindowRef.current?.close();
+        } catch {}
         checkAuth();
-        // 리스너 제거
-        window.removeEventListener('message', handleMessage);
-      } else if (event.data.type === 'AUTH_ERROR') {
-        console.error('Authentication error:', event.data.error);
-        setAuthState(prev => ({
-          ...prev,
-          error: event.data.error,
-          loading: false
-        }));
-        // 리스너 제거
-        window.removeEventListener('message', handleMessage);
+      }
+      if (type === "AUTH_ERROR") {
+        window.removeEventListener("message", handler);
+        try {
+          loginWindowRef.current?.close();
+        } catch {}
+        setError("Authentication failed");
       }
     };
+    window.addEventListener("message", handler);
+  }, [workerBase, basePath, checkAuth]);
 
-    // 메시지 리스너 등록
-    window.addEventListener('message', handleMessage);
-
-    // 팝업이 닫혔는지 체크 (사용자가 수동으로 닫은 경우)
-    const checkClosed = setInterval(() => {
-      if (popup?.closed) {
-        clearInterval(checkClosed);
-        window.removeEventListener('message', handleMessage);
-      }
-    }, 1000);
-  }, [checkAuth, setToken]);
-
-  // 로그아웃
   const logout = useCallback(async () => {
-    const token = getToken();
-    
-    if (token) {
-      try {
-        await fetch(`${AUTH_WORKER_URL}/auth/logout`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-      } catch (error) {
-        console.error('Logout request failed:', error);
-      }
+    try {
+      setLoading(true);
+      await fetch(`${workerBase}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } finally {
+      setUser(null);
+      setLoading(false);
     }
-    
-    setToken(null);
-    setAuthState({
-      user: null,
-      loading: false,
-      error: null,
-    });
-  }, [getToken, setToken]);
+  }, [workerBase]);
 
-  // 초기 인증 상태 확인
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    
-    // 콜백 페이지가 아닌 경우에만 토큰 체크
-    if (!window.location.pathname.includes('/auth/callback')) {
-      checkAuth();
-    }
+    // 초기 인증 상태 확인
+    checkAuth();
   }, [checkAuth]);
 
-  return {
-    ...authState,
-    login,
-    logout,
-    checkAuth,
-  };
+  return { user, loading, error, login, logout, checkAuth };
 }
+
+

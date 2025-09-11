@@ -4,29 +4,10 @@ import { useEffect } from 'react';
 
 export default function AuthCallback() {
   useEffect(() => {
-    // URL에서 토큰 추출
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-    const error = urlParams.get('error');
-
+    // httpOnly 쿠키 사용: 토큰은 URL로 전달되지 않음
+    // 성공/실패 여부는 창 오픈 성공으로 가정하고 상위 창에서 /auth/user 호출로 확인
     if (window.opener) {
-      // 부모 창에 메시지 전달
-      if (token) {
-        window.opener.postMessage({ 
-          type: 'AUTH_SUCCESS', 
-          token 
-        }, window.location.origin);
-      } else if (error) {
-        window.opener.postMessage({ 
-          type: 'AUTH_ERROR', 
-          error 
-        }, window.location.origin);
-      } else {
-        window.opener.postMessage({ 
-          type: 'AUTH_ERROR', 
-          error: 'No token received' 
-        }, window.location.origin);
-      }
+      window.opener.postMessage({ type: 'AUTH_SUCCESS' }, window.location.origin);
     }
 
     // 팝업 창 닫기
