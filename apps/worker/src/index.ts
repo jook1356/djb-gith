@@ -103,7 +103,8 @@ async function handleAuthStart(request: Request, env: Env): Promise<Response> {
   const redirectUri = url.searchParams.get('redirect_uri') || env.ALLOWED_ORIGINS.split(',')[0].trim();
   
   const state = crypto.randomUUID();
-  const authUrl = `https://github.com/login/oauth/authorize?client_id=${env.GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(`${url.origin}/auth/callback`)}&scope=user:email&state=${state}`;
+  const authUrl = `https://github.com/login/oauth/authorize?client_id=${env.GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(`${url.origin}/auth/callback`)}&scope=repo&state=${state}`;
+  // const authUrl = `https://github.com/login/oauth/authorize?client_id=${env.GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(`${url.origin}/auth/callback`)}&scope=user:email&state=${state}`;
   
   // state를 KV에 저장 (5분 후 만료)
   await env.AUTH_SESSIONS.put(`state:${state}`, redirectUri, { expirationTtl: 300 });
