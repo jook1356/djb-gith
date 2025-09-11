@@ -19,6 +19,9 @@ apps/web/node_modules
 apps/web/.next/
 apps/web/out/
 
+# worker
+apps/worker/.wrangler
+
 # production
 /build
 
