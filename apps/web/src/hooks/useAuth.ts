@@ -4,7 +4,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AuthContextType, User } from "@/types/auth";
 
 function getBasePath(): string {
-  return process.env.NEXT_PUBLIC_BASE_PATH || "";
+  if (process.env.NEXT_PUBLIC_BASE_PATH) return process.env.NEXT_PUBLIC_BASE_PATH;
+  if (typeof window !== "undefined") {
+    const hostname = window.location.hostname;
+    if (hostname.endsWith("github.io")) {
+      const firstSeg = window.location.pathname.split("/").filter(Boolean)[0];
+      return firstSeg ? `/${firstSeg}` : "";
+    }
+  }
+  return "";
 }
 
 function getWorkerBaseUrl(): string {
@@ -49,7 +57,7 @@ export function useAuth(): AuthContextType {
   }, [workerBase]);
 
   const login = useCallback(() => {
-    const callbackUrl = `${window.location.origin}${basePath}/auth/callback`;
+    const callbackUrl = `${window.location.origin}${basePath}/auth/callback/`;
     const authStartUrl = `${workerBase}/auth/start?redirect_uri=${encodeURIComponent(
       callbackUrl
     )}`;
