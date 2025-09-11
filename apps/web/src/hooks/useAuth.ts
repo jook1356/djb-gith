@@ -39,8 +39,9 @@ export function useAuth(): AuthContextType {
       }
       const data = (await res.json()) as User;
       setUser(data);
-    } catch (e: any) {
-      setError(e?.message || "Auth check failed");
+    
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Auth check failed");
       setUser(null);
     } finally {
       setLoading(false);
