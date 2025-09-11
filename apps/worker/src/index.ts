@@ -98,13 +98,14 @@ function isAllowedOrigin(
   return origins.includes(origin);
 }
 
-// CORS 헤더 설정
+// CORS 헤더 설정 (HttpOnly 쿠키용)
 function corsHeaders(origin: string): Record<string, string> {
   return {
     "Access-Control-Allow-Origin": origin,
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization, Cookie",
     "Access-Control-Allow-Credentials": "true",
+    Vary: "Origin",
   };
 }
 
