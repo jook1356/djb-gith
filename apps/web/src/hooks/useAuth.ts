@@ -17,11 +17,11 @@ function getBasePath(): string {
 
 function getWorkerBaseUrl(): string {
   // 개발: Next 프록시 경유
-  if (process.env.NODE_ENV === "development") {
-    return "/api/worker";
-  }
+  // if (process.env.NODE_ENV === "development") {
+  //   return "/api/worker";
+  // }
   // 배포: 워커 절대 URL 필요 (예: https://blog-auth-worker.workers.dev)
-  return process.env.NEXT_PUBLIC_AUTH_WORKER_URL || "/api/worker";
+  return process.env.NEXT_PUBLIC_AUTH_WORKER_URL!;
 }
 
 export function useAuth(): AuthContextType {

@@ -207,18 +207,8 @@ async function handleAuthCallback(request: Request, env: Env): Promise<Response>
     // httpOnly 쿠키로 토큰 설정 후 프론트엔드로 리다이렉트
     const finalRedirectUrl = `${redirectUri}`;
 
-    // 로컬(프록시)에서는 브라우저가 localhost:3000에서 쿠키를 수신하므로 SameSite=Lax, Secure 없음
-    // 배포(서브도메인 교차)에서는 SameSite=None; Secure 필수
-    let sameSite = 'SameSite=Lax';
-    let secureAttr = '';
-    try {
-      const target = new URL(finalRedirectUrl);
-      const isLocal = target.hostname === 'localhost' || target.hostname === '127.0.0.1';
-      if (!isLocal) {
-        sameSite = 'SameSite=None';
-        secureAttr = 'Secure';
-      }
-    } catch {}
+    let sameSite = 'SameSite=None';
+    let secureAttr = 'Secure';
 
     const cookie = [
       `AUTH_TOKEN=${jwt}`,
