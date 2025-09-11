@@ -6,14 +6,8 @@ import DummyHome from "@/components/DummyHome/DummyHome";
 export default function Home() {
   return (
     <React.Fragment>
-      <Header />
-      <div className={styles["main"]}>
-        <div className={styles["content-wrapper"]}>
-          <div className={styles["content"]}>
-            <DummyHome/>
-          </div>
-        </div>
-      </div>
+      <DummyHome/>
+
     </React.Fragment>
   );
 }

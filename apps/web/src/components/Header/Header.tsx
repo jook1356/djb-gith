@@ -1,10 +1,10 @@
 "use client";
 
-
 import { useEffect, useState } from "react";
 import { AuthButton } from "@/components/Auth/AuthButton";
 import { ThemeToggle } from "@/components/Theme";
 import styles from "./Header.module.scss";
+import Link from "next/link";
 
 export default function Header() {
   const [isScrollingDown, setIsScrollingDown] = useState(false);
@@ -38,7 +38,14 @@ export default function Header() {
         isScrollingDown ? styles.header__hidden : ""
       }`}
     >
-      <h1>Dongju&apos;s Portfolio</h1>
+      <div className={styles.header__left}>
+        <h1>Dongju&apos;s Portfolio</h1>
+        <div className={styles.header__links}>
+          <Link href="/">Home</Link>
+          <Link href="/playground">Playground</Link>
+        </div>
+      </div>
+
       <div className={styles.header__controls}>
         <AuthButton />
         <ThemeToggle />

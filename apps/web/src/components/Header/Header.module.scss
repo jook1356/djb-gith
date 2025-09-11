@@ -31,4 +31,16 @@
   &__hidden {
     transform: translateY(-100%);
   }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
 }
