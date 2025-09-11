@@ -29,8 +29,8 @@ preview_id = "c600a7ac15c3439c9c1712e54aaa1ff9"
 
 [env.production]
 name = "blog-auth-worker"
-GITHUB_CLIENT_ID = "Ov23liRliHgRtY9KfVny"
-GITHUB_CLIENT_SECRET = "6c0564608549ccba2bf2db5b4eb055da7055860e"
+GITHUB_CLIENT_ID = "Ov23li9F4TnkLa5RUNu9"
+GITHUB_CLIENT_SECRET = "c465a74409ec1b9b2516b10d8f30b3ea186c9042"
 JWT_SECRET = "mK8N2vP9xQ7wE5rT3uI6oL1sA4dF8gH2jK5nM9pR7tY0zX3cV6bN1mQ4wE7rT9uI2oP5sL8dF1gH4jK7nM0pR3tY6"
 ALLOWED_ORIGINS = "https://jook1356.github.io,http://localhost:3000"
 
