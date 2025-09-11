@@ -94,6 +94,19 @@ function corsHeaders(origin: string): Record<string, string> {
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Credentials': 'true',
+    'Vary': 'Origin',
+  };
+}
+
+function corsPreflightHeaders(request: Request, origin: string): Record<string, string> {
+  const reqHeaders = request.headers.get('Access-Control-Request-Headers') || 'Content-Type, Authorization';
+  const reqMethod = request.headers.get('Access-Control-Request-Method') || 'GET, POST, OPTIONS';
+  return {
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': reqMethod,
+    'Access-Control-Allow-Headers': reqHeaders,
+    'Access-Control-Allow-Credentials': 'true',
+    'Vary': 'Origin',
   };
 }
 
@@ -133,7 +146,11 @@ async function handleAuthStart(request: Request, env: Env): Promise<Response> {
   const authUrl = `https://github.com/login/oauth/authorize?client_id=${env.GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(githubRedirectUri)}&scope=repo&state=${state}`;
 
   // state를 KV에 저장 (5분 후 만료)
-  await env.AUTH_SESSIONS.put(`state:${state}`, redirectUri, { expirationTtl: 300 });
+  const stateValue = JSON.stringify({
+    redirectUri, // 최종 프런트로 리다이렉트할 URL
+    githubRedirectUri, // GitHub authorize에 사용한 redirect_uri (토큰 교환 시 동일해야 함)
+  });
+  await env.AUTH_SESSIONS.put(`state:${state}`, stateValue, { expirationTtl: 300 });
   
   return Response.redirect(authUrl, 302);
 }
@@ -149,9 +166,18 @@ async function handleAuthCallback(request: Request, env: Env): Promise<Response>
   }
   
   // state 검증
-  const redirectUri = await env.AUTH_SESSIONS.get(`state:${state}`);
-  if (!redirectUri) {
+  const stateJson = await env.AUTH_SESSIONS.get(`state:${state}`);
+  if (!stateJson) {
     return new Response('Invalid or expired state', { status: 400 });
+  }
+  let redirectUri = '';
+  let githubRedirectUri = '';
+  try {
+    const parsed = JSON.parse(stateJson);
+    redirectUri = parsed.redirectUri;
+    githubRedirectUri = parsed.githubRedirectUri;
+  } catch {
+    return new Response('Invalid state payload', { status: 400 });
   }
   
   // state 삭제
@@ -169,12 +195,25 @@ async function handleAuthCallback(request: Request, env: Env): Promise<Response>
         client_id: env.GITHUB_CLIENT_ID,
         client_secret: env.GITHUB_CLIENT_SECRET,
         code: code,
+        redirect_uri: githubRedirectUri,
       }),
     });
     
-    const tokenData: GitHubTokenResponse = await tokenResponse.json();
+    const rawTokenText = await tokenResponse.text();
+    let tokenData: GitHubTokenResponse & { error?: string; error_description?: string };
+    try {
+      tokenData = JSON.parse(rawTokenText);
+    } catch {
+      console.error('Token response is not JSON', { status: tokenResponse.status, body: rawTokenText });
+      throw new Error('Failed to parse token response');
+    }
     
-    if (!tokenData.access_token) {
+    if (!tokenResponse.ok || !tokenData.access_token) {
+      console.error('Failed to get access token', {
+        status: tokenResponse.status,
+        error: tokenData.error,
+        error_description: tokenData.error_description,
+      });
       throw new Error('Failed to get access token');
     }
     
@@ -237,8 +276,9 @@ async function handleAuthCallback(request: Request, env: Env): Promise<Response>
       },
     });
     
-  } catch (error) {
-    console.error('Auth callback error:', error);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Auth callback error:', message);
     return new Response('Authentication failed', { status: 500 });
   }
 }
@@ -357,7 +397,7 @@ export default {
     // CORS preflight 처리
     if (request.method === 'OPTIONS') {
       return new Response(null, {
-        headers: corsHeaders(allowedOrigin),
+        headers: corsPreflightHeaders(request, allowedOrigin),
       });
     }
     
