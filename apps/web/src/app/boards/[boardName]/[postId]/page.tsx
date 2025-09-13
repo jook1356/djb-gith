@@ -16,7 +16,9 @@ interface PostPageProps {
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const { boardName, postId } = await params;
+  const { boardName, postId: rawPostId } = await params;
+  // URL 인코딩된 postId를 디코딩
+  const postId = decodeURIComponent(rawPostId);
 
   try {
     const post = await getPost(boardName, postId);
@@ -81,10 +83,19 @@ export async function generateStaticParams() {
       const publishedPosts = posts.filter((post) => post.published);
 
       for (const post of publishedPosts) {
+        // 원본 ID와 URL 인코딩된 ID 모두 추가
         params.push({
           boardName,
           postId: post.id,
         });
+
+        // 한글이 포함된 경우 URL 인코딩된 버전도 추가
+        if (post.id !== encodeURIComponent(post.id)) {
+          params.push({
+            boardName,
+            postId: encodeURIComponent(post.id),
+          });
+        }
       }
     } catch (error) {
       // 게시판이 존재하지 않는 경우 스킵
@@ -97,7 +108,9 @@ export async function generateStaticParams() {
 
 // 동적 메타데이터 생성
 export async function generateMetadata({ params }: PostPageProps) {
-  const { boardName, postId } = await params;
+  const { boardName, postId: rawPostId } = await params;
+  // URL 인코딩된 postId를 디코딩
+  const postId = decodeURIComponent(rawPostId);
 
   try {
     const post = await getPost(boardName, postId);
