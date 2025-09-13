@@ -5,6 +5,23 @@
     --foreground: #171717;
     --border: #e1e5e9;
     --background-blur: rgba(255, 255, 255, 0.8);
+
+    // 새로운 색상 변수들
+    --color-surface: #ffffff;
+    --color-surface-secondary: #f9fafb;
+    --color-text-primary: #111827;
+    --color-text-secondary: #6b7280;
+    --color-text-tertiary: #9ca3af;
+    --color-border: #e5e7eb;
+    --color-border-light: #f3f4f6;
+    --color-primary: #3b82f6;
+    --color-primary-hover: #2563eb;
+    --color-primary-light: rgba(59, 130, 246, 0.1);
+    --color-accent: #f3f4f6;
+    --color-accent-text: #374151;
+    --color-accent-hover: #e5e7eb;
+    --color-code-bg: #f8fafc;
+    --color-code-text: #1e293b;
   }
   &[data-theme="dark"] {
     --background: #0a0a0a;
@@ -12,6 +29,23 @@
     --foreground: #ededed;
     --border: #374151;
     --background-blur: rgba(10, 10, 10, 0.8);
+
+    // 새로운 색상 변수들
+    --color-surface: #111827;
+    --color-surface-secondary: #1f2937;
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #d1d5db;
+    --color-text-tertiary: #9ca3af;
+    --color-border: #374151;
+    --color-border-light: #4b5563;
+    --color-primary: #60a5fa;
+    --color-primary-hover: #3b82f6;
+    --color-primary-light: rgba(96, 165, 250, 0.1);
+    --color-accent: #374151;
+    --color-accent-text: #d1d5db;
+    --color-accent-hover: #4b5563;
+    --color-code-bg: #1f2937;
+    --color-code-text: #e5e7eb;
   }
 }
 
