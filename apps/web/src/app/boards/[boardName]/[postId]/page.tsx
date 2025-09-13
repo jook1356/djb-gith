@@ -74,36 +74,58 @@ export default async function PostPage({ params }: PostPageProps) {
 
 // 정적 경로 생성
 export async function generateStaticParams() {
-  const boardNames = getAllBoards();
-  const params: { boardName: string; postId: string }[] = [];
+  try {
+    console.log("Generating static params for [boardName]/[postId] page...");
 
-  for (const boardName of boardNames) {
-    try {
-      const posts = getBoardPosts(boardName);
-      const publishedPosts = posts.filter((post) => post.published);
+    const boardNames = getAllBoards();
+    console.log("Found boards:", boardNames);
 
-      for (const post of publishedPosts) {
-        // 원본 ID와 URL 인코딩된 ID 모두 추가
-        params.push({
-          boardName,
-          postId: post.id,
-        });
+    const params: { boardName: string; postId: string }[] = [];
 
-        // 한글이 포함된 경우 URL 인코딩된 버전도 추가
-        if (post.id !== encodeURIComponent(post.id)) {
+    if (boardNames.length === 0) {
+      console.log("No boards found, returning empty params array");
+      return [];
+    }
+
+    for (const boardName of boardNames) {
+      try {
+        console.log(`Processing board: ${boardName}`);
+        const posts = getBoardPosts(boardName);
+        const publishedPosts = posts.filter((post) => post.published);
+
+        console.log(
+          `Found ${publishedPosts.length} published posts in ${boardName}`
+        );
+
+        for (const post of publishedPosts) {
+          // 원본 ID와 URL 인코딩된 ID 모두 추가
           params.push({
             boardName,
-            postId: encodeURIComponent(post.id),
+            postId: post.id,
           });
-        }
-      }
-    } catch (error) {
-      // 게시판이 존재하지 않는 경우 스킵
-      continue;
-    }
-  }
 
-  return params;
+          // 한글이 포함된 경우 URL 인코딩된 버전도 추가
+          if (post.id !== encodeURIComponent(post.id)) {
+            params.push({
+              boardName,
+              postId: encodeURIComponent(post.id),
+            });
+          }
+        }
+      } catch (error) {
+        console.error(`Error processing board ${boardName}:`, error);
+        // 게시판이 존재하지 않는 경우 스킵
+        continue;
+      }
+    }
+
+    console.log(`Generated ${params.length} static params:`, params);
+    return params;
+  } catch (error) {
+    console.error("Error in generateStaticParams:", error);
+    // 에러가 발생하더라도 빈 배열을 반환하여 빌드가 실패하지 않도록 함
+    return [];
+  }
 }
 
 // 동적 메타데이터 생성

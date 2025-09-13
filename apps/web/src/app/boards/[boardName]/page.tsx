@@ -70,11 +70,23 @@ export default async function BoardPage({ params }: BoardPageProps) {
 
 // 정적 경로 생성
 export async function generateStaticParams() {
-  const boardNames = getAllBoards();
+  try {
+    console.log("Generating static params for [boardName] page...");
 
-  return boardNames.map((boardName) => ({
-    boardName,
-  }));
+    const boardNames = getAllBoards();
+    console.log("Found board names:", boardNames);
+
+    const params = boardNames.map((boardName) => ({
+      boardName,
+    }));
+
+    console.log(`Generated ${params.length} static params for boards:`, params);
+    return params;
+  } catch (error) {
+    console.error("Error in generateStaticParams for [boardName]:", error);
+    // 에러가 발생하더라도 빈 배열을 반환하여 빌드가 실패하지 않도록 함
+    return [];
+  }
 }
 
 // 동적 메타데이터 생성

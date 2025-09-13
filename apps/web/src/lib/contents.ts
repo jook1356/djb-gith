@@ -16,7 +16,29 @@ import type {
   BoardInfo,
 } from "@/types/contents";
 
-const CONTENTS_DIR = path.join(process.cwd(), "../../contents");
+// 빌드 환경에서 경로 해결을 더 안전하게 처리
+const getContentsDir = () => {
+  // 개발 환경: apps/web에서 실행
+  // 빌드 환경: 다양한 위치에서 실행될 수 있음
+  const possiblePaths = [
+    path.join(process.cwd(), "../../contents"), // apps/web에서 실행
+    path.join(process.cwd(), "contents"), // 루트에서 실행
+    path.join(__dirname, "../../../../../contents"), // 빌드된 파일에서 실행
+  ];
+
+  for (const possiblePath of possiblePaths) {
+    if (fs.existsSync(possiblePath)) {
+      console.log(`Using contents directory: ${possiblePath}`);
+      return possiblePath;
+    }
+  }
+
+  throw new Error(
+    `Contents directory not found. Tried paths: ${possiblePaths.join(", ")}`
+  );
+};
+
+const CONTENTS_DIR = getContentsDir();
 const BOARDS_DIR = path.join(CONTENTS_DIR, "boards");
 
 /**
