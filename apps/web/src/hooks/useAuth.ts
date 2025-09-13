@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AuthContextType, User } from "@/types/auth";
+import axios from "axios";
 
 function getBasePath(): string {
-  if (process.env.NEXT_PUBLIC_BASE_PATH) return process.env.NEXT_PUBLIC_BASE_PATH;
+  if (process.env.NEXT_PUBLIC_BASE_PATH)
+    return process.env.NEXT_PUBLIC_BASE_PATH;
   if (typeof window !== "undefined") {
     const hostname = window.location.hostname;
     if (hostname.endsWith("github.io")) {
@@ -37,20 +39,18 @@ export function useAuth(): AuthContextType {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch(`${workerBase}/auth/user`, {
-        method: "GET",
-        credentials: "include",
+      const res = await axios.get(`${workerBase}/auth/user`, {
+        withCredentials: true,
       });
-      if (!res.ok) {
-        setUser(null);
-        return;
-      }
-      const data = (await res.json()) as User;
-      setUser(data);
-    
+      setUser(res.data as User);
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "Auth check failed");
-      setUser(null);
+      if (axios.isAxiosError(e) && e.response?.status === 401) {
+        // 인증되지 않은 상태 (정상적인 경우)
+        setUser(null);
+      } else {
+        setError(e instanceof Error ? e.message : "Auth check failed");
+        setUser(null);
+      }
     } finally {
       setLoading(false);
     }
@@ -98,10 +98,13 @@ export function useAuth(): AuthContextType {
   const logout = useCallback(async () => {
     try {
       setLoading(true);
-      await fetch(`${workerBase}/auth/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
+      await axios.post(
+        `${workerBase}/auth/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
     } finally {
       setUser(null);
       setLoading(false);
@@ -115,5 +118,3 @@ export function useAuth(): AuthContextType {
 
   return { user, loading, error, login, logout, checkAuth };
 }
-
-
