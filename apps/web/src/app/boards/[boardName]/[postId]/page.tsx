@@ -17,24 +17,6 @@ interface PostPageProps {
 
 export default async function PostPage({ params }: PostPageProps) {
   const { boardName, postId: rawPostId } = await params;
-  
-  // 더미 파라미터인 경우 404 페이지 반환
-  if (boardName === "_dummy" || rawPostId === "_dummy") {
-    return (
-      <div className={styles.container}>
-        <div className={styles.error}>
-          <h1>게시글을 찾을 수 없습니다</h1>
-          <p>요청하신 게시글이 존재하지 않습니다.</p>
-          <div className={styles.errorActions}>
-            <Link href="/boards" className={styles.allBoardsLink}>
-              모든 게시판 보기
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   // URL 인코딩된 postId를 디코딩
   const postId = decodeURIComponent(rawPostId);
 
@@ -101,15 +83,8 @@ export async function generateStaticParams() {
     const params: { boardName: string; postId: string }[] = [];
 
     if (boardNames.length === 0) {
-      console.log("No boards found, returning dummy params to prevent build failure");
-      // Next.js의 output: export에서는 빈 배열을 반환하면 에러가 발생할 수 있음
-      // 최소한의 더미 파라미터를 반환하여 빌드가 성공하도록 함
-      return [
-        {
-          boardName: "_dummy",
-          postId: "_dummy",
-        },
-      ];
+      console.log("No boards found, returning empty params array");
+      return [];
     }
 
     for (const boardName of boardNames) {
@@ -148,8 +123,8 @@ export async function generateStaticParams() {
     return params;
   } catch (error) {
     console.error("Error in generateStaticParams:", error);
-    // 에러가 발생하더라도 더미 파라미터를 반환하여 빌드가 실패하지 않도록 함
-    return [{ boardName: "_dummy", postId: "_dummy" }];
+    // 에러가 발생하더라도 빈 배열을 반환하여 빌드가 실패하지 않도록 함
+    return [];
   }
 }
 
