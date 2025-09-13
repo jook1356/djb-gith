@@ -88,15 +88,31 @@ export function getBoardConfig(boardName: string): BoardConfig {
  * 모든 게시판 목록 가져오기
  */
 export function getAllBoards(): string[] {
+  console.log(`Checking BOARDS_DIR: ${BOARDS_DIR}`);
+  console.log(`BOARDS_DIR exists: ${fs.existsSync(BOARDS_DIR)}`);
+
   if (!fs.existsSync(BOARDS_DIR)) {
+    console.log("BOARDS_DIR does not exist, returning empty array");
     return [];
   }
 
-  return fs
-    .readdirSync(BOARDS_DIR, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name)
-    .filter((name) => !name.startsWith("_")); // _config.json 등 제외
+  try {
+    const dirents = fs.readdirSync(BOARDS_DIR, { withFileTypes: true });
+    console.log(`Found ${dirents.length} items in BOARDS_DIR:`, dirents.map(d => `${d.name} (${d.isDirectory() ? 'dir' : 'file'})`));
+
+    const directories = dirents.filter((dirent) => dirent.isDirectory());
+    console.log(`Found ${directories.length} directories:`, directories.map(d => d.name));
+
+    const validBoards = directories
+      .map((dirent) => dirent.name)
+      .filter((name) => !name.startsWith("_"));
+    
+    console.log(`Valid boards (excluding _* directories):`, validBoards);
+    return validBoards;
+  } catch (error) {
+    console.error("Error reading BOARDS_DIR:", error);
+    return [];
+  }
 }
 
 /**
