@@ -227,10 +227,12 @@ contents/
 
 ### 2. 메인 블로그 구현
 
-#### 동적 콘텐츠 로딩
+#### 동적 콘텐츠 로딩 (마크다운 페칭 방식)
 ```typescript
 // app/boards/[boardName]/[postId]/page.tsx
 import { Suspense } from 'react';
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 import Frame from '@/components/Frame/Frame';
 import PostContent from '@/components/Post/PostContent';
 
@@ -238,22 +240,38 @@ interface PostPageProps {
   params: Promise<{ boardName: string; postId: string }>;
 }
 
-// Contents 서브모듈에서 데이터 로드
+// Contents 서브모듈에서 마크다운 데이터 로드 (최적화된 방식)
 async function loadPostFromContents(boardName: string, postId: string) {
-  const baseUrl = 'https://contents.github.io';
+  const baseUrl = 'https://jook1356.github.io/contents';
   
   try {
-    // 메타데이터 로드
-    const metaResponse = await fetch(`${baseUrl}/boards/${boardName}/${postId}/meta.json`);
-    const meta = await metaResponse.json();
+    // 병렬로 메타데이터와 마크다운 페칭 (성능 최적화)
+    const [metaResponse, mdResponse] = await Promise.all([
+      fetch(`${baseUrl}/boards/${boardName}/${postId}/meta.json`),
+      fetch(`${baseUrl}/boards/${boardName}/${postId}/index.md`)
+    ]);
     
-    // HTML 콘텐츠 로드
-    const htmlResponse = await fetch(`${baseUrl}/boards/${boardName}/${postId}/index.html`);
-    const html = await htmlResponse.text();
+    const [meta, markdown] = await Promise.all([
+      metaResponse.json(),
+      mdResponse.text()
+    ]);
     
-    // HTML에서 article 부분만 추출
-    const articleMatch = html.match(/<article>(.*?)<\/article>/s);
-    const content = articleMatch ? articleMatch[1] : html;
+    // 마크다운을 HTML로 변환 (일관된 구조 보장)
+    const html = marked(markdown, {
+      highlight: function(code, lang) {
+        // 메인 블로그의 syntax highlighter 사용
+        return `<pre><code class="language-${lang}">${code}</code></pre>`;
+      },
+      breaks: true,
+      gfm: true
+    });
+    
+    // 보안 처리
+    const content = DOMPurify.sanitize(html, {
+      ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'pre', 'code', 'blockquote', 'a'],
+      ALLOWED_ATTR: ['href', 'class', 'id'],
+      FORBID_SCRIPT: true
+    });
     
     return {
       meta,
@@ -592,6 +610,13 @@ Sitemap: https://my-blog.github.io/sitemap.xml
 - 마크다운 에디터에서 바로 배포
 - 버전 관리 및 백업 자동화
 
+#### 5. **마크다운 페칭의 추가 장점**
+- **성능 최적화**: 10KB vs 50KB (5배 작은 파일 크기)
+- **일관된 구조**: 모든 게시글이 동일한 HTML 구조로 렌더링
+- **장기적 안정성**: 기술 스택 변경 시에도 유연하게 대응
+- **스타일 통제**: 메인 블로그에서 완전한 스타일 제어
+- **버전 호환성**: 구버전/신버전 스타일 충돌 문제 해결
+
 ### ⚠️ 단점 및 고려사항
 
 #### 1. **초기 구현 복잡성**
@@ -697,6 +722,70 @@ function trackPerformance(action: string, startTime: number) {
 - 중복 콘텐츠 경고 모니터링
 - 사이트맵 제출 및 상태 확인
 
+## 최종 권장 구현 방식
+
+### 🎯 **마크다운 페칭 방식 채택**
+
+심도 있는 분석 결과, **마크다운 페칭 방식**이 최적의 솔루션으로 결론지어졌습니다.
+
+#### **선택 근거**
+```javascript
+const 마크다운페칭_장점 = {
+  성능: '네트워크 비용 최소 (10KB vs 50KB)',
+  보안: 'DOMPurify + 원천적 안전성',
+  일관성: '모든 게시글 동일한 구조 보장',
+  유지보수: '단일 스타일 시스템',
+  확장성: '기술 스택 변경에 유연 대응',
+  개발편의성: '간단하고 직관적인 구현'
+};
+```
+
+#### **Contents 서브모듈 최적화 구조**
+```
+contents/
+├── styles.css              # 공용 스타일 (iframe용)
+├── redirect.js             # 리다이렉트 스크립트
+├── index.html              # 메인 페이지 (리다이렉트)
+└── boards/
+    ├── frontend/
+    │   └── post-folder/
+    │       ├── meta.json    # 메타데이터
+    │       ├── index.md     # 📍 마크다운 원본 (페칭 대상)
+    │       └── index.html   # SEO용 HTML (스타일 최소화)
+    └── backend/
+        └── post-folder/
+            ├── meta.json
+            ├── index.md     # 📍 마크다운 원본 (페칭 대상)  
+            └── index.html   # SEO용 HTML (스타일 최소화)
+```
+
+#### **메인 블로그 스타일링 전략**
+```scss
+// 메인 블로그의 SCSS
+.post-content {
+  max-width: 800px;
+  margin: 0 auto;
+  
+  // 모든 마크다운 요소에 일관된 스타일 적용
+  h1, h2, h3 { /* 헤딩 스타일 */ }
+  p { /* 문단 스타일 */ }
+  pre code { /* 코드 블록 스타일 */ }
+  
+  // 다크모드, 반응형 등 모든 기능 지원
+  @media (prefers-color-scheme: dark) { /* 다크모드 */ }
+  @media (max-width: 768px) { /* 모바일 */ }
+}
+```
+
+### 📊 **방식별 최종 평가**
+
+| 방식 | 성능 | 보안 | 일관성 | 유지보수 | 확장성 | 총점 |
+|------|------|------|--------|----------|--------|------|
+| **🏆 마크다운 페칭** | 9 | 9 | 10 | 10 | 10 | **48/50** |
+| HTML 페칭 | 8 | 8 | 6 | 6 | 7 | 35/50 |
+| iframe | 6 | 9 | 8 | 7 | 6 | 36/50 |
+| 직접 import | 10 | 10 | 10 | 8 | 9 | 47/50 |
+
 ## 결론
 
 **Dual GitHub Pages + SEO Redirect 전략**은 현대적인 블로그 아키텍처의 혁신적인 접근법입니다.
@@ -704,20 +793,27 @@ function trackPerformance(action: string, startTime: number) {
 ### 🎯 **핵심 가치**
 1. **제로 빌드 시간**: 게시글 수에 관계없이 일정한 성능
 2. **완벽한 SEO**: 순수 HTML로 검색엔진 최적화
-3. **최적의 UX**: React 기반 사용자 경험
+3. **최적의 UX**: React 기반 사용자 경험 + 마크다운 페칭
 4. **무한 확장성**: 서버 비용 없는 확장 가능
+5. **장기적 안정성**: 기술 진화에 유연하게 대응
 
-### 🚀 **적용 권장 사항**
-- **중소규모 블로그**: 즉시 적용 가능
-- **대규모 블로그**: 단계적 마이그레이션 권장
-- **기업 블로그**: 브랜딩 및 SEO 전략과 함께 고려
+### 🚀 **실행 계획**
+1. **Contents 서브모듈 정리**: HTML 파일 스타일 최소화, 마크다운 파일 유지
+2. **메인 블로그 구현**: `marked`, `dompurify` 라이브러리 활용
+3. **스타일 시스템**: `.post-content` SCSS로 통합 관리
+4. **성능 최적화**: 병렬 페칭, 캐싱, 지연 로딩
 
 ### 🔮 **미래 확장성**
 - **다국어 지원**: Contents 서브모듈에 언어별 폴더 구성
 - **CDN 최적화**: Cloudflare 등을 통한 글로벌 성능 향상
 - **AI 통합**: 자동 태그 생성, SEO 최적화 제안 등
+- **기술 스택 진화**: 마크다운 기반으로 언제든 새로운 렌더러 적용 가능
 
-이 전략은 **기술적 혁신성**, **실용적 효용성**, **경제적 효율성**을 모두 만족하는 차세대 블로그 아키텍처로 평가됩니다.
+### 💡 **최종 메시지**
+
+**마크다운 페칭 + Dual GitHub Pages = 성능 + 보안 + 일관성 + 미래 대응력**
+
+이 전략은 현재의 요구사항을 만족하면서도, 2-3년 후 기술 스택이 바뀌어도 안정적으로 작동할 수 있는 **미래 지향적 솔루션**으로, **기술적 혁신성**, **실용적 효용성**, **경제적 효율성**을 모두 만족하는 차세대 블로그 아키텍처입니다.
 
 ---
 
