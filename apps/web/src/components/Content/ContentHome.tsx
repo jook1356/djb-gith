@@ -49,9 +49,14 @@ export default function ContentHome() {
       // 각 게시판의 설정 정보 가져오기
       const boardsPromises = boardFolders.map(async (folder: any) => {
         try {
-          // 게시판 설정 가져오기
+          // GitHub API를 통해 게시판 설정 가져오기
           const configResponse = await fetch(
-            `https://jook1356.github.io/contents/boards/${folder.name}/_config.json`
+            `https://api.github.com/repos/jook1356/contents/contents/boards/${folder.name}/_config.json`,
+            {
+              headers: {
+                'Accept': 'application/vnd.github.v3+json',
+              }
+            }
           );
           
           // 게시글 개수 가져오기 (GitHub API)
@@ -68,7 +73,16 @@ export default function ContentHome() {
           let postCount = 0;
 
           if (configResponse.ok) {
-            config = await configResponse.json();
+            const configData = await configResponse.json();
+            // GitHub API는 base64로 인코딩된 content를 반환
+            // UTF-8 문자를 올바르게 처리하기 위해 fetch를 통한 직접 디코딩
+            const decodedContent = decodeURIComponent(
+              atob(configData.content)
+                .split('')
+                .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                .join('')
+            );
+            config = JSON.parse(decodedContent);
           }
 
           if (postsResponse.ok) {
@@ -85,7 +99,8 @@ export default function ContentHome() {
             color: config?.boardInfo?.color || '#3498db',
             postCount
           };
-        } catch {
+        } catch (error) {
+          console.error(`Error loading board config for ${folder.name}:`, error);
           return {
             name: folder.name,
             displayName: folder.name,
