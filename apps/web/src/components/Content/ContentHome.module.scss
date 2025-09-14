@@ -1,0 +1,150 @@
+// ContentHome 스타일
+.loading {
+  padding: 2rem;
+}
+
+.skeleton {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+
+  .skeletonCard {
+    height: 200px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 12px;
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+  }
+}
+
+.boardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.boardCard {
+  display: block;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-left: 4px solid var(--board-color);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .boardName {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--board-color);
+    margin-bottom: 1rem;
+  }
+
+  .boardDescription {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .boardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .postCount {
+      color: #7f8c8d;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .viewMore {
+      color: var(--board-color);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.info {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 2rem;
+  border-left: 4px solid #3498db;
+
+  h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.5rem;
+
+    li {
+      margin: 0.75rem 0;
+      color: #555;
+      line-height: 1.6;
+
+      code {
+        background: #e9ecef;
+        padding: 0.2rem 0.4rem;
+        border-radius: 3px;
+        font-size: 0.9rem;
+        color: #e74c3c;
+      }
+    }
+  }
+}
+
+// 반응형 디자인
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .boardGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .boardCard {
+    padding: 1.5rem;
+  }
+
+  .info {
+    padding: 1.5rem;
+  }
+}

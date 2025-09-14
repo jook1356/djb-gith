@@ -42,7 +42,7 @@ export default function Header() {
         <h1>Dongju&apos;s Portfolio</h1>
         <div className={styles.header__links}>
           <Link href="/">Home</Link>
-          <Link href="/boards">게시판</Link>
+          <Link href="/contents">게시판</Link>
           <Link href="/playground">Playground</Link>
         </div>
       </div>
