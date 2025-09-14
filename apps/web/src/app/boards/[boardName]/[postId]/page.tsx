@@ -7,6 +7,7 @@ import {
 import PostContent from "@/components/Post/PostContent";
 import styles from "./page.module.scss";
 import Link from "next/link";
+import Frame from "@/components/Frame/Frame";
 
 interface PostPageProps {
   params: Promise<{
@@ -30,7 +31,7 @@ export default async function PostPage({ params }: PostPageProps) {
     const boardInfo = getBoardInfo(boardName);
 
     return (
-      <div className={styles.container}>
+      <Frame>
         <nav className={styles.breadcrumb}>
           <Link href="/boards" className={styles.breadcrumbLink}>
             게시판
@@ -50,11 +51,11 @@ export default async function PostPage({ params }: PostPageProps) {
             ← {boardInfo.config.boardInfo.displayName}로 돌아가기
           </Link>
         </div>
-      </div>
+      </Frame>
     );
   } catch (error) {
     return (
-      <div className={styles.container}>
+      <Frame>
         <div className={styles.error}>
           <h1>게시글을 찾을 수 없습니다</h1>
           <p>요청하신 게시글이 존재하지 않거나 공개되지 않았습니다.</p>
@@ -67,7 +68,7 @@ export default async function PostPage({ params }: PostPageProps) {
             </Link>
           </div>
         </div>
-      </div>
+      </Frame>
     );
   }
 }
