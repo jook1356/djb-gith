@@ -102,6 +102,15 @@ export default function PostViewer({ boardName, postId }: PostViewerProps) {
     );
   }
 
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "long",
+    });
+  };
+
   return (
     <Frame>
       <nav className={styles.breadcrumb}>
@@ -116,30 +125,44 @@ export default function PostViewer({ boardName, postId }: PostViewerProps) {
         <span className={styles.current}>게시글</span>
       </nav>
 
-      <article className={styles.post}>
-        <header className={styles.postHeader}>
+      <article className={styles.article}>
+        <header className={styles.header}>
           <h1 className={styles.title}>{post.meta.title}</h1>
+          <p className={styles.description}>{post.meta.description}</p>
+
           <div className={styles.meta}>
-            <time dateTime={post.meta.createdAt}>
-              {new Date(post.meta.createdAt).toLocaleDateString('ko-KR')}
-            </time>
-            <span className={styles.separator}>|</span>
-            <span className={styles.author}>{post.meta.author}</span>
-            <span className={styles.separator}>|</span>
-            <span className={styles.readingTime}>{post.meta.readingTime}분 읽기</span>
+            <div className={styles.author}>
+              <span>작성자: {post.meta.author}</span>
+            </div>
+
+            <div className={styles.dates}>
+              <time className={styles.date}>
+                작성일: {formatDate(post.meta.createdAt)}
+              </time>
+              {post.meta.updatedAt !== post.meta.createdAt && (
+                <time className={styles.date}>
+                  수정일: {formatDate(post.meta.updatedAt)}
+                </time>
+              )}
+            </div>
+
+            {post.meta.readingTime && (
+              <span className={styles.readTime}>{post.meta.readingTime}분 읽기</span>
+            )}
           </div>
+
           {post.meta.tags && post.meta.tags.length > 0 && (
             <div className={styles.tags}>
               {post.meta.tags.map((tag, index) => (
                 <span key={index} className={styles.tag}>
-                  {tag}
+                  #{tag}
                 </span>
               ))}
             </div>
           )}
         </header>
 
-        <main 
+        <div
           className={styles.content}
           dangerouslySetInnerHTML={{ __html: parseMarkdown(post.content) }}
         />
