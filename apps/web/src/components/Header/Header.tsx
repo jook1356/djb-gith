@@ -44,6 +44,7 @@ export default function Header() {
           <Link href="/">Home</Link>
           <Link href="/boards">게시판</Link>
           <Link href="/playground">Playground</Link>
+          <Link href="/boards/create">Create Board</Link>
         </div>
       </div>
 

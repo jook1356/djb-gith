@@ -1,0 +1,15 @@
+
+
+@media (max-width: 768px) {
+    .frame {
+  
+    }
+  }
+  
+  // PC/태블릿 (769px 이상)
+  @media (min-width: 769px) {
+    .frame {
+        margin: 40px auto;
+        max-width: 800px;
+    }
+  }

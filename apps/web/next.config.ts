@@ -13,6 +13,17 @@ const nextConfig: NextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
+
+  // 아래부터는 MDXEditor를 사용하기 위한 설정
+  transpilePackages: ['@mdxeditor/editor'],
+  reactStrictMode: true,
+  webpack: (config) => {
+    // this will override the experiments
+    config.experiments = { ...config.experiments, topLevelAwait: true }
+    // this will just update topLevelAwait property of config.experiments
+    // config.experiments.topLevelAwait = true
+    return config
+  }
 };
 
 export default nextConfig;

@@ -1,11 +1,4 @@
-.container {
-  min-height: 100vh;
-  padding: 40px 24px;
 
-  @media (max-width: 768px) {
-    padding: 24px 16px;
-  }
-}
 
 .breadcrumb {
   display: flex;
@@ -15,8 +8,8 @@
   font-size: 0.875rem;
   color: var(--color-text-tertiary);
   max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  // margin-left: auto;
+  // margin-right: auto;
 }
 
 .breadcrumbLink {
