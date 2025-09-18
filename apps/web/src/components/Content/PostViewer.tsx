@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { marked } from 'marked';
-import DOMPurify from 'dompurify';
-import Link from 'next/link';
-import Frame from '@/components/Frame/Frame';
-import styles from './PostViewer.module.scss';
+import React, { useEffect, useState } from "react";
+import { marked } from "marked";
+import DOMPurify from "dompurify";
+import Link from "next/link";
+import Frame from "@/components/Frame/Frame";
+import styles from "./PostViewer.module.scss";
 
 interface PostMeta {
   title: string;
@@ -24,7 +24,9 @@ interface PostViewerProps {
 }
 
 export default function PostViewer({ boardName, postId }: PostViewerProps) {
-  const [post, setPost] = useState<{ meta: PostMeta; content: string } | null>(null);
+  const [post, setPost] = useState<{ meta: PostMeta; content: string } | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,26 +41,32 @@ export default function PostViewer({ boardName, postId }: PostViewerProps) {
 
       // contents 서브모듈에서 메타데이터와 마크다운 병렬 페칭
       const [metaResponse, contentResponse] = await Promise.all([
-        fetch(`https://jook1356.github.io/contents/boards/${boardName}/${postId}/meta.json`),
-        fetch(`https://jook1356.github.io/contents/boards/${boardName}/${postId}/index.md`)
+        fetch(
+          `https://jook1356.github.io/contents/boards/${boardName}/${postId}/meta.json`
+        ),
+        fetch(
+          `https://jook1356.github.io/contents/boards/${boardName}/${postId}/index.md`
+        ),
       ]);
 
       if (!metaResponse.ok || !contentResponse.ok) {
-        throw new Error('게시글을 찾을 수 없습니다.');
+        throw new Error("게시글을 찾을 수 없습니다.");
       }
 
       const [meta, content] = await Promise.all([
         metaResponse.json(),
-        contentResponse.text()
+        contentResponse.text(),
       ]);
 
       if (!meta.published) {
-        throw new Error('공개되지 않은 게시글입니다.');
+        throw new Error("공개되지 않은 게시글입니다.");
       }
 
       setPost({ meta, content });
     } catch (err) {
-      setError(err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.');
+      setError(
+        err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다."
+      );
     } finally {
       setLoading(false);
     }
@@ -66,7 +74,7 @@ export default function PostViewer({ boardName, postId }: PostViewerProps) {
 
   const parseMarkdown = (markdown: string) => {
     const html = marked(markdown);
-    return DOMPurify.sanitize(html);
+    return DOMPurify.sanitize(html as string);
   };
 
   if (loading) {
@@ -88,9 +96,14 @@ export default function PostViewer({ boardName, postId }: PostViewerProps) {
       <Frame>
         <div className={styles.error}>
           <h1>게시글을 찾을 수 없습니다</h1>
-          <p>{error || '요청하신 게시글이 존재하지 않거나 공개되지 않았습니다.'}</p>
+          <p>
+            {error || "요청하신 게시글이 존재하지 않거나 공개되지 않았습니다."}
+          </p>
           <div className={styles.errorActions}>
-            <Link href={`/contents?board=${boardName}`} className={styles.backLink}>
+            <Link
+              href={`/contents?board=${boardName}`}
+              className={styles.backLink}
+            >
               게시판으로 돌아가기
             </Link>
             <Link href="/contents" className={styles.allBoardsLink}>
@@ -118,7 +131,10 @@ export default function PostViewer({ boardName, postId }: PostViewerProps) {
           콘텐츠
         </Link>
         <span className={styles.separator}>{">"}</span>
-        <Link href={`/contents?board=${boardName}`} className={styles.breadcrumbLink}>
+        <Link
+          href={`/contents?board=${boardName}`}
+          className={styles.breadcrumbLink}
+        >
           {boardName}
         </Link>
         <span className={styles.separator}>{">"}</span>
@@ -147,7 +163,9 @@ export default function PostViewer({ boardName, postId }: PostViewerProps) {
             </div>
 
             {post.meta.readingTime && (
-              <span className={styles.readTime}>{post.meta.readingTime}분 읽기</span>
+              <span className={styles.readTime}>
+                {post.meta.readingTime}분 읽기
+              </span>
             )}
           </div>
 
