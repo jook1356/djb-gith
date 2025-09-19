@@ -39,8 +39,23 @@
   }
 
   &__links {
-    display: flex;
     align-items: center;
     gap: 16px;
+  }
+
+  :root:not([data-viewport="desktop"]) & {
+    .header {
+      &__links {
+        display: none;
+      }
+    }
+  }
+  :root[data-viewport="desktop"] & {
+    .header {
+      &__links {
+        display: flex;
+        gap: 16px;
+      }
+    }
   }
 }

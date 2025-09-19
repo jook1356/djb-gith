@@ -1,0 +1,174 @@
+/* 
+  ViewportProvider 사용법 예시
+  
+  ViewportProvider가 설정하는 data-viewport 속성을 활용한 반응형 스타일링
+  - mobile: 0~767px
+  - tablet: 768~1023px  
+  - desktop: 1024px+
+*/
+
+/* 기본 스타일 */
+.component {
+  padding: 16px;
+  margin: 8px;
+
+  /* 모바일에서만 적용되는 스타일 */
+  :root[data-viewport="mobile"] & {
+    padding: 8px;
+    margin: 4px;
+    font-size: 14px;
+
+    /* 모바일에서 숨기기 */
+    &.hide-on-mobile {
+      display: none;
+    }
+  }
+
+  /* 태블릿에서만 적용되는 스타일 */
+  :root[data-viewport="tablet"] & {
+    padding: 12px;
+    margin: 6px;
+    font-size: 16px;
+
+    /* 태블릿에서 특별한 레이아웃 */
+    &.tablet-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  }
+
+  /* 데스크톱에서만 적용되는 스타일 */
+  :root[data-viewport="desktop"] & {
+    padding: 24px;
+    margin: 12px;
+    font-size: 18px;
+
+    /* 데스크톱에서만 보이는 요소 */
+    &.desktop-only {
+      display: block;
+    }
+  }
+}
+
+/* 모바일이 아닌 경우 (태블릿 + 데스크톱) */
+:root[data-viewport="tablet"] .non-mobile,
+:root[data-viewport="desktop"] .non-mobile {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+/* 데스크톱이 아닌 경우 (모바일 + 태블릿) */
+:root[data-viewport="mobile"] .non-desktop,
+:root[data-viewport="tablet"] .non-desktop {
+  flex-direction: column;
+
+  .sidebar {
+    width: 100%;
+    order: -1; // 사이드바를 위로
+  }
+}
+
+/* 복합 조건 예시 */
+.responsive-container {
+  /* 모든 뷰포트에서 기본 스타일 */
+  display: flex;
+
+  /* 모바일: 세로 배치 */
+  :root[data-viewport="mobile"] & {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* 태블릿 이상: 가로 배치 */
+  :root[data-viewport="tablet"] &,
+  :root[data-viewport="desktop"] & {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  /* 데스크톱: 더 큰 간격 */
+  :root[data-viewport="desktop"] & {
+    gap: 24px;
+  }
+}
+
+/* 
+  테마와 함께 사용하는 예시
+  data-theme와 data-viewport를 동시에 활용
+*/
+.theme-responsive-component {
+  /* 라이트 테마 + 모바일 */
+  :root[data-theme="light"][data-viewport="mobile"] & {
+    background: #f5f5f5;
+    color: #333;
+    border-radius: 8px;
+  }
+
+  /* 다크 테마 + 모바일 */
+  :root[data-theme="dark"][data-viewport="mobile"] & {
+    background: #2a2a2a;
+    color: #fff;
+    border-radius: 8px;
+  }
+
+  /* 라이트 테마 + 데스크톱 */
+  :root[data-theme="light"][data-viewport="desktop"] & {
+    background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+    color: #333;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 다크 테마 + 데스크톱 */
+  :root[data-theme="dark"][data-viewport="desktop"] & {
+    background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* 특정 뷰포트에서만 보이는/숨기는 유틸리티 클래스 */
+.show-mobile-only {
+  display: none;
+
+  :root[data-viewport="mobile"] & {
+    display: block;
+  }
+}
+
+.show-tablet-only {
+  display: none;
+
+  :root[data-viewport="tablet"] & {
+    display: block;
+  }
+}
+
+.show-desktop-only {
+  display: none;
+
+  :root[data-viewport="desktop"] & {
+    display: block;
+  }
+}
+
+.hide-mobile {
+  :root[data-viewport="mobile"] & {
+    display: none !important;
+  }
+}
+
+.hide-tablet {
+  :root[data-viewport="tablet"] & {
+    display: none !important;
+  }
+}
+
+.hide-desktop {
+  :root[data-viewport="desktop"] & {
+    display: none !important;
+  }
+}
