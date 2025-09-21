@@ -48,7 +48,9 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
       if (!apiResponse.ok) {
         const errorData = await apiResponse.json().catch(() => ({}));
         
-        if (apiResponse.status === 403 && errorData.message?.includes('rate limit')) {
+        // documentation_url로 rate limiting 정확히 판단
+        if (apiResponse.status === 403 && 
+            errorData.documentation_url?.includes('rate-limiting')) {
           throw new Error('RATE_LIMIT');
         } else if (apiResponse.status === 404) {
           throw new Error('NOT_FOUND');
@@ -63,6 +65,11 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
       const postFolders = items.filter((item: any) => 
         item.type === 'dir' && !item.name.startsWith('_')
       );
+
+      // 빈 게시판 처리
+      if (postFolders.length === 0) {
+        throw new Error('EMPTY_POSTS');
+      }
 
       // 각 게시글의 메타데이터 병렬로 가져오기
       const postsPromises = postFolders.map(async (folder: any) => {
@@ -108,11 +115,13 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
       const errorMessage = err instanceof Error ? err.message : 'UNKNOWN_ERROR';
       
       if (errorMessage === 'RATE_LIMIT') {
-        setError('GitHub API 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.');
+        setError('RATE_LIMIT:GitHub API 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.');
+      } else if (errorMessage === 'EMPTY_POSTS') {
+        setError(`EMPTY_POSTS:'${boardName}' 게시판에 아직 게시글이 없습니다.`);
       } else if (errorMessage === 'NOT_FOUND') {
-        setError(`'${boardName}' 게시판을 찾을 수 없습니다.`);
+        setError(`NOT_FOUND:'${boardName}' 게시판을 찾을 수 없습니다.`);
       } else {
-        setError('게시글을 불러오는 중 오류가 발생했습니다.');
+        setError('API_ERROR:게시글을 불러오는 중 오류가 발생했습니다.');
       }
     } finally {
       setLoading(false);
@@ -134,15 +143,17 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
   }
 
   if (error) {
-    const isRateLimit = error.includes('요청 한도');
+    const [errorType, errorMessage] = error.split(':');
     
     return (
       <Frame>
         <div className={styles.error}>
           <div className={styles.errorIcon}>
             <svg viewBox="0 0 24 24" className={styles.iconSvg}>
-              {isRateLimit ? (
+              {errorType === 'RATE_LIMIT' ? (
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
+              ) : errorType === 'EMPTY_POSTS' ? (
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="currentColor"/>
               ) : (
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/>
               )}
@@ -150,25 +161,37 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
           </div>
           
           <h1 className={styles.errorTitle}>
-            {isRateLimit ? '잠시만 기다려주세요' : '게시판을 찾을 수 없습니다'}
+            {errorType === 'RATE_LIMIT' ? '잠시만 기다려주세요' : 
+             errorType === 'EMPTY_POSTS' ? '게시글이 없습니다' : 
+             errorType === 'NOT_FOUND' ? '게시판을 찾을 수 없습니다' : 
+             '오류가 발생했습니다'}
           </h1>
           
-          <p className={styles.errorMessage}>{error}</p>
+          <p className={styles.errorMessage}>{errorMessage}</p>
           
-          {isRateLimit && (
+          {errorType === 'RATE_LIMIT' && (
             <div className={styles.errorDetails}>
               <p>GitHub API는 시간당 요청 횟수를 제한합니다.</p>
               <p>약 1시간 후에 다시 시도하시거나, 나중에 다시 방문해주세요.</p>
             </div>
           )}
           
+          {errorType === 'EMPTY_POSTS' && (
+            <div className={styles.errorDetails}>
+              <p>이 게시판에는 아직 작성된 게시글이 없습니다.</p>
+              <p>곧 다양한 콘텐츠로 채워질 예정이니 기대해 주세요!</p>
+            </div>
+          )}
+          
           <div className={styles.errorActions}>
-            <button 
-              onClick={() => loadBoardPosts()} 
-              className={styles.retryButton}
-            >
-              다시 시도
-            </button>
+            {errorType !== 'NOT_FOUND' && (
+              <button 
+                onClick={() => loadBoardPosts()} 
+                className={styles.retryButton}
+              >
+                {errorType === 'EMPTY_POSTS' ? '새로고침' : '다시 시도'}
+              </button>
+            )}
             <Link href="/contents" className={styles.backLink}>
               콘텐츠 홈으로 돌아가기
             </Link>
@@ -244,9 +267,9 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
                   if (!post) return null;
 
                   return (
-                    <Link
-                      key={post.id}
-                      href={`/contents?board=${boardName}&post=${encodeURIComponent(post.id)}`}
+            <Link
+              key={post.id}
+              href={`/contents?board=${boardName}&post=${encodeURIComponent(post.id)}`}
                       className={`${styles.randomCard} ${styles[`size-${cell.size}`]}`}
                       style={{
                         gridRow: `${cell.row} / ${cell.row + cell.rowSpan}`,
@@ -314,22 +337,22 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
                           
                           {/* 메타 정보 */}
                           <div className={styles.cardMeta}>
-                            <span className={styles.author}>{post.author}</span>
-                            <span className={styles.date}>
-                              {new Date(post.createdAt).toLocaleDateString('ko-KR')}
-                            </span>
-                          </div>
+                <span className={styles.author}>{post.author}</span>
+                <span className={styles.date}>
+                  {new Date(post.createdAt).toLocaleDateString('ko-KR')}
+                </span>
+              </div>
                           
                           {/* 태그 */}
-                          {post.tags && post.tags.length > 0 && (
-                            <div className={styles.tags}>
+              {post.tags && post.tags.length > 0 && (
+                <div className={styles.tags}>
                               {post.tags.slice(0, cell.size === 'hero' ? 4 : 2).map((tag, index) => (
-                                <span key={index} className={styles.tag}>
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-                          )}
+                    <span key={index} className={styles.tag}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
                         </div>
 
                         {/* 액션 */}
@@ -348,10 +371,10 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
                           )}
                         </div>
                       </div>
-                    </Link>
+            </Link>
                   );
                 })}
-              </div>
+        </div>
             );
           })()}
         </>

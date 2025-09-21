@@ -41,7 +41,9 @@ export default function ContentHome() {
       if (!apiResponse.ok) {
         const errorData = await apiResponse.json().catch(() => ({}));
         
-        if (apiResponse.status === 403 && errorData.message?.includes('rate limit')) {
+        // documentation_url로 rate limiting 정확히 판단
+        if (apiResponse.status === 403 && 
+            errorData.documentation_url?.includes('rate-limiting')) {
           throw new Error('RATE_LIMIT');
         } else if (apiResponse.status === 404) {
           throw new Error('NOT_FOUND');
@@ -56,6 +58,11 @@ export default function ContentHome() {
       const boardFolders = items.filter((item: any) => 
         item.type === 'dir' && !item.name.startsWith('_')
       );
+
+      // 빈 게시판 목록 처리
+      if (boardFolders.length === 0) {
+        throw new Error('EMPTY_BOARDS');
+      }
 
       // 각 게시판의 설정 정보 가져오기
       const boardsPromises = boardFolders.map(async (folder: any) => {
@@ -143,6 +150,11 @@ export default function ContentHome() {
           type: 'RATE_LIMIT',
           message: 'GitHub API 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.'
         });
+      } else if (errorMessage === 'EMPTY_BOARDS') {
+        setError({
+          type: 'EMPTY_BOARDS',
+          message: '아직 게시판이 없습니다.'
+        });
       } else if (errorMessage === 'NOT_FOUND') {
         setError({
           type: 'NOT_FOUND',
@@ -227,6 +239,36 @@ export default function ContentHome() {
                     className={styles.retryButton}
                   >
                     다시 시도
+                  </button>
+                </div>
+              </>
+            )}
+            
+            {error.type === 'EMPTY_BOARDS' && (
+              <>
+                <div className={styles.errorIcon}>
+                  <svg viewBox="0 0 24 24" className={styles.iconSvg}>
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="currentColor"/>
+                  </svg>
+                </div>
+                <h1 className={styles.errorTitle}>게시판이 없습니다</h1>
+                <p className={styles.errorMessage}>{error.message}</p>
+                <div className={styles.errorDetails}>
+                  <p>아직 작성된 게시글이나 게시판이 없습니다.</p>
+                  <p>곧 다양한 콘텐츠로 채워질 예정이니 기대해 주세요!</p>
+                </div>
+                <div className={styles.errorActions}>
+                  <button 
+                    onClick={() => loadBoards()} 
+                    className={styles.retryButton}
+                  >
+                    새로고침
+                  </button>
+                  <button 
+                    onClick={() => window.location.href = '/'} 
+                    className={styles.dismissButton}
+                  >
+                    홈으로 가기
                   </button>
                 </div>
               </>
