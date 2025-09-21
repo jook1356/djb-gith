@@ -41,17 +41,24 @@
     cursor: pointer;
     transition: all 0.3s ease;
     text-align: left;
+    color: var(--color-text-primary);
     
     &:hover {
       background: var(--color-primary-light);
       border-color: var(--color-primary);
       transform: translateY(-1px);
+      color: var(--color-primary);
     }
     
     &.active {
       background: var(--color-primary);
       border-color: var(--color-primary);
       color: white;
+      
+      .tabLanguage {
+        background: rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.9);
+      }
     }
   }
   
@@ -64,9 +71,9 @@
     
     .tabLanguage {
       font-size: 0.8rem;
-      opacity: 0.8;
+      color: var(--color-text-secondary);
       font-family: 'Courier New', monospace;
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--color-surface-secondary);
       padding: 2px 6px;
       border-radius: 4px;
       display: inline-block;
@@ -261,6 +268,17 @@
       text-align: center;
       margin: 0;
       line-height: 1.6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      
+      .tipIcon {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        opacity: 0.7;
+      }
     }
   }
 }

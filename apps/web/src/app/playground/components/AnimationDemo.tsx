@@ -39,7 +39,15 @@ export function AnimationDemo() {
             className={`${styles.animationBox} ${isPlaying ? styles[activeAnimation] : ''}`}
           >
             <div className={styles.boxContent}>
-              <div className={styles.boxIcon}>✨</div>
+              <div className={styles.boxIcon}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                  <path d="M5 3v4"/>
+                  <path d="M19 17v4"/>
+                  <path d="M3 5h4"/>
+                  <path d="M17 19h4"/>
+                </svg>
+              </div>
               <div className={styles.boxText}>Animation</div>
             </div>
           </div>
@@ -56,14 +64,62 @@ export function AnimationDemo() {
                 disabled={isPlaying}
               >
                 <div className={styles.buttonIcon}>
-                  {animation.id === 'bounce' && '⬆️'}
-                  {animation.id === 'fadeIn' && '👁️'}
-                  {animation.id === 'slideIn' && '➡️'}
-                  {animation.id === 'rotate' && '🔄'}
-                  {animation.id === 'scale' && '🔍'}
-                  {animation.id === 'shake' && '📳'}
-                  {animation.id === 'pulse' && '💓'}
-                  {animation.id === 'flip' && '🔄'}
+                  {animation.id === 'bounce' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 2v20"/>
+                      <path d="m8 6 4-4 4 4"/>
+                      <path d="m8 18 4 4 4-4"/>
+                    </svg>
+                  )}
+                  {animation.id === 'fadeIn' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  )}
+                  {animation.id === 'slideIn' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M3 12h18"/>
+                      <path d="m15 6 6 6-6 6"/>
+                    </svg>
+                  )}
+                  {animation.id === 'rotate' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+                      <path d="M21 3v5h-5"/>
+                    </svg>
+                  )}
+                  {animation.id === 'scale' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="11" cy="11" r="8"/>
+                      <path d="m21 21-4.35-4.35"/>
+                      <path d="M11 15v-4"/>
+                      <path d="M9 11h4"/>
+                    </svg>
+                  )}
+                  {animation.id === 'shake' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M8 21h8"/>
+                      <path d="M12 17v4"/>
+                      <path d="m6.2 17 10.5-6.7"/>
+                      <path d="m8 12-2 2"/>
+                      <path d="m16 4-2 2"/>
+                      <path d="m18.2 7-10.5 6.7"/>
+                    </svg>
+                  )}
+                  {animation.id === 'pulse' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                  )}
+                  {animation.id === 'flip' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M8 3H5a2 2 0 0 0-2 2v3"/>
+                      <path d="M21 8V5a2 2 0 0 0-2-2h-3"/>
+                      <path d="M3 16v3a2 2 0 0 0 2 2h3"/>
+                      <path d="M16 21h3a2 2 0 0 0 2-2v-3"/>
+                    </svg>
+                  )}
                 </div>
                 <div className={styles.buttonText}>
                   <div className={styles.buttonName}>{animation.name}</div>

@@ -326,7 +326,12 @@ type UserWithoutId = Omit<User, 'id'>; // User without id property`
 
       <div className={styles.footer}>
         <p className={styles.tip}>
-          💡 코드를 클릭하여 클립보드에 복사할 수 있습니다. 실제 프로젝트에서 활용해보세요!
+          <svg className={styles.tipIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+            <path d="M12 17h.01"/>
+          </svg>
+          코드를 클릭하여 클립보드에 복사할 수 있습니다. 실제 프로젝트에서 활용해보세요!
         </p>
       </div>
     </div>
