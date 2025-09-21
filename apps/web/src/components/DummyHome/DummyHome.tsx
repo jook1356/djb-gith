@@ -103,7 +103,7 @@ export default function DummyHome() {
               </svg>
               포트폴리오 보기
             </button>
-          </div>
+            </div>
           <div className={`${styles.heroFeatures} ${styles.fadeUp}`}>
             <div className={styles.featureItem}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -149,7 +149,7 @@ export default function DummyHome() {
             <div className={styles.statNumber}>2+</div>
             <div className={styles.statLabel}>년 경력</div>
           </div>
-        </div>
+            </div>
       </section>
 
       {/* Tech Stack Section */}
@@ -157,7 +157,7 @@ export default function DummyHome() {
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>기술 스택</h2>
           <p className={styles.sectionSubtitle}>다양한 기술로 문제를 해결합니다</p>
-        </div>
+          </div>
         <div className={styles.techGrid}>
           <div className={styles.techCard}>
             <div className={styles.techIcon}>
@@ -211,30 +211,30 @@ export default function DummyHome() {
           <div className={styles.contentGrid}>
             <div className={styles.contentCard}>
               <div className={styles.contentIcon}>
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                </svg>
-              </div>
-              <h3>기술 블로그</h3>
-              <p>개발 경험과 인사이트를 공유합니다</p>
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+              </svg>
+            </div>
+            <h3>기술 블로그</h3>
+            <p>개발 경험과 인사이트를 공유합니다</p>
             </div>
             <div className={styles.contentCard}>
               <div className={styles.contentIcon}>
-                <svg viewBox="0 0 24 24" fill="currentColor">
+              <svg viewBox="0 0 24 24" fill="currentColor">
                   <path d="M2.81,14.12L5.64,11.29L8.47,14.12L7.06,15.53L3.5,12L7.06,8.47L8.47,9.88L5.64,12.71L2.81,9.88L1.39,11.29L4.22,14.12L1.39,16.95L2.81,18.36L5.64,15.53L8.47,18.36L9.88,16.95L7.05,14.12L9.88,11.29L8.47,9.88L5.64,12.71L2.81,9.88L1.39,11.29M22.61,11.29L19.78,14.12L22.61,16.95L21.19,18.36L18.36,15.53L15.53,18.36L14.12,16.95L16.95,14.12L14.12,11.29L15.53,9.88L18.36,12.71L21.19,9.88L22.61,11.29Z"/>
-                </svg>
-              </div>
-              <h3>프로젝트 소개</h3>
-              <p>흥미로운 프로젝트들을 소개합니다</p>
+              </svg>
+            </div>
+            <h3>프로젝트 소개</h3>
+            <p>흥미로운 프로젝트들을 소개합니다</p>
             </div>
             <div className={styles.contentCard}>
               <div className={styles.contentIcon}>
-                <svg viewBox="0 0 24 24" fill="currentColor">
+              <svg viewBox="0 0 24 24" fill="currentColor">
                   <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
-                </svg>
-              </div>
-              <h3>성장 이야기</h3>
-              <p>개발자로서의 성장 과정을 기록합니다</p>
+              </svg>
+            </div>
+            <h3>성장 이야기</h3>
+            <p>개발자로서의 성장 과정을 기록합니다</p>
             </div>
           </div>
       </section>
@@ -303,7 +303,7 @@ export default function DummyHome() {
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>개발 여정</h2>
           <p className={styles.sectionSubtitle}>지속적인 성장을 추구합니다</p>
-        </div>
+      </div>
         <div className={styles.journeyGrid}>
           <div className={styles.journeyCard}>
             <div className={styles.journeyYear}>2025</div>
@@ -350,21 +350,21 @@ export default function DummyHome() {
             <p>jook1356@gmail.com</p>
             <p>010-8521-6414</p>
           </div>
-          <div className={styles.socialLinks}>
+            <div className={styles.socialLinks}>
             <a href="#" className={styles.socialLink}>
-              <svg viewBox="0 0 24 24" fill="currentColor">
+                <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"/>
-              </svg>
+                </svg>
             </a>
             <a href="#" className={styles.socialLink}>
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"/>
-              </svg>
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"/>
+                </svg>
             </a>
             <a href="#" className={styles.socialLink}>
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M18.5,18.5V13.2A3.26,3.26 0 0,0 15.24,9.94C14.39,9.94 13.4,10.46 12.92,11.24V10.13H10.13V18.5H12.92V13.57C12.92,12.8 13.54,12.17 14.31,12.17A1.4,1.4 0 0,1 15.71,13.57V18.5H18.5M6.88,8.56A1.68,1.68 0 0,0 8.56,6.88C8.56,5.95 7.81,5.19 6.88,5.19A1.69,1.69 0 0,0 5.19,6.88C5.19,7.81 5.95,8.56 6.88,8.56M8.27,18.5V10.13H5.5V18.5H8.27Z"/>
-              </svg>
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M18.5,18.5V13.2A3.26,3.26 0 0,0 15.24,9.94C14.39,9.94 13.4,10.46 12.92,11.24V10.13H10.13V18.5H12.92V13.57C12.92,12.8 13.54,12.17 14.31,12.17A1.4,1.4 0 0,1 15.71,13.57V18.5H18.5M6.88,8.56A1.68,1.68 0 0,0 8.56,6.88C8.56,5.95 7.81,5.19 6.88,5.19A1.69,1.69 0 0,0 5.19,6.88C5.19,7.81 5.95,8.56 6.88,8.56M8.27,18.5V10.13H5.5V18.5H8.27Z"/>
+                </svg>
             </a>
           </div>
         </div>

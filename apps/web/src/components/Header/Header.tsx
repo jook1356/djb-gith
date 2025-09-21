@@ -85,7 +85,7 @@ export default function Header() {
     },
     {
       href: '/contents',
-      label: '게시판',
+      label: 'Boards',
       color: 'green' // 초록색 계열
     },
     {
@@ -111,7 +111,10 @@ export default function Header() {
       >
         <div className={styles.header__left}>
           <Link href="/" onClick={handleLinkClick}>
-            <h1 className={styles.logo}>Dongju&apos;s Portfolio</h1>
+            <h1 className={styles.logo}>
+              <span className={styles.logoMain}>Dev</span>
+              <span className={styles.logoAccent}>Lab</span>
+            </h1>
           </Link>
           <nav className={styles.header__links}>
             {menuItems.map((item, index) => (

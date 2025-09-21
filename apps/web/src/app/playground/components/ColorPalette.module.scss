@@ -1,0 +1,142 @@
+// ColorPalette 컴포넌트 스타일
+.colorPalette {
+  .header {
+    margin-bottom: 2rem;
+    
+    .title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin: 0 0 0.5rem 0;
+      line-height: 1.3;
+    }
+    
+    .description {
+      color: var(--color-text-secondary);
+      margin: 0;
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+  }
+  
+  .palettes {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .paletteGroup {
+    .paletteTitle {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin: 0 0 1rem 0;
+      line-height: 1.3;
+    }
+    
+    .colorGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+  
+  .colorCard {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-primary);
+    }
+  }
+  
+  .colorSwatch {
+    width: 100%;
+    height: 80px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .copiedIndicator {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: checkmark 0.3s ease-in-out;
+  }
+  
+  .colorInfo {
+    .colorName {
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 0.25rem;
+      line-height: 1.3;
+    }
+    
+    .colorValue {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.25rem;
+      background: var(--color-surface-secondary);
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    
+    .colorCss {
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      color: var(--color-text-tertiary);
+      line-height: 1.3;
+    }
+  }
+  
+  .footer {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+    
+    .tip {
+      color: var(--color-text-secondary);
+      font-style: italic;
+      text-align: center;
+      margin: 0;
+      line-height: 1.6;
+    }
+  }
+}
+
+@keyframes checkmark {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

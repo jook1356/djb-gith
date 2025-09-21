@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Frame from '@/components/Frame/Frame';
+import { generateRandomLayout, getItemIcon } from '@/lib/randomLayout';
 import styles from './BoardViewer.module.scss';
 
 interface PostSummary {
@@ -13,6 +14,7 @@ interface PostSummary {
   createdAt: string;
   tags: string[];
   readingTime: number;
+  color?: string;
 }
 
 interface BoardViewerProps {
@@ -44,7 +46,15 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
       );
 
       if (!apiResponse.ok) {
-        throw new Error('게시판을 찾을 수 없습니다.');
+        const errorData = await apiResponse.json().catch(() => ({}));
+        
+        if (apiResponse.status === 403 && errorData.message?.includes('rate limit')) {
+          throw new Error('RATE_LIMIT');
+        } else if (apiResponse.status === 404) {
+          throw new Error('NOT_FOUND');
+        } else {
+          throw new Error('API_ERROR');
+        }
       }
 
       const items = await apiResponse.json();
@@ -63,6 +73,10 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
           
           if (metaResponse.ok) {
             const meta = await metaResponse.json();
+            // 토스 스타일 색상 팔레트
+            const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#f97316', '#6366f1'];
+            const colorIndex = postFolders.indexOf(folder) % colors.length;
+            
             return {
               id: folder.name,
               title: meta.title,
@@ -70,7 +84,8 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
               author: meta.author,
               createdAt: meta.createdAt,
               tags: meta.tags || [],
-              readingTime: meta.readingTime || 5
+              readingTime: meta.readingTime || 5,
+              color: colors[colorIndex]
             };
           }
           return null;
@@ -90,7 +105,15 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
       setPosts(sortedPosts);
       
     } catch (err) {
-      setError(err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.');
+      const errorMessage = err instanceof Error ? err.message : 'UNKNOWN_ERROR';
+      
+      if (errorMessage === 'RATE_LIMIT') {
+        setError('GitHub API 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.');
+      } else if (errorMessage === 'NOT_FOUND') {
+        setError(`'${boardName}' 게시판을 찾을 수 없습니다.`);
+      } else {
+        setError('게시글을 불러오는 중 오류가 발생했습니다.');
+      }
     } finally {
       setLoading(false);
     }
@@ -111,14 +134,45 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
   }
 
   if (error) {
+    const isRateLimit = error.includes('요청 한도');
+    
     return (
       <Frame>
         <div className={styles.error}>
-          <h1>게시판을 찾을 수 없습니다</h1>
-          <p>{error}</p>
-          <Link href="/contents" className={styles.backLink}>
-            콘텐츠 홈으로 돌아가기
-          </Link>
+          <div className={styles.errorIcon}>
+            <svg viewBox="0 0 24 24" className={styles.iconSvg}>
+              {isRateLimit ? (
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
+              ) : (
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/>
+              )}
+            </svg>
+          </div>
+          
+          <h1 className={styles.errorTitle}>
+            {isRateLimit ? '잠시만 기다려주세요' : '게시판을 찾을 수 없습니다'}
+          </h1>
+          
+          <p className={styles.errorMessage}>{error}</p>
+          
+          {isRateLimit && (
+            <div className={styles.errorDetails}>
+              <p>GitHub API는 시간당 요청 횟수를 제한합니다.</p>
+              <p>약 1시간 후에 다시 시도하시거나, 나중에 다시 방문해주세요.</p>
+            </div>
+          )}
+          
+          <div className={styles.errorActions}>
+            <button 
+              onClick={() => loadBoardPosts()} 
+              className={styles.retryButton}
+            >
+              다시 시도
+            </button>
+            <Link href="/contents" className={styles.backLink}>
+              콘텐츠 홈으로 돌아가기
+            </Link>
+          </div>
         </div>
       </Frame>
     );
@@ -144,34 +198,163 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
           <p>아직 게시글이 없습니다.</p>
         </div>
       ) : (
-        <div className={styles.postList}>
-          {posts.map((post) => (
-            <Link
-              key={post.id}
-              href={`/contents?board=${boardName}&post=${encodeURIComponent(post.id)}`}
-              className={styles.postCard}
-            >
-              <h2 className={styles.postTitle}>{post.title}</h2>
-              <p className={styles.postDescription}>{post.description}</p>
-              <div className={styles.postMeta}>
-                <span className={styles.author}>{post.author}</span>
-                <span className={styles.date}>
-                  {new Date(post.createdAt).toLocaleDateString('ko-KR')}
-                </span>
-                <span className={styles.readingTime}>{post.readingTime}분</span>
+        <>
+          {/* 배경 장식 요소들 */}
+          <div className={styles.backgroundDecorations}>
+            <div className={styles.floatingShape} style={{ '--delay': '0s' } as React.CSSProperties}>
+              <svg viewBox="0 0 100 100" className={styles.shapeBlue}>
+                <circle cx="50" cy="50" r="40" />
+              </svg>
+            </div>
+            <div className={styles.floatingShape} style={{ '--delay': '2s' } as React.CSSProperties}>
+              <svg viewBox="0 0 100 100" className={styles.shapeGreen}>
+                <rect x="20" y="20" width="60" height="60" rx="15" />
+              </svg>
+            </div>
+            <div className={styles.floatingShape} style={{ '--delay': '4s' } as React.CSSProperties}>
+              <svg viewBox="0 0 100 100" className={styles.shapeYellow}>
+                <polygon points="50,10 90,90 10,90" />
+              </svg>
+            </div>
+            <div className={styles.floatingShape} style={{ '--delay': '1s' } as React.CSSProperties}>
+              <svg viewBox="0 0 100 100" className={styles.shapePurple}>
+                <path d="M50 10 L90 35 L75 85 L25 85 L10 35 Z" />
+              </svg>
+            </div>
+          </div>
+
+          {(() => {
+            // 랜덤 레이아웃 생성
+            const randomLayout = generateRandomLayout(posts.length, 'post');
+            
+            return (
+              <div 
+                className={styles.randomGrid}
+                style={{ 
+                  gridTemplateRows: `repeat(${randomLayout.gridRows}, 1fr)`,
+                  gridTemplateColumns: `repeat(${randomLayout.gridCols}, 1fr)`,
+                  '--post-count': posts.length,
+                  '--grid-rows': randomLayout.gridRows,
+                  '--grid-cols': randomLayout.gridCols
+                } as React.CSSProperties}
+              >
+                {randomLayout.cells.map((cell) => {
+                  const postIndex = parseInt(cell.id.replace('post', ''));
+                  const post = posts[postIndex];
+                  if (!post) return null;
+
+                  return (
+                    <Link
+                      key={post.id}
+                      href={`/contents?board=${boardName}&post=${encodeURIComponent(post.id)}`}
+                      className={`${styles.randomCard} ${styles[`size-${cell.size}`]}`}
+                      style={{
+                        gridRow: `${cell.row} / ${cell.row + cell.rowSpan}`,
+                        gridColumn: `${cell.col} / ${cell.col + cell.colSpan}`,
+                        borderRadius: cell.borderRadius,
+                        transform: cell.transform || 'none',
+                        zIndex: cell.zIndex || 1,
+                        '--post-color': post.color || '#3b82f6',
+                        '--animation-delay': `${postIndex * 0.1}s`,
+                        '--rotation-seed': postIndex * 17
+                      } as React.CSSProperties}
+                    >
+                      {/* 카드 글로우 효과 */}
+                      <div 
+                        className={styles.cardGlow} 
+                        style={{ backgroundColor: post.color || '#3b82f6' }}
+                      ></div>
+                      
+                      {/* 배경 패턴 (히어로 카드용) */}
+                      {cell.size === 'hero' && (
+                        <div className={styles.cardBackground}>
+                          <svg viewBox="0 0 400 300" className={styles.backgroundSvg}>
+                            <defs>
+                              <linearGradient id={`gradient-${postIndex}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor={post.color || '#3b82f6'} stopOpacity="0.6" />
+                                <stop offset="100%" stopColor={post.color || '#3b82f6'} stopOpacity="0.2" />
+                              </linearGradient>
+                            </defs>
+                            <circle cx="350" cy="50" r="60" fill={`url(#gradient-${postIndex})`} />
+                            <circle cx="50" cy="250" r="40" fill={`url(#gradient-${postIndex})`} />
+                            <rect x="200" y="150" width="80" height="80" rx="15" fill={`url(#gradient-${postIndex})`} />
+                          </svg>
+                        </div>
+                      )}
+
+                      {/* 카드 내용 */}
+                      <div className={styles.cardContent}>
+                        {/* 헤더 */}
+                        <div className={styles.cardHeader}>
+                          <div 
+                            className={styles.cardIcon} 
+                            style={{ backgroundColor: post.color || '#3b82f6' }}
+                          >
+                            <svg viewBox="0 0 24 24" className={styles.iconSvg}>
+                              {getItemIcon(postIndex, posts.length)}
+                            </svg>
+                          </div>
+                          
+                          {cell.size === 'hero' && (
+                            <div className={styles.cardStats}>
+                              <span className={styles.readingTime}>{post.readingTime}분</span>
+                              <span className={styles.readingLabel}>읽기</span>
+                            </div>
+                          )}
+                          
+                          {cell.size !== 'hero' && (
+                            <div className={styles.readingBadge}>{post.readingTime}분</div>
+                          )}
+                        </div>
+
+                        {/* 제목과 설명 */}
+                        <div className={styles.cardBody}>
+                          <h2 className={styles.cardTitle}>{post.title}</h2>
+                          <p className={styles.cardDescription}>{post.description}</p>
+                          
+                          {/* 메타 정보 */}
+                          <div className={styles.cardMeta}>
+                            <span className={styles.author}>{post.author}</span>
+                            <span className={styles.date}>
+                              {new Date(post.createdAt).toLocaleDateString('ko-KR')}
+                            </span>
+                          </div>
+                          
+                          {/* 태그 */}
+                          {post.tags && post.tags.length > 0 && (
+                            <div className={styles.tags}>
+                              {post.tags.slice(0, cell.size === 'hero' ? 4 : 2).map((tag, index) => (
+                                <span key={index} className={styles.tag}>
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* 액션 */}
+                        <div className={styles.cardAction}>
+                          {cell.size === 'hero' ? (
+                            <>
+                              <span>읽어보기</span>
+                              <svg viewBox="0 0 20 20" className={styles.actionArrow}>
+                                <path d="M10 3L17 10L10 17M17 10H3" strokeWidth="2" fill="none" />
+                              </svg>
+                            </>
+                          ) : (
+                            <svg viewBox="0 0 16 16" className={styles.actionArrow}>
+                              <path d="M8 0L6.59 1.41L12.17 7H0V9H12.17L6.59 14.59L8 16L16 8L8 0Z" />
+                            </svg>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
-              {post.tags && post.tags.length > 0 && (
-                <div className={styles.tags}>
-                  {post.tags.map((tag, index) => (
-                    <span key={index} className={styles.tag}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </Link>
-          ))}
-        </div>
+            );
+          })()}
+        </>
       )}
     </Frame>
   );

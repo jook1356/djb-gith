@@ -1,0 +1,146 @@
+// Playground 페이지 스타일
+.playground {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  
+  .title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--color-text-primary);
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--color-primary), #20c997, #fbbf24);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+.tabContainer {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.tabList {
+  display: flex;
+  background: var(--color-surface-secondary);
+  border-bottom: 1px solid var(--color-border);
+  overflow-x: auto;
+  
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 2px;
+  }
+  
+  @media (max-width: 768px) {
+    flex-wrap: nowrap;
+  }
+}
+
+.tab {
+  flex: 1;
+  min-width: 140px;
+  background: none;
+  border: none;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  
+  &:hover {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+  
+  &.active {
+    background: var(--color-primary);
+    color: white;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--color-primary);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    min-width: 120px;
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
+
+.tabIcon {
+  font-size: 1.2rem;
+  
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+.tabLabel {
+  font-size: 0.9rem;
+  white-space: nowrap;
+  
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
+}
+
+.tabContent {
+  padding: 2rem;
+  min-height: 500px;
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+}
