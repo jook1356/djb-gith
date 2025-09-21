@@ -45,16 +45,28 @@ export class SeededRandom {
 export function generateRandomLayout(itemCount: number, idPrefix: string = 'item'): RandomLayout {
   const rng = new SeededRandom(itemCount * 42 + Date.now() % 1000);
   
-  // 모든 아이템을 포함하는 최적 그리드 크기 계산
+  // 모든 아이템을 포함하는 최적 그리드 크기 계산 (최대 컬럼 수 제한)
   const calculateOptimalGrid = (count: number): { rows: number; cols: number } => {
+    // 컬럼 수를 2~3으로 제한 (카드 크기 보장)
+    const minCols = 2;
+    const maxCols = 3;
+    const maxRows = Math.ceil(count / minCols) + 2; // 충분한 행 수 보장
+    
     const candidates = [];
     
-    for (let rows = 2; rows <= 8; rows++) {
-      for (let cols = 2; cols <= 8; cols++) {
+    // 2~3 컬럼으로 후보 생성
+    for (let cols = minCols; cols <= maxCols; cols++) {
+      for (let rows = Math.ceil(count / cols); rows <= maxRows; rows++) {
         const totalCells = rows * cols;
-        if (totalCells >= count && totalCells <= count * 1.5) {
+        if (totalCells >= count) {
           const wastedCells = totalCells - count;
           const efficiency = count / totalCells;
+          const wasteRatio = wastedCells / count;
+          
+          // 점수 계산: 효율성과 적당한 랜덤성
+          const efficiencyScore = efficiency * 0.8;
+          const wasteScore = Math.max(0, 1 - wasteRatio * 2) * 0.2;
+          const randomScore = rng.next() * 0.1;
           
           candidates.push({ 
             rows, 
@@ -62,23 +74,20 @@ export function generateRandomLayout(itemCount: number, idPrefix: string = 'item
             totalCells,
             wastedCells,
             efficiency,
-            score: efficiency * 0.7 - (wastedCells / count) * 0.3 + rng.next() * 0.2
+            score: efficiencyScore + wasteScore + randomScore
           });
         }
       }
     }
     
     if (candidates.length === 0) {
-      const sqrt = Math.ceil(Math.sqrt(count));
-      const options = [
-        { rows: sqrt, cols: sqrt },
-        { rows: sqrt, cols: sqrt + 1 },
-        { rows: sqrt + 1, cols: sqrt }
-      ].filter(option => option.rows * option.cols >= count);
-      
-      return rng.choice(options);
+      // 폴백: 2 컬럼으로 필요한 행 계산
+      const cols = 2;
+      const rows = Math.ceil(count / cols);
+      return { rows, cols };
     }
     
+    // 점수순 정렬하여 상위 후보들 중에서 선택
     candidates.sort((a, b) => b.score - a.score);
     const topCandidates = candidates.slice(0, Math.min(3, candidates.length));
     const selected = rng.choice(topCandidates);
