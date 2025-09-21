@@ -1,1436 +1,1418 @@
-// 라이트/다크 모드 컬러 팔레트 (푸른색 톤 통일)
+// 토스 스타일 다채로운 컬러 팔레트
 :root {
-  // Light mode colors - 푸른색 계열로 통일
-  --bg-primary: #f8fafc;
-  --bg-secondary: #f1f5f9;
-  --bg-tertiary: #ffffff;
-  --accent-primary: #3b82f6; // 기본 블루
-  --accent-secondary: #1e40af; // 진한 블루 (채도/밝기만 다름)
-  --accent-light: #60a5fa; // 밝은 블루
-  --accent-lighter: #93c5fd; // 더 밝은 블루
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --text-muted: #94a3b8;
-  --shadow-sm: rgba(59, 130, 246, 0.08);
-  --shadow-md: rgba(59, 130, 246, 0.12);
-  --shadow-lg: rgba(59, 130, 246, 0.16);
-  --border-light: rgba(59, 130, 246, 0.1);
+  // Light mode colors - 토스 스타일 확장
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+  
+  // 메인 컬러 시스템
+  --accent-primary: #3182f6;      // 토스 블루
+  --accent-secondary: #1b64da;    // 진한 토스 블루
+  --accent-success: #20c997;      // 토스 그린
+  --accent-warning: #fbbf24;      // 토스 옐로우
+  --accent-danger: #ef4444;       // 토스 레드
+  --accent-purple: #8b5cf6;       // 토스 퍼플
+  --accent-pink: #ec4899;         // 토스 핑크
+  --accent-orange: #f97316;       // 토스 오렌지
+  
+  // 텍스트 컬러
+  --text-primary: #191f28;
+  --text-secondary: #4e5968;
+  --text-muted: #8b95a1;
+  
+  // 그림자와 보더
+  --shadow-sm: rgba(0, 0, 0, 0.04);
+  --shadow-md: rgba(0, 0, 0, 0.08);
+  --shadow-lg: rgba(0, 0, 0, 0.12);
+  --shadow-colored: rgba(49, 130, 246, 0.15);
+  --border-light: rgba(0, 0, 0, 0.06);
   --card-bg: #ffffff;
-  --code-bg: #f8fafc;
+  
+  // 토스 스타일 단색 시스템 (그라데이션 제거)
+  --color-blue: #3182f6;
+  --color-green: #20c997;
+  --color-yellow: #fbbf24;
+  --color-red: #ef4444;
+  --color-purple: #8b5cf6;
+  --color-pink: #ec4899;
+  --color-orange: #f97316;
+  --color-indigo: #6366f1;
+  
+  // 연한 배경 색상
+  --color-blue-light: rgba(49, 130, 246, 0.1);
+  --color-green-light: rgba(32, 201, 151, 0.1);
+  --color-yellow-light: rgba(251, 191, 36, 0.1);
+  --color-red-light: rgba(239, 68, 68, 0.1);
+  --color-purple-light: rgba(139, 92, 246, 0.1);
+  --color-pink-light: rgba(236, 72, 153, 0.1);
+  --color-orange-light: rgba(249, 115, 22, 0.1);
+  --color-indigo-light: rgba(99, 102, 241, 0.1);
 }
 
-// Dark mode colors - 푸른색 계열로 통일
+// Dark mode colors - 토스 다크 스타일 확장
 :root[data-theme="dark"] {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-tertiary: #334155;
-  --accent-primary: #60a5fa; // 밝은 블루
-  --accent-secondary: #3b82f6; // 기본 블루 (채도/밝기만 다름)
-  --accent-light: #93c5fd; // 더 밝은 블루
-  --accent-lighter: #bfdbfe; // 가장 밝은 블루
-  --text-primary: #f1f5f9;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --shadow-sm: rgba(0, 0, 0, 0.3);
-  --shadow-md: rgba(0, 0, 0, 0.4);
-  --shadow-lg: rgba(0, 0, 0, 0.5);
-  --border-light: rgba(96, 165, 250, 0.1);
-  --card-bg: #334155;
-  --code-bg: #1e293b;
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-tertiary: #2d2d2d;
+  
+  // 다크 모드 메인 컬러
+  --accent-primary: #4dabf7;
+  --accent-secondary: #339af0;
+  --accent-success: #51cf66;
+  --accent-warning: #ffd43b;
+  --accent-danger: #ff6b6b;
+  --accent-purple: #9775fa;
+  --accent-pink: #f06595;
+  --accent-orange: #ff922b;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-muted: #6c6c6c;
+  --shadow-sm: rgba(0, 0, 0, 0.2);
+  --shadow-md: rgba(0, 0, 0, 0.3);
+  --shadow-lg: rgba(0, 0, 0, 0.4);
+  --shadow-colored: rgba(77, 171, 247, 0.2);
+  --border-light: rgba(255, 255, 255, 0.1);
+  --card-bg: #1e1e1e;
+  
+  // 다크 모드 단색 시스템
+  --color-blue: #4dabf7;
+  --color-green: #51cf66;
+  --color-yellow: #ffd43b;
+  --color-red: #ff6b6b;
+  --color-purple: #9775fa;
+  --color-pink: #f06595;
+  --color-orange: #ff922b;
+  --color-indigo: #818cf8;
+  
+  // 다크 모드 연한 배경 색상
+  --color-blue-light: rgba(77, 171, 247, 0.15);
+  --color-green-light: rgba(81, 207, 102, 0.15);
+  --color-yellow-light: rgba(255, 212, 59, 0.15);
+  --color-red-light: rgba(255, 107, 107, 0.15);
+  --color-purple-light: rgba(151, 117, 250, 0.15);
+  --color-pink-light: rgba(240, 101, 149, 0.15);
+  --color-orange-light: rgba(255, 146, 43, 0.15);
+  --color-indigo-light: rgba(129, 140, 248, 0.15);
 }
 
 // CSS 미디어 쿼리로 시스템 다크모드 감지
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --accent-primary: #60a5fa;
-    --accent-secondary: #3b82f6;
-    --accent-light: #93c5fd;
-    --accent-lighter: #bfdbfe;
-    --text-primary: #f1f5f9;
-    --text-secondary: #cbd5e1;
-    --text-muted: #94a3b8;
-    --shadow-sm: rgba(0, 0, 0, 0.3);
-    --shadow-md: rgba(0, 0, 0, 0.4);
-    --shadow-lg: rgba(0, 0, 0, 0.5);
-    --border-light: rgba(96, 165, 250, 0.1);
-    --card-bg: #334155;
-    --code-bg: #1e293b;
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --bg-tertiary: #2d2d2d;
+    
+    --accent-primary: #4dabf7;
+    --accent-secondary: #339af0;
+    --accent-success: #51cf66;
+    --accent-warning: #ffd43b;
+    --accent-danger: #ff6b6b;
+    --accent-purple: #9775fa;
+    --accent-pink: #f06595;
+    --accent-orange: #ff922b;
+    
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #6c6c6c;
+    --shadow-sm: rgba(0, 0, 0, 0.2);
+    --shadow-md: rgba(0, 0, 0, 0.3);
+    --shadow-lg: rgba(0, 0, 0, 0.4);
+    --shadow-colored: rgba(77, 171, 247, 0.2);
+    --border-light: rgba(255, 255, 255, 0.1);
+    --card-bg: #1e1e1e;
+    
+    // 시스템 다크 모드 단색 시스템
+    --color-blue: #4dabf7;
+    --color-green: #51cf66;
+    --color-yellow: #ffd43b;
+    --color-red: #ff6b6b;
+    --color-purple: #9775fa;
+    --color-pink: #f06595;
+    --color-orange: #ff922b;
+    --color-indigo: #818cf8;
+    
+    --color-blue-light: rgba(77, 171, 247, 0.15);
+    --color-green-light: rgba(81, 207, 102, 0.15);
+    --color-yellow-light: rgba(255, 212, 59, 0.15);
+    --color-red-light: rgba(255, 107, 107, 0.15);
+    --color-purple-light: rgba(151, 117, 250, 0.15);
+    --color-pink-light: rgba(240, 101, 149, 0.15);
+    --color-orange-light: rgba(255, 146, 43, 0.15);
+    --color-indigo-light: rgba(129, 140, 248, 0.15);
   }
 }
 
 .container {
   min-height: 100vh;
-  background: linear-gradient(
-    135deg,
-    var(--bg-primary) 0%,
-    var(--bg-secondary) 50%,
-    var(--bg-tertiary) 100%
-  );
-  padding: 0;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 12px;
-  transition: background 0.3s ease;
-  position: relative;
+  background: var(--bg-primary);
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
   overflow-x: hidden;
+  position: relative;
 }
 
-// 스크롤 애니메이션 효과
-.scrollFade {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.scrollFade.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-// 각 카드별 딜레이 효과
-.techItem.scrollFade {
-  transition-delay: 0.1s;
-}
-
-.techItem:nth-child(2).scrollFade {
-  transition-delay: 0.2s;
-}
-
-.techItem:nth-child(3).scrollFade {
-  transition-delay: 0.3s;
-}
-
-.techItem:nth-child(4).scrollFade {
-  transition-delay: 0.4s;
-}
-
-.techItem:nth-child(5).scrollFade {
-  transition-delay: 0.5s;
-}
-
-.techItem:nth-child(6).scrollFade {
-  transition-delay: 0.6s;
-}
-
-.techItem:nth-child(7).scrollFade {
-  transition-delay: 0.7s;
-}
-
-.techItem:nth-child(8).scrollFade {
-  transition-delay: 0.8s;
-}
-
-.featureCard.scrollFade {
-  transition-delay: 0.1s;
-}
-
-.featureCard:nth-child(2).scrollFade {
-  transition-delay: 0.2s;
-}
-
-.featureCard:nth-child(3).scrollFade {
-  transition-delay: 0.3s;
-}
-
-.featureCard:nth-child(4).scrollFade {
-  transition-delay: 0.4s;
-}
-
-.featureCard:nth-child(5).scrollFade {
-  transition-delay: 0.5s;
-}
-
-.featureCard:nth-child(6).scrollFade {
-  transition-delay: 0.6s;
-}
-
-.timelineItem.scrollFade {
-  transition-delay: 0.2s;
-}
-
-.timelineItem:nth-child(2).scrollFade {
-  transition-delay: 0.4s;
-}
-
-.timelineItem:nth-child(3).scrollFade {
-  transition-delay: 0.6s;
-}
-
-// 배경 동적 요소들
-.backgroundElements {
-  position: absolute;
+// 배경 데코레이션 시스템
+.backgroundDecorations {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
   z-index: 0;
-}
-
-.floatingShape1,
-.floatingShape2,
-.floatingShape3,
-.floatingShape4,
-.floatingShape5 {
-  position: absolute;
-  border-radius: 50%;
-  background: linear-gradient(
-    45deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
-  opacity: 0.08;
-  animation: float 6s ease-in-out infinite;
-}
-
-.floatingShape1 {
-  width: 200px;
-  height: 200px;
-  top: 10%;
-  left: 10%;
-  animation-delay: 0s;
-}
-
-.floatingShape2 {
-  width: 150px;
-  height: 150px;
-  top: 60%;
-  right: 15%;
-  animation-delay: 2s;
-}
-
-.floatingShape3 {
-  width: 100px;
-  height: 100px;
-  top: 30%;
-  right: 30%;
-  animation-delay: 4s;
-}
-
-.floatingShape4 {
-  width: 250px;
-  height: 250px;
-  bottom: 20%;
-  left: 5%;
-  animation-delay: 1s;
-}
-
-.floatingShape5 {
-  width: 80px;
-  height: 80px;
-  top: 80%;
-  right: 5%;
-  animation-delay: 3s;
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  33% {
-    transform: translateY(-20px) rotate(120deg);
-  }
-  66% {
-    transform: translateY(10px) rotate(240deg);
-  }
-}
-
-.particles {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: var(--accent-primary);
-  border-radius: 50%;
-  opacity: 0.6;
-  animation: particleFloat 8s linear infinite;
-}
-
-@keyframes particleFloat {
-  0% {
-    transform: translateY(100vh) scale(0);
-  }
-  10% {
-    transform: translateY(90vh) scale(1);
-  }
-  90% {
-    transform: translateY(10vh) scale(1);
-  }
-  100% {
-    transform: translateY(0vh) scale(0);
-  }
-}
-
-// 파티클들의 위치와 딜레이 설정
-.particle1 {
-  left: 10%;
-  animation-delay: 0s;
-}
-.particle2 {
-  left: 20%;
-  animation-delay: 1s;
-}
-.particle3 {
-  left: 30%;
-  animation-delay: 2s;
-}
-.particle4 {
-  left: 40%;
-  animation-delay: 3s;
-}
-.particle5 {
-  left: 50%;
-  animation-delay: 4s;
-}
-.particle6 {
-  left: 60%;
-  animation-delay: 5s;
-}
-.particle7 {
-  left: 70%;
-  animation-delay: 6s;
-}
-.particle8 {
-  left: 80%;
-  animation-delay: 7s;
-}
-.particle9 {
-  left: 90%;
-  animation-delay: 0.5s;
-}
-.particle10 {
-  left: 15%;
-  animation-delay: 1.5s;
-}
-.particle11 {
-  left: 25%;
-  animation-delay: 2.5s;
-}
-.particle12 {
-  left: 35%;
-  animation-delay: 3.5s;
-}
-.particle13 {
-  left: 45%;
-  animation-delay: 4.5s;
-}
-.particle14 {
-  left: 55%;
-  animation-delay: 5.5s;
-}
-.particle15 {
-  left: 65%;
-  animation-delay: 6.5s;
-}
-.particle16 {
-  left: 75%;
-  animation-delay: 7.5s;
-}
-.particle17 {
-  left: 85%;
-  animation-delay: 0.8s;
-}
-.particle18 {
-  left: 95%;
-  animation-delay: 1.8s;
-}
-.particle19 {
-  left: 5%;
-  animation-delay: 2.8s;
-}
-.particle20 {
-  left: 12%;
-  animation-delay: 3.8s;
-}
-
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-  min-height: 100vh;
-  gap: 4rem;
-  padding: 2rem;
-  position: relative;
-  z-index: 1;
-}
-
-// 새로운 요소들
-.badge {
-  display: inline-block;
-  background: linear-gradient(
-    45deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 50px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from {
-    box-shadow: 0 0 10px var(--accent-primary);
-  }
-  to {
-    box-shadow: 0 0 20px var(--accent-light), 0 0 30px var(--accent-primary);
-  }
-}
-
-.typewriter {
-  display: inline-block;
   overflow: hidden;
-  border-right: 2px solid var(--accent-primary);
-  white-space: nowrap;
-  animation: typing 3s steps(40, end), blink 1s infinite;
 }
 
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
+.floatingShape {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  animation: floatAnimation 8s ease-in-out infinite;
+  animation-delay: var(--delay);
+  opacity: 0.8;
 }
 
-@keyframes blink {
-  from,
-  to {
-    border-color: transparent;
+@keyframes floatAnimation {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-20px) rotate(5deg) scale(1.05);
   }
   50% {
-    border-color: var(--accent-primary);
+    transform: translateY(-10px) rotate(-3deg) scale(0.95);
+  }
+  75% {
+    transform: translateY(-25px) rotate(7deg) scale(1.1);
   }
 }
 
-.stats {
-  display: flex;
-  gap: 2rem;
-  margin: 2rem 0;
+// 컨테이너 배경 단순화
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50vh;
+  background: linear-gradient(135deg, var(--color-blue-light) 0%, transparent 70%);
+  opacity: 0.3;
+  z-index: 0;
+  pointer-events: none;
 }
 
-.stat {
+// 토스 스타일 애니메이션
+.fadeUp {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fadeUp.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+// 스태거드 애니메이션 딜레이
+.fadeUp:nth-child(1) { transition-delay: 0.1s; }
+.fadeUp:nth-child(2) { transition-delay: 0.2s; }
+.fadeUp:nth-child(3) { transition-delay: 0.3s; }
+.fadeUp:nth-child(4) { transition-delay: 0.4s; }
+.fadeUp:nth-child(5) { transition-delay: 0.5s; }
+.fadeUp:nth-child(6) { transition-delay: 0.6s; }
+
+// Hero Section - 토스 스타일
+.hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
   text-align: center;
-  padding: 1rem;
-  background: var(--card-bg);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px var(--shadow-sm);
-  border: 1px solid var(--border-light);
-  transition: transform 0.3s ease;
-}
-
-.stat:hover {
-  transform: translateY(-5px);
-}
-
-.statNumber {
-  display: block;
-  font-size: 2rem;
-  font-weight: 800;
-  background: linear-gradient(
-    45deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.statLabel {
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-top: 0.5rem;
-}
-
-.codeContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.fileName {
-  color: var(--text-secondary);
-  font-size: 0.8rem;
-  font-family: "Monaco", "Menlo", monospace;
-}
-
-.lineNumber {
-  color: var(--text-muted);
-  margin-right: 1rem;
-  font-size: 0.8rem;
-  user-select: none;
-}
-
-.property {
-  color: #0969da;
-}
-
-.terminalCard {
-  background: #1a1a1a;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 40px var(--shadow-md);
-  border: 1px solid #333;
-}
-
-.terminalHeader {
-  background: #2d2d2d;
-  padding: 0.8rem 1rem;
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-}
-
-.terminalDots {
-  display: flex;
-  gap: 0.3rem;
-}
-
-.terminalDots span {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-.terminalDots span:nth-child(1) {
-  background: #ff5f56;
-}
-.terminalDots span:nth-child(2) {
-  background: #ffbd2e;
-}
-.terminalDots span:nth-child(3) {
-  background: #27ca3f;
-}
-
-.terminalTitle {
-  color: #fff;
-  font-size: 0.8rem;
-  margin-left: auto;
-  font-family: "Monaco", "Menlo", monospace;
-}
-
-.terminalContent {
-  padding: 1rem;
-  font-family: "Monaco", "Menlo", monospace;
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.terminalLine {
-  margin-bottom: 0.5rem;
-}
-
-.prompt {
-  color: #00ff41;
-  margin-right: 0.5rem;
-}
-
-.command {
-  color: #fff;
-}
-
-.output {
-  color: #00ff41;
-}
-
-.cursor {
-  color: #fff;
-  animation: blink 1s infinite;
+  justify-content: center;
 }
 
 .heroContent {
-  flex: 1;
-  opacity: 0;
-  animation: fadeIn 0.8s ease-out 0.2s forwards;
+  margin-bottom: 80px;
 }
 
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-  }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-purple);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: badgeShine 2s ease-in-out infinite;
+}
+
+@keyframes badgeShine {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
 
 .title {
-  font-size: clamp(2.5rem, 4vw, 4rem);
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
   line-height: 1.2;
-}
-
-.wave {
-  display: inline-block;
-  margin-right: 0.5rem;
+  margin-bottom: 24px;
+  color: var(--text-primary);
 }
 
 .highlight {
-  background: linear-gradient(
-    45deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-blue);
   position: relative;
+  font-weight: 800;
 }
 
 .subtitle {
-  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  font-size: 20px;
   color: var(--text-secondary);
-  margin-bottom: 2rem;
-  font-weight: 400;
-  opacity: 0;
-  animation: fadeIn 0.8s ease-out 0.4s forwards;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
 }
 
-.comingSoon {
+.subtitleAccent {
+  color: var(--color-purple);
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+  background: var(--color-blue);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(49, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  opacity: 0;
-  animation: fadeIn 0.8s ease-out 0.6s forwards;
+  gap: 8px;
 }
 
-.comingSoonText {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  background: var(--card-bg);
-  padding: 0.8rem 1.5rem;
+.primaryButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.primaryButton:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(49, 130, 246, 0.4);
+  background: var(--color-indigo);
+}
+
+.primaryButton:hover::before {
+  left: 100%;
+}
+
+.secondaryButton {
+  background: transparent;
+  color: var(--color-green);
+  border: 2px solid var(--color-green);
+  padding: 14px 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px var(--shadow-sm);
-  border: 1px solid var(--border-light);
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-.dots {
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 8px;
 }
 
-.dots span {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent-primary);
+.secondaryButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--color-green);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.secondaryButton:hover {
+  color: white;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(32, 201, 151, 0.4);
+}
+
+.secondaryButton:hover::before {
+  left: 0;
+}
+
+// Hero Features
+.heroFeatures {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--card-bg);
+  border-radius: 25px;
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--shadow-sm);
+}
+
+.featureItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--shadow-lg);
+  border-color: var(--color-blue);
+  color: var(--color-blue);
+}
+
+.featureItem svg {
+  color: var(--color-blue);
+  transition: transform 0.3s ease;
+}
+
+.featureItem:hover svg {
+  transform: scale(1.1);
+}
+
+// Stats Section
+.statsSection {
+  max-width: 1200px;
+  margin: 0 auto 120px;
+  padding: 0 24px;
+  position: relative;
+}
+
+.statsDecoration {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  pointer-events: none;
   opacity: 0.6;
-  animation: pulse 2s ease-in-out infinite;
 }
 
-.dots span:nth-child(1) {
-  animation-delay: 0s;
-}
-.dots span:nth-child(2) {
-  animation-delay: 0.3s;
-}
-.dots span:nth-child(3) {
-  animation-delay: 0.6s;
+.statsPattern {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes pulse {
-  0%,
-  100% {
+.patternDot {
+  width: 12px;
+  height: 12px;
+  background: var(--color);
+  border-radius: 50%;
+  animation: pulsePattern 3s ease-in-out infinite;
+}
+
+.patternDot:nth-child(1) { animation-delay: 0s; }
+.patternDot:nth-child(2) { animation-delay: 1s; }
+.patternDot:nth-child(3) { animation-delay: 2s; }
+
+@keyframes pulsePattern {
+  0%, 100% {
+    transform: scale(1);
     opacity: 0.6;
   }
   50% {
+    transform: scale(1.5);
     opacity: 1;
   }
 }
 
-.heroImage {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  opacity: 0;
-  animation: fadeIn 0.8s ease-out 0.8s forwards;
-}
-
-.floatingCard {
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 10px 40px var(--shadow-md);
-  border: 1px solid var(--border-light);
-  max-width: 400px;
-  width: 100%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
-
-.floatingCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 50px var(--shadow-lg);
-}
-
-.cardHeader {
-  margin-bottom: 1.5rem;
-}
-
-.cardDots {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.cardDots span {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-.cardDots span:nth-child(1) {
-  background: #ff5f56;
-}
-.cardDots span:nth-child(2) {
-  background: #ffbd2e;
-}
-.cardDots span:nth-child(3) {
-  background: #27ca3f;
-}
-
-.cardContent {
-  font-family: "Monaco", "Menlo", monospace;
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.codeLine {
-  margin-bottom: 0.5rem;
-}
-
-// 코드 하이라이팅 - 라이트 모드
-.keyword {
-  color: #d73a49;
-}
-.variable {
-  color: #6f42c1;
-}
-.operator {
-  color: #d73a49;
-}
-.string {
-  color: #032f62;
-}
-.function {
-  color: #6f42c1;
-}
-.bracket {
-  color: #24292e;
-}
-.indent {
-  color: transparent;
-}
-
-// 코드 하이라이팅 - 다크 모드
-[data-theme="dark"] .keyword {
-  color: #ff7b72;
-}
-[data-theme="dark"] .variable {
-  color: #d2a8ff;
-}
-[data-theme="dark"] .operator {
-  color: #ff7b72;
-}
-[data-theme="dark"] .string {
-  color: #a5d6ff;
-}
-[data-theme="dark"] .function {
-  color: #d2a8ff;
-}
-[data-theme="dark"] .bracket {
-  color: #f0f6fc;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .keyword {
-    color: #ff7b72;
-  }
-  :root:not([data-theme]) .variable {
-    color: #d2a8ff;
-  }
-  :root:not([data-theme]) .operator {
-    color: #ff7b72;
-  }
-  :root:not([data-theme]) .string {
-    color: #a5d6ff;
-  }
-  :root:not([data-theme]) .function {
-    color: #d2a8ff;
-  }
-  :root:not([data-theme]) .bracket {
-    color: #f0f6fc;
-  }
-}
-
-// 섹션 공통 스타일
-.sectionTitle {
-  text-align: center;
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 3rem;
-  background: linear-gradient(
-    45deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-// 기술 스택 섹션
-.techStack {
-  max-width: 1200px;
-  margin: 6rem auto;
-  padding: 4rem 2rem;
-  background: var(--card-bg);
-  border-radius: 24px;
-  box-shadow: 0 20px 60px var(--shadow-lg);
-  border: 1px solid var(--border-light);
-  position: relative;
-  z-index: 1;
-}
-
-.techGrid {
+.statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
   max-width: 800px;
   margin: 0 auto;
 }
 
-.techItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1.5rem;
-  background: var(--bg-primary);
+.statCard {
+  background: var(--card-bg);
+  padding: 32px 24px;
   border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px var(--shadow-sm);
+  border: 1px solid var(--border-light);
   transition: all 0.3s ease;
-  cursor: pointer;
-  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
 }
 
-.techItem:hover {
-  transform: translateY(-10px) scale(1.05);
-  border-color: var(--accent-primary);
-  box-shadow: 0 15px 40px var(--shadow-md);
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-8px) scale(1.02) rotate(2deg);
+  box-shadow: 0 15px 40px var(--shadow-lg);
+  animation: cardShimmer 2s ease-in-out infinite;
+}
+
+@keyframes cardShimmer {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.1);
+  }
+}
+
+.statCard:hover::before {
+  opacity: 1;
+}
+
+// 각 스탯 카드별 색상 - 토스 스타일 (테두리 없음, 원색 배경)
+.statCard:nth-child(1) {
+  background: var(--color-blue);
+  border: none;
+  color: white;
+  
+  &:hover {
+    box-shadow: 0 15px 40px rgba(49, 130, 246, 0.3);
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+.statCard:nth-child(2) {
+  background: var(--color-green);
+  border: none;
+  color: white;
+  
+  &:hover {
+    box-shadow: 0 15px 40px rgba(32, 201, 151, 0.3);
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+.statCard:nth-child(3) {
+  background: var(--color-yellow);
+  border: none;
+  color: white;
+  
+  &:hover {
+    box-shadow: 0 15px 40px rgba(251, 191, 36, 0.3);
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+.statNumber {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: block;
+  position: relative;
+  z-index: 1;
+  color: white;
+}
+
+.statLabel {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}
+
+// 섹션 공통 스타일
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.sectionTitle {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.sectionSubtitle {
+  font-size: 18px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+// Tech Section - 토스 스타일
+.techSection {
+  max-width: 1200px;
+  margin: 0 auto 120px;
+  padding: 0 24px;
+}
+
+.techGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.techCard {
+  background: var(--card-bg);
+  padding: 32px 24px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.techCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.techCard:hover {
+  transform: translateY(-8px) scale(1.03) rotate(-1deg);
+  box-shadow: 0 20px 50px var(--shadow-lg);
+  animation: techGlow 2s ease-in-out infinite;
+}
+
+@keyframes techGlow {
+  0%, 100% {
+    filter: brightness(1) saturate(1);
+  }
+  50% {
+    filter: brightness(1.15) saturate(1.2);
+  }
+}
+
+.techCard:hover::before {
+  left: 100%;
+}
+
+// 각 기술별 다른 색상 적용 - 토스 스타일
+.techCard:nth-child(1) {
+  background: var(--color-blue);
+  border: none;
+  color: white;
+}
+.techCard:nth-child(1):hover {
+  box-shadow: 0 20px 50px rgba(49, 130, 246, 0.3);
+  transform: translateY(-8px) scale(1.03);
+}
+
+.techCard:nth-child(2) {
+  background: var(--color-red);
+  border: none;
+  color: white;
+}
+.techCard:nth-child(2):hover {
+  box-shadow: 0 20px 50px rgba(239, 68, 68, 0.3);
+  transform: translateY(-8px) scale(1.03);
+}
+
+.techCard:nth-child(3) {
+  background: var(--color-green);
+  border: none;
+  color: white;
+}
+.techCard:nth-child(3):hover {
+  box-shadow: 0 20px 50px rgba(32, 201, 151, 0.3);
+  transform: translateY(-8px) scale(1.03);
+}
+
+.techCard:nth-child(4) {
+  background: var(--color-orange);
+  border: none;
+  color: white;
+}
+.techCard:nth-child(4):hover {
+  box-shadow: 0 20px 50px rgba(249, 115, 22, 0.3);
+  transform: translateY(-8px) scale(1.03);
 }
 
 .techIcon {
   width: 48px;
   height: 48px;
-  margin-bottom: 1rem;
-  color: var(--accent-primary);
-  transition: all 0.3s ease;
+  margin: 0 auto 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.techCard:hover .techIcon {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .techIcon svg {
   width: 100%;
   height: 100%;
-  transition: transform 0.3s ease;
 }
 
-.techItem:hover .techIcon {
-  color: var(--accent-secondary);
-  transform: scale(1.1);
-}
-
-.techItem:hover .techIcon svg {
-  transform: scale(1.1);
-}
-
-.techItem span {
+.techCard h3 {
+  font-size: 18px;
   font-weight: 600;
-  color: var(--text-primary);
-  font-size: 12px;
-}
-
-// 블로그 컨텐츠 섹션
-.features {
-  max-width: 1200px;
-  margin: 6rem auto;
-  padding: 4rem 2rem;
-  position: relative;
-  z-index: 1;
-}
-
-.featureGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-}
-
-.featureCard {
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 2rem;
-  text-align: center;
-  box-shadow: 0 4px 20px var(--shadow-sm);
-  border: 1px solid var(--border-light);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
-
-.featureCard:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 50px var(--shadow-lg);
-}
-
-.cardFooter {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-}
-
-.tag {
-  background: linear-gradient(
-    45deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
   color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.7rem;
+  margin-bottom: 8px;
+}
+
+.techCard p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 12px;
+}
+
+.techLevel {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-// 타임라인 섹션
-.timeline {
+// Content Section - 토스 스타일
+.contentSection {
   max-width: 1200px;
-  margin: 6rem auto;
-  padding: 4rem 2rem;
-  position: relative;
-  z-index: 1;
+  margin: 0 auto 120px;
+  padding: 0 24px;
 }
 
-.timelineContainer {
-  position: relative;
-  max-width: 800px;
+.contentGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
-.timelineContainer::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(
-    to bottom,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
-  transform: translateX(-50%);
-}
-
-.timelineItem {
-  display: flex;
-  margin-bottom: 3rem;
-  position: relative;
-}
-
-.timelineItem:nth-child(odd) {
-  flex-direction: row-reverse;
-}
-
-.timelineItem:nth-child(odd) .timelineContent {
-  text-align: right;
-  margin-right: 3rem;
-}
-
-.timelineItem:nth-child(even) .timelineContent {
-  margin-left: 3rem;
-}
-
-.timelineDate {
-  background: linear-gradient(
-    45deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-weight: 700;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  box-shadow: 0 4px 20px var(--shadow-sm);
-}
-
-.timelineContent {
-  flex: 1;
+.contentCard {
   background: var(--card-bg);
-  padding: 2rem;
+  padding: 40px 32px;
   border-radius: 16px;
-  box-shadow: 0 10px 30px var(--shadow-md);
+  text-align: center;
+  box-shadow: 0 2px 8px var(--shadow-sm);
   border: 1px solid var(--border-light);
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.timelineContent:hover {
-  transform: translateY(-5px);
+.contentCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.timelineContent h4 {
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
-  font-weight: 700;
+.contentCard:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 50px var(--shadow-lg);
 }
 
-.timelineContent p {
-  color: var(--text-secondary);
-  line-height: 1.6;
-  font-size: 12px;
+.contentCard:hover::before {
+  opacity: 1;
 }
 
-.featureIcon {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 1rem;
-  color: var(--accent-primary);
+// 각 컨텐츠 카드별 다른 색상 - 토스 스타일
+.contentCard:nth-child(1) {
+  background: var(--color-purple);
+  border: none;
+  color: white;
+  
+  &:hover {
+    box-shadow: 0 20px 50px rgba(139, 92, 246, 0.3);
+  }
+}
+
+.contentCard:nth-child(2) {
+  background: var(--color-pink);
+  border: none;
+  color: white;
+  
+  &:hover {
+    box-shadow: 0 20px 50px rgba(236, 72, 153, 0.3);
+  }
+}
+
+.contentCard:nth-child(3) {
+  background: var(--color-indigo);
+  border: none;
+  color: white;
+  
+  &:hover {
+    box-shadow: 0 20px 50px rgba(99, 102, 241, 0.3);
+  }
+}
+
+.contentIcon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 24px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  color: white;
+}
+
+.contentCard:hover .contentIcon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.contentCard h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.contentCard p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+}
+
+// Services Section - 토스 스타일
+.servicesSection {
+  max-width: 1200px;
+  margin: 0 auto 120px;
+  padding: 0 24px;
+  position: relative;
+}
+
+.servicesBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.4;
+  overflow: hidden;
+}
+
+.meshPattern {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.meshLine {
+  position: absolute;
+  background: linear-gradient(90deg, var(--color-blue) 0%, var(--color-green) 50%, var(--color-orange) 100%);
+  height: 2px;
+  width: 100%;
+  opacity: 0.3;
+  animation: meshFlow 8s ease-in-out infinite;
+}
+
+.meshLine:nth-child(1) {
+  top: 20%;
+  animation-delay: 0s;
+}
+
+.meshLine:nth-child(2) {
+  top: 50%;
+  animation-delay: 2s;
+}
+
+.meshLine:nth-child(3) {
+  top: 80%;
+  animation-delay: 4s;
+}
+
+@keyframes meshFlow {
+  0%, 100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(0%);
+    opacity: 0.3;
+  }
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.serviceCard {
+  background: var(--card-bg);
+  padding: 32px 24px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 4px 20px var(--shadow-sm);
+  border: none;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.serviceCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--color-blue-light), var(--color-purple-light));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.serviceCard:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px var(--shadow-lg);
+}
+
+.serviceCard:hover::before {
+  opacity: 1;
+}
+
+// 각 서비스 카드별 색상 - 토스 스타일
+.serviceCard:nth-child(1) {
+  background: var(--color-blue);
+  color: white;
+  
+  &:hover {
+    box-shadow: 0 20px 60px rgba(49, 130, 246, 0.4);
+  }
+}
+
+.serviceCard:nth-child(2) {
+  background: var(--color-green);
+  color: white;
+  
+  &:hover {
+    box-shadow: 0 20px 60px rgba(32, 201, 151, 0.4);
+  }
+}
+
+.serviceCard:nth-child(3) {
+  background: var(--color-orange);
+  color: white;
+  
+  &:hover {
+    box-shadow: 0 20px 60px rgba(249, 115, 22, 0.4);
+  }
+}
+
+.serviceIcon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.serviceCard:hover .serviceIcon {
+  transform: scale(1.1) rotate(5deg);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.serviceIcon svg {
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+.serviceCard h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.serviceCard p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.serviceFeatures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.serviceFeatures span {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
   transition: all 0.3s ease;
 }
 
-.featureIcon svg {
-  width: 100%;
-  height: 100%;
-  transition: transform 0.3s ease;
+.serviceCard:hover .serviceFeatures span {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
 }
 
-.featureCard:hover .featureIcon {
-  color: var(--accent-secondary);
-  transform: scale(1.1);
+// Journey Section - 토스 스타일
+.journeySection {
+  max-width: 1200px;
+  margin: 0 auto 120px;
+  padding: 0 24px;
+  position: relative;
 }
 
-.featureCard h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
+.journeyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.featureCard p {
-  color: var(--text-secondary);
-  line-height: 1.6;
-  font-size: 12px;
+.journeyCard {
+  background: var(--card-bg);
+  padding: 32px 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-/* ViewportProvider 테스트 인디케이터 */
-.viewportIndicator {
-  margin-top: 2rem;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 0.75rem;
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  font-size: 0.9rem;
+.journeyCard::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, rgba(49, 130, 246, 0.1), rgba(32, 201, 151, 0.1), rgba(251, 191, 36, 0.1), rgba(49, 130, 246, 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: rotate 10s linear infinite;
+}
 
-  .viewportLabel {
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 500;
-  }
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
-  .viewportValue {
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+.journeyCard:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 50px var(--shadow-lg);
+}
 
-    &.viewport-mobile {
-      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-      color: white;
-    }
+.journeyCard:hover::before {
+  opacity: 1;
+}
 
-    &.viewport-tablet {
-      background: linear-gradient(135deg, #4ecdc4, #44bd87);
-      color: white;
-    }
-
-    &.viewport-desktop {
-      background: linear-gradient(135deg, #3742fa, #2f3542);
-      color: white;
-    }
-  }
-
-  .deviceInfo {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.8rem;
-    font-style: italic;
-  }
-
-  /* 반응형 스타일 - ViewportProvider data-viewport 속성 활용 */
-  :root[data-viewport="mobile"] & {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0.75rem;
-    font-size: 0.8rem;
-
-    .viewportValue {
-      padding: 0.2rem 0.5rem;
-      font-size: 0.85rem;
-    }
-  }
-
-  :root[data-viewport="tablet"] & {
-    padding: 0.875rem;
-  }
-
-  :root[data-viewport="desktop"] & {
-    padding: 1.25rem;
-    font-size: 1rem;
+// 각 여정 카드별 다른 색상 - 토스 스타일
+.journeyCard:nth-child(1) {
+  background: var(--color-blue);
+  border: none;
+  color: white;
+  
+  &:hover {
+    box-shadow: 0 20px 50px rgba(49, 130, 246, 0.3);
   }
 }
 
-.footer {
-  background: var(--bg-tertiary);
-  margin-top: 4rem;
-  padding: 2rem 0 1rem;
+.journeyCard:nth-child(2) {
+  background: var(--color-green);
+  border: none;
+  color: white;
+  
+  &:hover {
+    box-shadow: 0 20px 50px rgba(32, 201, 151, 0.3);
+  }
+}
+
+.journeyCard:nth-child(3) {
+  background: var(--color-yellow);
+  border: none;
+  color: white;
+  
+  &:hover {
+    box-shadow: 0 20px 50px rgba(251, 191, 36, 0.3);
+  }
+}
+
+.journeyYear {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 16px;
   position: relative;
   z-index: 1;
+}
+
+.journeyAchievement {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.journeyCard:hover .journeyAchievement {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+.journeyAchievement svg {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.journeyCard h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.journeyCard p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+// Footer - 토스 스타일
+.footer {
+  background: var(--bg-secondary);
+  padding: 60px 24px 40px;
 }
 
 .footerContent {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-
-.footerSection {
-  text-align: center;
-}
-
-.footerSection h3 {
-  color: var(--text-primary);
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 0.8rem;
-  background: linear-gradient(
-    45deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.footerSection p {
-  color: var(--text-secondary);
-  margin-bottom: 0.3rem;
-  line-height: 1.4;
-  font-size: 12px;
-}
-
-.newsletter {
   display: flex;
-  gap: 0.5rem;
-  margin-top: 0.8rem;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 32px;
 }
 
-.emailInput {
-  flex: 1;
-  max-width: 200px;
-  padding: 0.8rem 1rem;
-  border: 1px solid var(--border-light);
-  border-radius: 8px;
-  background: var(--card-bg);
-  color: var(--text-primary);
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-}
-
-.emailInput:focus {
-  outline: none;
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.emailInput:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.subscribeBtn {
-  padding: 0.8rem 1.5rem;
-  background: linear-gradient(
-    45deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
-  color: white;
-  border: none;
-  border-radius: 8px;
+.footerInfo h3 {
+  font-size: 18px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin-bottom: 16px;
 }
 
-.subscribeBtn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px var(--shadow-md);
-}
-
-.subscribeBtn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.footerBottom {
-  text-align: center;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-light);
-}
-
-.footerBottom p {
-  color: var(--text-muted);
-  font-size: 12px;
-}
-
-.footer p {
-  font-size: 12px;
+.footerInfo p {
+  font-size: 14px;
   color: var(--text-secondary);
-  margin-bottom: 0.5rem;
+  margin-bottom: 4px;
 }
 
 .socialLinks {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 16px;
 }
 
-.socialIcon {
-  width: 50px;
-  height: 50px;
+.socialLink {
+  width: 44px;
+  height: 44px;
   background: var(--card-bg);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-primary);
-  box-shadow: 0 4px 16px var(--shadow-sm);
-  transition: all 0.3s ease;
-  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  text-decoration: none;
   border: 1px solid var(--border-light);
 }
 
-.socialIcon svg {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.3s ease;
+.socialLink:hover {
+  color: var(--color-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--shadow-sm);
 }
 
-.socialIcon:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 24px var(--shadow-md);
-  color: var(--accent-secondary);
+.socialLink svg {
+  width: 20px;
+  height: 20px;
 }
 
-.socialIcon:hover svg {
-  transform: scale(1.1);
+.footerBottom {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-light);
 }
 
-// 반응형 디자인
+.footerBottom p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+// 반응형 디자인 - 토스 스타일
 @media (max-width: 768px) {
+  .container::before {
+    height: 40vh;
+  }
+  
+  .floatingShape {
+    display: none; // 모바일에서는 배경 요소 숨김
+  }
+  
+  .statsDecoration,
+  .servicesBackground {
+    display: none; // 모바일에서는 복잡한 데코레이션 숨김
+  }
+  
   .hero {
+    padding: 80px 16px 60px;
+  }
+  
+  .title {
+    font-size: clamp(24px, 6vw, 40px);
+  }
+  
+  .subtitle {
+    font-size: 16px;
+  }
+  
+  .ctaButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .techGrid,
+  .contentGrid,
+  .journeyGrid,
+  .servicesGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .techSection,
+  .contentSection,
+  .journeySection,
+  .servicesSection {
+    padding: 0 16px;
+    margin-bottom: 80px;
+  }
+  
+  .heroFeatures {
+    gap: 16px;
+    margin-top: 32px;
+  }
+  
+  .featureItem {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .sectionHeader {
+    margin-bottom: 40px;
+  }
+  
+  .footerContent {
     flex-direction: column;
     text-align: center;
-    gap: 3rem;
-    min-height: auto;
-    padding: 2rem 1rem;
+    gap: 24px;
   }
 
-  .heroContent {
-    order: 2;
-  }
-
-  .heroImage {
-    order: 1;
-  }
-
-  .stats {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  .stat {
-    width: 200px;
-  }
-
-  .codeContainer {
-    align-items: center;
-  }
-
-  .floatingCard {
-    max-width: 350px;
-  }
-
-  .terminalCard {
-    max-width: 350px;
-  }
-
-  .techStack,
-  .features,
-  .timeline {
-    margin: 3rem auto;
-    padding: 2rem 1rem;
-  }
-
-  .techGrid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 1rem;
-  }
-
-  .featureGrid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .timelineContainer::before {
-    left: 20px;
-  }
-
-  .timelineItem {
-    flex-direction: row !important;
-  }
-
-  .timelineItem .timelineContent {
-    margin-left: 3rem !important;
-    margin-right: 0 !important;
-    text-align: left !important;
-  }
-
-  .timelineDate {
-    left: 20px !important;
-    transform: translateX(-50%);
-  }
-
-  .footerContent {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 0 1rem;
-  }
-
-  .newsletter {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .emailInput {
-    max-width: 250px;
+  .footer {
+    padding: 40px 16px 24px;
   }
 }
 
 @media (max-width: 480px) {
   .hero {
-    padding: 1rem;
-    gap: 2rem;
+    padding: 60px 12px 40px;
   }
 
   .badge {
-    font-size: 0.8rem;
-    padding: 0.4rem 0.8rem;
+    font-size: 12px;
+    padding: 6px 12px;
   }
-
-  .stats {
-    gap: 0.8rem;
+  
+  .title {
+    font-size: clamp(20px, 7vw, 32px);
   }
-
-  .stat {
-    width: 150px;
-    padding: 0.8rem;
+  
+  .subtitle {
+    font-size: 14px;
   }
-
-  .statNumber {
-    font-size: 1.5rem;
+  
+  .sectionTitle {
+    font-size: clamp(20px, 6vw, 28px);
   }
-
-  .floatingCard,
-  .terminalCard {
-    max-width: 300px;
-    padding: 1.5rem;
+  
+  .sectionSubtitle {
+    font-size: 14px;
   }
-
-  .cardContent,
-  .terminalContent {
-    font-size: 0.8rem;
+  
+  .techCard,
+  .contentCard,
+  .journeyCard,
+  .statCard,
+  .serviceCard {
+    padding: 24px 16px;
   }
-
-  .techStack,
-  .features,
-  .timeline {
-    margin: 2rem auto;
-    padding: 1.5rem 0.5rem;
+  
+  .serviceIcon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
   }
-
-  .techItem {
-    padding: 1rem;
+  
+  .serviceIcon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .journeyAchievement {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .contentIcon {
+    font-size: 36px;
+    margin-bottom: 16px;
   }
 
   .techIcon {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 12px;
   }
-
-  .featureCard {
-    padding: 1.5rem;
+  
+  .socialLink {
+    width: 40px;
+    height: 40px;
   }
-
-  .featureIcon {
-    width: 32px;
-    height: 32px;
-  }
-
-  .timelineContent {
-    padding: 1.5rem;
-  }
-
-  .socialIcon {
-    width: 45px;
-    height: 45px;
-  }
-
-  .socialIcon svg {
-    width: 20px;
-    height: 20px;
+  
+  .socialLink svg {
+    width: 18px;
+    height: 18px;
   }
 }

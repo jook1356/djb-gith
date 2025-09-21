@@ -30,14 +30,14 @@ export function AuthButton() {
           />
           <span className={styles.username}>{user.login}</span>
         </div>
-        <Button onClick={logout} size="large">Logout</Button>
+        <Button onClick={logout} theme="ghost" size="large">Logout</Button>
       </div>
     );
   }
 
   return (
     <div className={styles.authButton}>
-      <Button onClick={login} size="large">Login with GitHub</Button>
+      <Button onClick={login} theme="ghost" size="large">Login with GitHub</Button>
     </div>
   );
 }

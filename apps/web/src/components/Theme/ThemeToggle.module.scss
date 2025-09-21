@@ -1,34 +1,15 @@
+// ThemeToggle 스타일 - Button 컴포넌트 사용으로 최소화
 .theme-toggle {
-  padding: 0 6px;
-
+  // Button 컴포넌트의 스타일을 사용하므로 최소한의 스타일만 적용
   svg {
-    transition: all 0.2s ease-in-out;
+    transition: all 0.3s ease;
+    width: 20px;
+    height: 20px;
   }
-
-  &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease-in-out;
-  }
-
-  &__text {
-    transition: opacity 0.2s ease-in-out;
-  }
-
 
   &:hover svg {
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(15deg);
   }
 }
 
-// 작은 화면에서 텍스트 숨기기 (선택사항)
-@media (max-width: 640px) {
-  .theme-toggle {
-    padding: 0.5rem;
-
-    &__text {
-      display: none;
-    }
-  }
-}
+// 반응형 디자인 - Button 컴포넌트에서 처리하므로 제거

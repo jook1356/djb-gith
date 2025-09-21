@@ -13,6 +13,7 @@ export const ThemeToggle = () => {
       onClick={toggleTheme}
       aria-label={`${theme === "light" ? "다크" : "라이트"} 모드로 전환`}
       title={`${theme === "light" ? "다크" : "라이트"} 모드로 전환`}
+      theme="ghost"
       size="large"
     >
       <div className="theme-toggle__icon">

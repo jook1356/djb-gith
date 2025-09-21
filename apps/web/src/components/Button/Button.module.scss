@@ -1,3 +1,4 @@
+// 기존 버튼 스타일 유지
 .button-primary {
   border-radius: 6px;
   cursor: pointer;
@@ -21,12 +22,145 @@
     }
   }
 }
+
+// 기존 사이즈 스타일 유지
 .button-size-large {
-    height: 32px;
-    padding: 0px 16px;
-  }
-  
+  height: 32px;
+  padding: 0px 16px;
+}
+
 .button-size-medium {
   height: 24px;
   padding: 0px 12px;
+}
+
+// 새로운 테마 추가 - 모던 스타일
+.button-modern {
+  border-radius: 8px;
+  cursor: pointer;
+  line-height: 100%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 14px;
+  font-weight: 500;
+
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  // 호버 효과
+  &:hover {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  // 포커스 효과
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+  }
+
+  // 액티브 효과
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  // 비활성화 상태
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    
+    &:hover {
+      background: var(--color-surface);
+      color: var(--color-text-primary);
+      border-color: var(--color-border);
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.button-secondary {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+
+  &:hover {
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    border-color: var(--color-text-secondary);
+  }
+}
+
+.button-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+
+  &:hover {
+    background: var(--color-primary);
+    color: white;
+  }
+}
+
+.button-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+}
+
+// 새로운 사이즈 추가
+.button-size-small {
+  height: 28px;
+  padding: 0 12px;
+  font-size: 13px;
+  border-radius: 6px;
+}
+
+// 모던 테마용 사이즈
+.button-modern.button-size-large {
+  height: 40px;
+  padding: 0 20px;
+  font-size: 15px;
+  border-radius: 10px;
+}
+
+.button-modern.button-size-medium {
+  height: 32px;
+  padding: 0 16px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+
+.button-modern.button-size-small {
+  height: 28px;
+  padding: 0 12px;
+  font-size: 13px;
+  border-radius: 6px;
+}
+
+// 다크 테마 특별 처리
+:root[data-theme="dark"] {
+  .button-modern:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .button-outline:hover {
+    color: var(--color-surface);
+  }
 }

@@ -1,46 +1,39 @@
+// 헤더 - 프로젝트 테마 시스템 사용
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
-  border-bottom: 1px solid var(--border);
-  // margin-bottom: 40px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
   z-index: 100;
   background: var(--background-blur);
-  backdrop-filter: blur(6px) !important;
-  -webkit-backdrop-filter: blur(6px);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  h1 {
-    margin: 0;
-
-    font-size: 32px;
-    font-weight: 600;
-
-    font-style: italic;
-  }
-
-  &__controls {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
   &__hidden {
     transform: translateY(-100%);
+    box-shadow: none;
   }
 
   &__left {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 32px;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
   &__links {
     align-items: center;
-    gap: 16px;
+    gap: 8px;
   }
 
   :root:not([data-viewport="desktop"]) & {
@@ -58,4 +51,363 @@
       }
     }
   }
+}
+
+// 로고 스타일링 - 프로젝트 테마 변수 사용
+.logo {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+}
+
+// 네비게이션 링크 스타일링 - 다채로운 색상 유지
+.navLink {
+  position: relative;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: var(--color-text-primary);
+  }
+
+  // 색상별 호버 스타일
+  &.navLink--blue:hover {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+
+  &.navLink--green:hover {
+    background: rgba(32, 201, 151, 0.1);
+    color: #20c997;
+    
+    :root[data-theme="dark"] & {
+      background: rgba(81, 207, 102, 0.15);
+      color: #51cf66;
+    }
+  }
+
+  &.navLink--yellow:hover {
+    background: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+    
+    :root[data-theme="dark"] & {
+      background: rgba(255, 212, 59, 0.15);
+      color: #ffd43b;
+    }
+  }
+}
+
+// 활성 링크 스타일 - 색상별
+.navLink.active {
+  font-weight: 600;
+
+  // 파란색 (Home) - 프로젝트 기본 색상
+  &.navLink--blue {
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+  }
+
+  // 초록색 (게시판)
+  &.navLink--green {
+    color: #20c997;
+    background: rgba(32, 201, 151, 0.12);
+    
+    :root[data-theme="dark"] & {
+      color: #51cf66;
+      background: rgba(81, 207, 102, 0.2);
+    }
+  }
+
+  // 노란색 (Playground)
+  &.navLink--yellow {
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.12);
+    
+    :root[data-theme="dark"] & {
+      color: #ffd43b;
+      background: rgba(255, 212, 59, 0.2);
+    }
+  }
+}
+
+// 컨트롤 버튼들 래퍼 - 투명하게 처리
+.controlsWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  background: transparent;
+  border-radius: 12px;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+// 모바일 메뉴 버튼
+.mobileMenuButton {
+  display: none;
+  background: none;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  position: relative;
+
+  &:hover {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    transform: scale(1.1);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// 모바일 메뉴
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--background-blur);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 999;
+  padding: 80px 24px 24px;
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+
+  &.open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobileMenuHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    pointer-events: auto;
+  }
+
+  .mobileMenuTitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  .mobileMenuClose {
+    background: none;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      transform: scale(1.1);
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .mobileLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+    pointer-events: auto;
+  }
+
+  .mobileNavLink {
+    display: flex;
+    align-items: center;
+    padding: 20px 16px;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+
+    &:hover {
+      color: var(--color-text-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    // 색상별 모바일 링크 호버 스타일
+    &.mobileNavLink--blue:hover {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+    }
+
+    &.mobileNavLink--green:hover {
+      background: rgba(32, 201, 151, 0.1);
+      color: #20c997;
+      
+      :root[data-theme="dark"] & {
+        background: rgba(81, 207, 102, 0.15);
+        color: #51cf66;
+      }
+    }
+
+    &.mobileNavLink--yellow:hover {
+      background: rgba(251, 191, 36, 0.1);
+      color: #fbbf24;
+      
+      :root[data-theme="dark"] & {
+        background: rgba(255, 212, 59, 0.15);
+        color: #ffd43b;
+      }
+    }
+
+    &.active {
+      font-weight: 600;
+      
+      &.mobileNavLink--blue {
+        color: var(--color-primary);
+        background: var(--color-primary-light);
+      }
+
+      &.mobileNavLink--green {
+        color: #20c997;
+        background: rgba(32, 201, 151, 0.12);
+        
+        :root[data-theme="dark"] & {
+          color: #51cf66;
+          background: rgba(81, 207, 102, 0.2);
+        }
+      }
+
+      &.mobileNavLink--yellow {
+        color: #fbbf24;
+        background: rgba(251, 191, 36, 0.12);
+        
+        :root[data-theme="dark"] & {
+          color: #ffd43b;
+          background: rgba(255, 212, 59, 0.2);
+        }
+      }
+    }
+  }
+
+  .mobileControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: transparent;
+    border-radius: 16px;
+    border: none;
+    pointer-events: auto;
+    margin-bottom: 24px;
+    order: -1; // 위쪽으로 이동
+    min-height: 48px; // 최소 높이 보장
+  }
+}
+
+// 반응형 디자인
+@media (max-width: 768px) {
+  .header {
+    padding: 12px 16px;
+
+    &__left {
+      gap: 16px;
+    }
+
+    &__links {
+      display: none;
+    }
+
+    &__controls {
+      display: none;
+    }
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .mobileMenuButton {
+    display: block;
+  }
+
+  .controlsWrapper {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 10px 12px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+}
+
+// 스크롤 시 헤더 스타일 변화
+.header.scrolled {
+  background: var(--background-blur);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-bottom-color: var(--color-border);
+
+  :root[data-theme="dark"] & {
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .controlsWrapper {
+    background: transparent;
+  }
+}
+
+// 로딩 애니메이션
+@keyframes headerSlideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.header {
+  animation: headerSlideDown 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }

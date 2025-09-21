@@ -1,33 +1,53 @@
+// AuthButton 스타일 - 깔끔한 래퍼
 .authButton {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px;
+  gap: 8px;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  min-height: 40px;
 }
 
 .loading {
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
 }
 
 .userInfo {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-height: 24px;
 }
 
 .avatar {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  border: 2px solid var(--border);
+  border: 2px solid var(--color-border);
+  object-fit: cover;
+  transition: all 0.3s ease;
   
-  // :root[data-theme="dark"] & {
-  //   filter: brightness(0.8);
-  // }
+  &:hover {
+    border-color: var(--color-primary);
+    transform: scale(1.05);
+  }
 }
 
 .username {
   font-weight: 500;
-  color: var(--foreground);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
 }
+
+// 다크 테마 특별 처리 제거 - Button 컴포넌트에서 처리
