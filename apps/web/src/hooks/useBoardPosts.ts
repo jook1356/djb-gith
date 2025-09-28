@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 
 interface PostSummary {
   id: string;
@@ -9,6 +9,13 @@ interface PostSummary {
   tags: string[];
   readingTime: number;
   color?: string;
+}
+
+interface PaginatedPosts {
+  posts: PostSummary[];
+  totalCount: number;
+  hasNextPage: boolean;
+  nextPage?: number;
 }
 
 // 게시판의 게시글 목록을 가져오는 함수
@@ -90,14 +97,66 @@ const fetchBoardPosts = async (boardName: string): Promise<PostSummary[]> => {
   return sortedPosts;
 };
 
-// 게시판의 게시글 목록을 가져오는 커스텀 훅
+// 페이지네이션을 위한 게시글 가져오기 함수
+const fetchBoardPostsPaginated = async (
+  boardName: string, 
+  page: number = 1, 
+  pageSize: number = 10
+): Promise<PaginatedPosts> => {
+  const allPosts = await fetchBoardPosts(boardName);
+  
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const posts = allPosts.slice(startIndex, endIndex);
+  
+  return {
+    posts,
+    totalCount: allPosts.length,
+    hasNextPage: endIndex < allPosts.length,
+    nextPage: endIndex < allPosts.length ? page + 1 : undefined
+  };
+};
+
+// 무한 스크롤을 위한 게시글 가져오기 함수
+const fetchBoardPostsInfinite = async ({ 
+  pageParam = 1, 
+  queryKey 
+}: { 
+  pageParam: number; 
+  queryKey: [string, string, number] 
+}): Promise<PaginatedPosts> => {
+  const [, boardName, pageSize] = queryKey;
+  return fetchBoardPostsPaginated(boardName, pageParam, pageSize);
+};
+
+// 기존 훅 (호환성 유지)
 export const useBoardPosts = (boardName: string) => {
   return useQuery({
     queryKey: ['board-posts', boardName],
     queryFn: () => fetchBoardPosts(boardName),
-    // boardName이 있을 때만 쿼리 실행
     enabled: !!boardName,
-    // 에러 처리를 위한 추가 옵션
+    throwOnError: false,
+  });
+};
+
+// 페이지네이션을 위한 훅
+export const useBoardPostsPaginated = (boardName: string, page: number = 1, pageSize: number = 10) => {
+  return useQuery({
+    queryKey: ['board-posts-paginated', boardName, page, pageSize],
+    queryFn: () => fetchBoardPostsPaginated(boardName, page, pageSize),
+    enabled: !!boardName,
+    throwOnError: false,
+  });
+};
+
+// 무한 스크롤을 위한 훅
+export const useBoardPostsInfinite = (boardName: string, pageSize: number = 10) => {
+  return useInfiniteQuery({
+    queryKey: ['board-posts-infinite', boardName, pageSize],
+    queryFn: fetchBoardPostsInfinite,
+    enabled: !!boardName,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
     throwOnError: false,
   });
 };
