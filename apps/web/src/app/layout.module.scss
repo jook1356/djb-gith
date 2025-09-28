@@ -16,14 +16,17 @@
   
   .main {
     display: flex;
+    overflow: hidden;
   }
   
   .content-wrapper {
     flex: 1;
     display: grid;
+    overflow: hidden;
   }
   
   .content {
     width: 100%;
+    overflow: hidden;
   }
   

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AuthButton } from "@/components/Auth/AuthButton";
 import { ThemeToggle } from "@/components/Theme";
+import { useViewport, Viewport } from "@/components/Viewport";
 import styles from "./Header.module.scss";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,6 +14,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { viewport } = useViewport();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,24 +78,40 @@ export default function Header() {
     };
   }, [isMobileMenuOpen]);
 
+  // 메뉴 아이템 타입 정의
+  interface MenuItem {
+    href: string;
+    label: string;
+    color: string;
+    allowedViewport: Viewport[];
+  }
+
   // 메뉴 정보 객체
-  const menuItems = [
+  const menuItems: MenuItem[] = [
     {
       href: '/',
       label: 'Home',
-      color: 'blue' // 파란색 계열
+      color: 'blue', // 파란색 계열
+      allowedViewport: ['desktop', 'tablet', 'mobile']
     },
     {
       href: '/contents',
       label: 'Boards',
-      color: 'green' // 초록색 계열
+      color: 'green', // 초록색 계열
+      allowedViewport: ['desktop', 'tablet', 'mobile']
     },
     {
       href: '/playground',
       label: 'Playground',
-      color: 'yellow' // 노란색 계열
+      color: 'yellow', // 노란색 계열
+      allowedViewport: ['desktop', 'tablet']
     }
   ];
+
+  // 현재 viewport에 따라 메뉴 아이템 필터링
+  const filteredMenuItems = menuItems.filter(item => 
+    item.allowedViewport.includes(viewport)
+  );
 
   // 링크 활성 상태 확인
   const isActiveLink = (href: string) => {
@@ -117,7 +135,7 @@ export default function Header() {
             </h1>
           </Link>
           <nav className={styles.header__links}>
-            {menuItems.map((item, index) => (
+            {filteredMenuItems.map((item, index) => (
               <Link 
                 key={item.href}
                 href={item.href} 
@@ -173,7 +191,7 @@ export default function Header() {
         </div>
 
         <nav className={styles.mobileLinks}>
-          {menuItems.map((item, index) => (
+          {filteredMenuItems.map((item, index) => (
             <Link 
               key={item.href}
               href={item.href} 
