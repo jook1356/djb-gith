@@ -171,12 +171,19 @@ export default function Header() {
         </button>
       </header>
 
-      {/* 모바일 메뉴 */}
+      {/* 사이드바 배경 오버레이 */}
+      {isMobileMenuOpen && (
+        <div 
+          className={styles.mobileMenuOverlay}
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* 토스 스타일 모바일 사이드바 */}
       <div 
         className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}
-        onClick={handleBackdropClick}
       >
-        {/* 모바일 메뉴 헤더 */}
+        {/* 토스 스타일 헤더 */}
         <div className={styles.mobileMenuHeader}>
           <h2 className={styles.mobileMenuTitle}>메뉴</h2>
           <button 
@@ -190,21 +197,43 @@ export default function Header() {
           </button>
         </div>
 
-        <nav className={styles.mobileLinks}>
-          {filteredMenuItems.map((item, index) => (
-            <Link 
-              key={item.href}
-              href={item.href} 
-              className={`${styles.mobileNavLink} ${styles[`mobileNavLink--${item.color}`]} ${isActiveLink(item.href) ? styles.active : ''}`}
-              onClick={handleLinkClick}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-        <div className={styles.mobileControls}>
-          <AuthButton />
-          <ThemeToggle />
+        {/* 토스 스타일 메인 컨텐츠 */}
+        <div className={styles.mobileContent}>
+          {/* 컨트롤 섹션 */}
+          <div className={styles.mobileControlsSection}>
+            <div className={styles.mobileControls}>
+              <AuthButton />
+              <ThemeToggle />
+            </div>
+          </div>
+
+          {/* 네비게이션 섹션 */}
+          <div className={styles.mobileNavSection}>
+            <nav className={styles.mobileLinks}>
+              {filteredMenuItems.map((item, index) => (
+                <Link 
+                  key={item.href}
+                  href={item.href} 
+                  className={`${styles.mobileNavLink} ${styles[`mobileNavLink--${item.color}`]} ${isActiveLink(item.href) ? styles.active : ''}`}
+                  onClick={handleLinkClick}
+                >
+                  <div className={styles.linkContent}>
+                    <span>{item.label}</span>
+                  </div>
+                  <svg className={styles.linkArrow} viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                  </svg>
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
+
+        {/* 토스 스타일 푸터 */}
+        <div className={styles.mobileFooter}>
+          <p className={styles.footerText}>
+            DevLab - 개발자를 위한 블로그 플랫폼
+          </p>
         </div>
       </div>
     </>

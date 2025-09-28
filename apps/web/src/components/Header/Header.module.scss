@@ -295,24 +295,53 @@
   }
 }
 
-// 모바일 메뉴
-.mobileMenu {
+// 모바일 메뉴 오버레이
+.mobileMenuOverlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--background-blur);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 998;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fadeIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// 모바일 메뉴 - 사이드바 스타일
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 320px;
+  max-width: 85vw;
+  background: var(--background);
   z-index: 999;
-  padding: 80px 24px 24px;
+  padding: 0;
   transform: translateX(100%);
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  border-left: 1px solid var(--color-border);
+
+  :root[data-theme="dark"] & {
+    box-shadow: -4px 0 30px rgba(0, 0, 0, 0.4);
+  }
 
   &.open {
     transform: translateX(0);
@@ -320,138 +349,227 @@
     visibility: visible;
   }
 
+
+  // 토스 스타일 헤더
   .mobileMenuHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 32px;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--background);
+    position: sticky;
+    top: 0;
+    z-index: 10;
     pointer-events: auto;
   }
 
   .mobileMenuTitle {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--color-text-primary);
     margin: 0;
+    letter-spacing: -0.02em;
   }
 
   .mobileMenuClose {
-    background: none;
+    background: var(--color-surface);
     border: none;
-    padding: 8px;
-    border-radius: 8px;
+    padding: 10px;
+    border-radius: 12px;
     cursor: pointer;
     color: var(--color-text-secondary);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
 
     &:hover {
-      background: var(--color-primary-light);
-      color: var(--color-primary);
-      transform: scale(1.1);
+      background: var(--color-border);
+      color: var(--color-text-primary);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
     }
 
     svg {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  // 토스 스타일 메인 컨텐츠 영역
+  .mobileContent {
+    flex: 1;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  // 토스 스타일 네비게이션 섹션
+  .mobileNavSection {
+    .sectionTitle {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      margin: 0 0 16px 0;
+      letter-spacing: -0.01em;
     }
   }
 
   .mobileLinks {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 32px;
+    gap: 8px;
     pointer-events: auto;
   }
 
+  // 토스 스타일 네비게이션 링크
   .mobileNavLink {
     display: flex;
     align-items: center;
-    padding: 20px 16px;
+    justify-content: space-between;
+    padding: 20px 24px;
     border-radius: 16px;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--color-text-secondary);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--color-text-primary);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+
+    // 링크 컨텐츠 영역
+    .linkContent {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .linkArrow {
+      width: 20px;
+      height: 20px;
+      color: var(--color-text-secondary);
+      transition: all 0.2s ease;
+      opacity: 0.6;
+    }
 
     &:hover {
-      color: var(--color-text-primary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    // 색상별 모바일 링크 호버 스타일
-    &.mobileNavLink--blue:hover {
-      background: var(--color-primary-light);
-      color: var(--color-primary);
-    }
-
-    &.mobileNavLink--green:hover {
-      background: rgba(32, 201, 151, 0.1);
-      color: #20c997;
+      background: var(--color-border);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       
-      :root[data-theme="dark"] & {
-        background: rgba(81, 207, 102, 0.15);
-        color: #51cf66;
+      .linkArrow {
+        transform: translateX(4px);
+        opacity: 1;
       }
     }
 
-    &.mobileNavLink--yellow:hover {
-      background: rgba(251, 191, 36, 0.1);
-      color: #fbbf24;
-      
-      :root[data-theme="dark"] & {
-        background: rgba(255, 212, 59, 0.15);
-        color: #ffd43b;
-      }
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     }
 
+
+    // 활성 상태
     &.active {
-      font-weight: 600;
+      background: var(--color-primary-light);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
       
-      &.mobileNavLink--blue {
+      .linkArrow {
         color: var(--color-primary);
-        background: var(--color-primary-light);
+        opacity: 1;
       }
 
       &.mobileNavLink--green {
+        background: rgba(32, 201, 151, 0.1);
+        border-color: #20c997;
         color: #20c997;
-        background: rgba(32, 201, 151, 0.12);
+        
+        .linkArrow {
+          color: #20c997;
+        }
         
         :root[data-theme="dark"] & {
+          background: rgba(81, 207, 102, 0.15);
+          border-color: #51cf66;
           color: #51cf66;
-          background: rgba(81, 207, 102, 0.2);
+          
+          .linkArrow {
+            color: #51cf66;
+          }
         }
       }
 
       &.mobileNavLink--yellow {
+        background: rgba(251, 191, 36, 0.1);
+        border-color: #fbbf24;
         color: #fbbf24;
-        background: rgba(251, 191, 36, 0.12);
+        
+        .linkArrow {
+          color: #fbbf24;
+        }
         
         :root[data-theme="dark"] & {
+          background: rgba(255, 212, 59, 0.15);
+          border-color: #ffd43b;
           color: #ffd43b;
-          background: rgba(255, 212, 59, 0.2);
+          
+          .linkArrow {
+            color: #ffd43b;
+          }
         }
       }
+    }
+  }
+
+  // 토스 스타일 컨트롤 섹션
+  .mobileControlsSection {
+    .sectionTitle {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      margin: 0 0 16px 0;
+      letter-spacing: -0.01em;
     }
   }
 
   .mobileControls {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
     gap: 16px;
-    padding: 16px;
-    background: transparent;
+    padding: 0;
+    // background: var(--color-surface);
     border-radius: 16px;
-    border: none;
+    border: 1px solid transparent;
     pointer-events: auto;
-    margin-bottom: 24px;
-    order: -1; // 위쪽으로 이동
-    min-height: 48px; // 최소 높이 보장
+    transition: all 0.2s ease;
+    min-height: 56px;
+
+  }
+
+  // 토스 스타일 푸터
+  .mobileFooter {
+    padding: 24px;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+    
+    .footerText {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      text-align: center;
+      margin: 0;
+      line-height: 1.5;
+    }
   }
 }
 
@@ -515,7 +633,7 @@
   }
 }
 
-// 로딩 애니메이션
+// 토스 스타일 애니메이션
 @keyframes headerSlideDown {
   from {
     transform: translateY(-100%);
@@ -527,6 +645,85 @@
   }
 }
 
+@keyframes mobileMenuSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileMenuItemSlideIn {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileMenuItemPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
 .header {
   animation: headerSlideDown 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// 토스 스타일 모바일 메뉴 애니메이션 개선
+.mobileMenu {
+  // 초기 상태에서 내부 요소들 숨김
+  .mobileControls,
+  .mobileNavLink,
+  .mobileFooter {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  &.open {
+    animation: mobileMenuSlideIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    .mobileControls {
+      animation: mobileMenuItemSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      animation-delay: 0.1s;
+      animation-fill-mode: forwards;
+    }
+    
+    .mobileNavLink {
+      animation: mobileMenuItemSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      animation-fill-mode: forwards;
+      
+      // 순차적 애니메이션 딜레이 (설정 섹션 이후)
+      &:nth-child(1) { animation-delay: 0.2s; }
+      &:nth-child(2) { animation-delay: 0.25s; }
+      &:nth-child(3) { animation-delay: 0.3s; }
+      &:nth-child(4) { animation-delay: 0.35s; }
+    }
+    
+    .mobileFooter {
+      animation: mobileMenuItemSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      animation-delay: 0.4s;
+      animation-fill-mode: forwards;
+    }
+  }
+  
+  .mobileNavLink {
+    &:active {
+      animation: mobileMenuItemPulse 0.2s ease-out;
+    }
+  }
 }
