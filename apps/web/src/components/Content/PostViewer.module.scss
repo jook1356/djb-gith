@@ -413,3 +413,439 @@
   padding-top: 32px;
   border-top: 1px solid var(--color-border);
 }
+
+// MDXEditor 스타일링
+.mdxContent {
+  line-height: 1.8 !important;
+  color: var(--color-text-primary) !important;
+  
+  // MDXEditor의 기본 스타일을 오버라이드
+  h1, h2, h3, h4, h5, h6 {
+    margin: 32px 0 16px 0 !important;
+    line-height: 1.3 !important;
+    color: var(--color-text-primary) !important;
+    
+    &:first-child {
+      margin-top: 0 !important;
+    }
+  }
+  
+  h1 { font-size: 2rem !important; }
+  h2 { font-size: 1.5rem !important; }
+  h3 { font-size: 1.25rem !important; }
+  h4 { font-size: 1.125rem !important; }
+  h5, h6 { font-size: 1rem !important; }
+  
+  p {
+    margin: 16px 0 !important;
+    line-height: 1.7 !important;
+    
+    &:first-child {
+      margin-top: 0 !important;
+    }
+    
+    &:last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+  
+  a {
+    color: var(--color-primary) !important;
+    text-decoration: underline !important;
+    
+    &:hover {
+      text-decoration: none !important;
+    }
+  }
+  
+  code {
+    background: var(--color-code-bg, #f5f5f5) !important;
+    color: var(--color-code-text, #333) !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-size: 0.875em !important;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
+  }
+  
+  pre {
+    background: var(--color-code-bg, #f8f8f8) !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: 8px !important;
+    padding: 16px !important;
+    overflow-x: auto !important;
+    margin: 24px 0 !important;
+    
+    code {
+      background: none !important;
+      color: inherit !important;
+      padding: 0 !important;
+      font-size: 0.875rem !important;
+    }
+  }
+  
+  blockquote {
+    border-left: 4px solid var(--color-primary) !important;
+    background: var(--color-surface-secondary, #f9f9f9) !important;
+    padding: 16px 20px !important;
+    margin: 24px 0 !important;
+    border-radius: 0 8px 8px 0 !important;
+    
+    p {
+      margin: 0 !important;
+    }
+  }
+  
+  ul, ol {
+    margin: 16px 0 !important;
+    padding-left: 24px !important;
+  }
+  
+  li {
+    margin: 8px 0 !important;
+  }
+  
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 24px 0 !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+  }
+  
+  th, td {
+    padding: 12px 16px !important;
+    text-align: left !important;
+    border-bottom: 1px solid var(--color-border) !important;
+  }
+  
+  th {
+    background: var(--color-surface-secondary, #f9f9f9) !important;
+    font-weight: 600 !important;
+  }
+  
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 8px !important;
+    margin: 24px 0 !important;
+  }
+  
+  hr {
+    border: none !important;
+    height: 1px !important;
+    background: var(--color-border) !important;
+    margin: 32px 0 !important;
+  }
+}
+
+// MDXEditor 로딩 스타일
+.mdxLoading {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  background: var(--color-surface-secondary, #f9f9f9);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+// MDXEditor 컨테이너 스타일링
+.content :global(.mdxeditor) {
+  border: none !important;
+  background: transparent !important;
+  
+  :global(.mdxeditor-root-contenteditable) {
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+  }
+  
+  // 툴바와 모든 컨트롤 요소 완전히 숨기기
+  :global(.mdxeditor-toolbar),
+  :global(._codeMirrorToolbar),
+  :global([class*="_codeMirrorToolbar"]),
+  :global([class*="codeMirrorToolbar"]),
+  :global([class*="toolbar"]),
+  :global([data-testid*="toolbar"]),
+  :global(.toolbar),
+  :global(.editor-toolbar),
+  :global(.codemirror-toolbar),
+  :global(.cm-toolbar),
+  :global(.cm-button),
+  :global(.cm-panels),
+  :global(.cm-panel),
+  :global([class*="cm-button"]),
+  :global([class*="cm-panel"]),
+  :global(.mdxeditor) :global([class*="toolbar"]),
+  :global(.mdxeditor) :global([class*="_codeMirrorToolbar"]),
+  :global(.mdxeditor) :global([role="toolbar"]),
+  :global(.mdxeditor) :global(.toolbar-container),
+  :global(.mdxeditor) :global(.editor-controls),
+  :global(.mdxeditor) :global(button),
+  :global(.cm-editor) :global([class*="toolbar"]),
+  :global(.cm-editor) :global([class*="_codeMirrorToolbar"]),
+  :global(.cm-editor) :global(.toolbar),
+  :global(.cm-editor) :global(button),
+  :global(.cm-editor) :global([class*="button"]),
+  :global([class*="cm-"]) :global([class*="toolbar"]),
+  :global([class*="cm-"]) :global([class*="_codeMirrorToolbar"]),
+  :global([class*="cm-"]) :global(button) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+  }
+  
+  // 추가적인 CodeMirror 툴바 숨김 (더 구체적으로)
+  :global(div[class*="_codeMirrorToolbar"]),
+  :global(div[class*="codeMirrorToolbar"]),
+  :global(span[class*="_codeMirrorToolbar"]),
+  :global(span[class*="codeMirrorToolbar"]),
+  :global([class^="_codeMirrorToolbar"]),
+  :global([class$="_codeMirrorToolbar"]),
+  :global([class^="codeMirrorToolbar"]),
+  :global([class$="codeMirrorToolbar"]) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+  }
+  
+  // 모든 코드 관련 요소의 보더와 패딩 제거 (cm-content 제외)
+  :global([class*="cm-"]):not(:global(.cm-content)),
+  :global([class*="codemirror"]),
+  :global([class*="code"]) {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    // padding: 0 !important;
+  }
+  
+  // CodeMirror 래퍼 스타일링 제거
+  :global(.mdxeditor-codeblock),
+  :global([data-lexical-decorator="true"]),
+  :global(.codeblock-container),
+  :global(.code-block-wrapper),
+  :global(.cm-wrapper),
+  :global(.codemirror-wrapper) {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    
+    // 자식 요소들의 마진도 제거
+    > * {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+  }
+  
+  // MDXEditor 내부의 모든 코드 블록 관련 래퍼들
+  :global(.mdxeditor) {
+    :global([class*="codeblock"]),
+    :global([class*="code-block"]),
+    :global([class*="codemirror"]),
+    :global([data-lexical-decorator]),
+    :global(.lexical-decorator),
+    :global(.decorator-node),
+    :global(.code-block-node) {
+      padding: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+      background: transparent !important;
+      
+      // 중첩된 래퍼들도 처리
+      > div,
+      > span {
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        background: transparent !important;
+      }
+    }
+    
+    // 코드 블록을 감싸는 모든 div들
+    div:has(> :global(.cm-editor)) {
+      padding: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+      background: transparent !important;
+    }
+  }
+    
+  // 코드 블록 스타일링
+  :global(.cm-editor) {
+    border: none !important;
+    border-radius: 8px !important;
+    background: var(--color-code-bg, #f8f8f8) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    
+    // 모든 외부 간격 제거
+    &:first-child {
+      margin-top: 0 !important;
+    }
+    
+    &:last-child {
+      margin-bottom: 0 !important;
+    }
+    
+    :global(.cm-content) {
+      padding: 16px 0 !important; // 상하 패딩만 유지, 좌우 패딩 제거
+      font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
+      font-size: 0.875rem !important;
+      line-height: 1.5 !important;
+    }
+    
+    :global(.cm-focused) {
+      outline: none !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+    
+    // 모든 CodeMirror 내부 요소의 보더와 패딩 제거
+    :global(.cm-scroller),
+    :global(.cm-gutters),
+    :global(.cm-gutter),
+    :global(.cm-wrap),
+    :global(.cm-lineWrapping) {
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    
+    // 선택 영역 스타일링 (라이트 테마)
+    :global(.cm-selectionBackground) {
+      background: rgba(0, 123, 255, 0.15) !important;
+    }
+    
+    :global(.cm-line) {
+      &:global(.cm-activeLine) {
+        background: rgba(0, 0, 0, 0.03) !important;
+      }
+    }
+    
+    // 선택된 텍스트 스타일링
+    :global(.cm-selectionMatch) {
+      background: rgba(255, 193, 7, 0.3) !important;
+    }
+    
+    // 라인 번호 스타일링
+    :global(.cm-lineNumbers) {
+      color: var(--color-text-tertiary, #999) !important;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      font-size: 0.875rem !important; // 코드와 동일한 크기
+      font-family: inherit !important; // 글로벌 폰트 사용 (모노스페이스가 아닌 일반 폰트)
+      line-height: 1.5 !important; // 코드와 동일한 라인 높이
+      text-align: right !important; // 오른쪽 정렬로 깔끔하게
+      min-width: 2em !important; // 최소 너비 보장
+    }
+    
+    :global(.cm-activeLineGutter) {
+      background: rgba(0, 0, 0, 0.05) !important;
+    }
+    
+    // 코드 폴드/언폴드 영역 스타일링
+    :global(.cm-foldGutter),
+    :global(.cm-foldPlaceholder),
+    :global([class*="fold"]),
+    :global([class*="Fold"]) {
+      font-size: 1rem !important; // 기본 코드보다 큰 크기
+      width: 24px !important; // 고정 너비 지정
+      font-weight: 500 !important; // 약간 굵게
+      color: var(--color-primary) !important; // 강조 색상
+      cursor: pointer !important;
+      text-align: center !important; // 중앙 정렬
+      display: inline-block !important; // 인라인 블록으로 설정
+    }
+  }
+  
+  // 인라인 코드 스타일링
+  :global(code:not(.cm-content code)) {
+    background: var(--color-code-bg, #f5f5f5) !important;
+    color: var(--color-code-text, #333) !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-size: 0.875em !important;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
+  }
+  
+  // 다크 테마 지원
+  :root[data-theme="dark"] & {
+    :global(.cm-editor) {
+      background: var(--color-code-bg, #1e1e1e) !important;
+      border-color: var(--color-border) !important;
+      
+      :global(.cm-content) {
+        color: #d4d4d4 !important;
+      }
+      
+      // 다크 테마 선택 영역 스타일링
+      :global(.cm-selectionBackground) {
+        background: rgba(100, 149, 237, 0.25) !important;
+      }
+      
+      :global(.cm-line) {
+        &:global(.cm-activeLine) {
+          background: rgba(255, 255, 255, 0.05) !important;
+        }
+      }
+      
+      // 다크 테마 선택된 텍스트 매치 스타일링
+      :global(.cm-selectionMatch) {
+        background: rgba(255, 193, 7, 0.2) !important;
+      }
+      
+      // 다크 테마 라인 번호 스타일링
+      :global(.cm-lineNumbers) {
+        color: var(--color-text-tertiary, #666) !important;
+        border: none !important;
+        font-size: 0.875rem !important; // 코드와 동일한 크기
+        font-family: inherit !important; // 글로벌 폰트 사용 (모노스페이스가 아닌 일반 폰트)
+        line-height: 1.5 !important; // 코드와 동일한 라인 높이
+        text-align: right !important; // 오른쪽 정렬로 깔끔하게
+        min-width: 2em !important; // 최소 너비 보장
+      }
+      
+      :global(.cm-activeLineGutter) {
+        background: rgba(255, 255, 255, 0.08) !important;
+      }
+      
+      // 다크 테마 커서 스타일링
+      :global(.cm-cursor) {
+        border-left-color: #d4d4d4 !important;
+      }
+      
+      // 다크 테마 폴드/언폴드 영역 스타일링
+      :global(.cm-foldGutter),
+      :global(.cm-foldPlaceholder),
+      :global([class*="fold"]),
+      :global([class*="Fold"]) {
+        color: var(--color-primary) !important; // 다크 테마에서도 강조 색상
+      }
+    }
+    
+    :global(code:not(.cm-content code)) {
+      background: var(--color-code-bg, #2d2d2d) !important;
+      color: var(--color-code-text, #d4d4d4) !important;
+    }
+  }
+}
