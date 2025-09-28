@@ -1,0 +1,187 @@
+// 토스 스타일 다채로운 컬러 팔레트
+:root {
+  // Light mode colors - 토스 스타일 확장
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+  
+  // 메인 컬러 시스템
+  --accent-primary: #3182f6;      // 토스 블루
+  --accent-secondary: #1b64da;    // 진한 토스 블루
+  --accent-success: #20c997;      // 토스 그린
+  --accent-warning: #fbbf24;      // 토스 옐로우
+  --accent-danger: #ef4444;       // 토스 레드
+  --accent-purple: #8b5cf6;       // 토스 퍼플
+  --accent-pink: #ec4899;         // 토스 핑크
+  --accent-orange: #f97316;       // 토스 오렌지
+  
+  // 텍스트 컬러
+  --text-primary: #191f28;
+  --text-secondary: #4e5968;
+  --text-muted: #8b95a1;
+  
+  // 그림자와 보더
+  --shadow-sm: rgba(0, 0, 0, 0.04);
+  --shadow-md: rgba(0, 0, 0, 0.08);
+  --shadow-lg: rgba(0, 0, 0, 0.12);
+  --shadow-colored: rgba(49, 130, 246, 0.15);
+  --border-light: rgba(0, 0, 0, 0.06);
+  --card-bg: #ffffff;
+  
+  // 토스 스타일 단색 시스템 (그라데이션 제거)
+  --color-blue: #3182f6;
+  --color-green: #20c997;
+  --color-yellow: #fbbf24;
+  --color-red: #ef4444;
+  --color-purple: #8b5cf6;
+  --color-pink: #ec4899;
+  --color-orange: #f97316;
+  --color-indigo: #6366f1;
+  
+  // 연한 배경 색상
+  --color-blue-light: rgba(49, 130, 246, 0.1);
+  --color-green-light: rgba(32, 201, 151, 0.1);
+  --color-yellow-light: rgba(251, 191, 36, 0.1);
+  --color-red-light: rgba(239, 68, 68, 0.1);
+  --color-purple-light: rgba(139, 92, 246, 0.1);
+  --color-pink-light: rgba(236, 72, 153, 0.1);
+  --color-orange-light: rgba(249, 115, 22, 0.1);
+  --color-indigo-light: rgba(99, 102, 241, 0.1);
+}
+
+// Dark mode colors - 토스 다크 스타일 확장
+:root[data-theme="dark"] {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-tertiary: #2d2d2d;
+  
+  // 다크 모드 메인 컬러
+  --accent-primary: #4dabf7;
+  --accent-secondary: #339af0;
+  --accent-success: #51cf66;
+  --accent-warning: #ffd43b;
+  --accent-danger: #ff6b6b;
+  --accent-purple: #9775fa;
+  --accent-pink: #f06595;
+  --accent-orange: #ff922b;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-muted: #6c6c6c;
+  --shadow-sm: rgba(0, 0, 0, 0.2);
+  --shadow-md: rgba(0, 0, 0, 0.3);
+  --shadow-lg: rgba(0, 0, 0, 0.4);
+  --shadow-colored: rgba(77, 171, 247, 0.2);
+  --border-light: rgba(255, 255, 255, 0.1);
+  --card-bg: #1e1e1e;
+  
+  // 다크 모드 단색 시스템
+  --color-blue: #4dabf7;
+  --color-green: #51cf66;
+  --color-yellow: #ffd43b;
+  --color-red: #ff6b6b;
+  --color-purple: #9775fa;
+  --color-pink: #f06595;
+  --color-orange: #ff922b;
+  --color-indigo: #818cf8;
+  
+  // 다크 모드 연한 배경 색상
+  --color-blue-light: rgba(77, 171, 247, 0.15);
+  --color-green-light: rgba(81, 207, 102, 0.15);
+  --color-yellow-light: rgba(255, 212, 59, 0.15);
+  --color-red-light: rgba(255, 107, 107, 0.15);
+  --color-purple-light: rgba(151, 117, 250, 0.15);
+  --color-pink-light: rgba(240, 101, 149, 0.15);
+  --color-orange-light: rgba(255, 146, 43, 0.15);
+  --color-indigo-light: rgba(129, 140, 248, 0.15);
+}
+
+// CSS 미디어 쿼리로 시스템 다크모드 감지
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --bg-tertiary: #2d2d2d;
+    
+    --accent-primary: #4dabf7;
+    --accent-secondary: #339af0;
+    --accent-success: #51cf66;
+    --accent-warning: #ffd43b;
+    --accent-danger: #ff6b6b;
+    --accent-purple: #9775fa;
+    --accent-pink: #f06595;
+    --accent-orange: #ff922b;
+    
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #6c6c6c;
+    --shadow-sm: rgba(0, 0, 0, 0.2);
+    --shadow-md: rgba(0, 0, 0, 0.3);
+    --shadow-lg: rgba(0, 0, 0, 0.4);
+    --shadow-colored: rgba(77, 171, 247, 0.2);
+    --border-light: rgba(255, 255, 255, 0.1);
+    --card-bg: #1e1e1e;
+    
+    // 시스템 다크 모드 단색 시스템
+    --color-blue: #4dabf7;
+    --color-green: #51cf66;
+    --color-yellow: #ffd43b;
+    --color-red: #ff6b6b;
+    --color-purple: #9775fa;
+    --color-pink: #f06595;
+    --color-orange: #ff922b;
+    --color-indigo: #818cf8;
+    
+    --color-blue-light: rgba(77, 171, 247, 0.15);
+    --color-green-light: rgba(81, 207, 102, 0.15);
+    --color-yellow-light: rgba(255, 212, 59, 0.15);
+    --color-red-light: rgba(255, 107, 107, 0.15);
+    --color-purple-light: rgba(151, 117, 250, 0.15);
+    --color-pink-light: rgba(240, 101, 149, 0.15);
+    --color-orange-light: rgba(255, 146, 43, 0.15);
+    --color-indigo-light: rgba(129, 140, 248, 0.15);
+  }
+}
+
+// 배경 데코레이션 시스템
+.backgroundDecorations {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floatingShape {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  animation: floatAnimation 8s ease-in-out infinite;
+  animation-delay: var(--delay);
+  opacity: 0.8;
+}
+
+@keyframes floatAnimation {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-20px) rotate(5deg) scale(1.05);
+  }
+  50% {
+    transform: translateY(-10px) rotate(-3deg) scale(0.95);
+  }
+  75% {
+    transform: translateY(-25px) rotate(7deg) scale(1.1);
+  }
+}
+
+// 반응형 디자인
+@media (max-width: 768px) {
+  .floatingShape {
+    display: none; // 모바일에서는 배경 요소 숨김
+  }
+}

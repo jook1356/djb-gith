@@ -84,29 +84,6 @@ function Playground() {
 
   return (
     <Frame>
-      {/* 배경 장식 요소들 */}
-      <div className={styles.backgroundDecorations}>
-        <div className={styles.floatingShape} style={{ '--delay': '0s' } as React.CSSProperties}>
-          <svg viewBox="0 0 100 100" className={styles.shapeBlue}>
-            <circle cx="50" cy="50" r="40" />
-          </svg>
-        </div>
-        <div className={styles.floatingShape} style={{ '--delay': '2s' } as React.CSSProperties}>
-          <svg viewBox="0 0 100 100" className={styles.shapeGreen}>
-            <rect x="20" y="20" width="60" height="60" rx="15" />
-          </svg>
-        </div>
-        <div className={styles.floatingShape} style={{ '--delay': '4s' } as React.CSSProperties}>
-          <svg viewBox="0 0 100 100" className={styles.shapeYellow}>
-            <polygon points="50,10 90,90 10,90" />
-          </svg>
-        </div>
-        <div className={styles.floatingShape} style={{ '--delay': '1s' } as React.CSSProperties}>
-          <svg viewBox="0 0 100 100" className={styles.shapePurple}>
-            <path d="M50 10 L90 35 L75 85 L25 85 L10 35 Z" />
-          </svg>
-        </div>
-      </div>
 
       <div className={styles.playground}>
 

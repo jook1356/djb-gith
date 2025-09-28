@@ -5,6 +5,7 @@ import { AuthProvider } from "@/components/Auth/AuthProvider";
 import { ThemeProvider } from "@/components/Theme";
 import { ViewportProvider } from "@/components/Viewport";
 import Header from "@/components/Header/Header";
+import Background from "@/components/Background";
 import styles from "./layout.module.scss";
 
 const geistSans = Geist({
@@ -118,6 +119,7 @@ export default function RootLayout({
         <ThemeProvider>
           <ViewportProvider>
             <AuthProvider>
+              <Background />
               <Header />
               <div className={styles["main"]}>
                 <div className={styles["content-wrapper"]}>
