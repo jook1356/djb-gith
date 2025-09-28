@@ -4,6 +4,7 @@ import "./globals.scss";
 import { AuthProvider } from "@/components/Auth/AuthProvider";
 import { ThemeProvider } from "@/components/Theme";
 import { ViewportProvider } from "@/components/Viewport";
+import { QueryProvider } from "@/components/Query/QueryProvider";
 import Header from "@/components/Header/Header";
 import Background from "@/components/Background";
 import styles from "./layout.module.scss";
@@ -116,19 +117,21 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ThemeProvider>
-          <ViewportProvider>
-            <AuthProvider>
-              <Background />
-              <Header />
-              <div className={styles["main"]}>
-                <div className={styles["content-wrapper"]}>
-                  <div className={styles["content"]}>{children}</div>
+        <QueryProvider>
+          <ThemeProvider>
+            <ViewportProvider>
+              <AuthProvider>
+                <Background />
+                <Header />
+                <div className={styles["main"]}>
+                  <div className={styles["content-wrapper"]}>
+                    <div className={styles["content"]}>{children}</div>
+                  </div>
                 </div>
-              </div>
-            </AuthProvider>
-          </ViewportProvider>
-        </ThemeProvider>
+              </AuthProvider>
+            </ViewportProvider>
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   );

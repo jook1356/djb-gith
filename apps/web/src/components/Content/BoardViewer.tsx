@@ -1,132 +1,37 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Frame from '@/components/Frame/Frame';
 import { generateRandomLayout, getItemIcon } from '@/lib/randomLayout';
+import { useBoardPosts } from '@/hooks/useBoardPosts';
 import styles from './BoardViewer.module.scss';
-
-interface PostSummary {
-  id: string;
-  title: string;
-  description: string;
-  author: string;
-  createdAt: string;
-  tags: string[];
-  readingTime: number;
-  color?: string;
-}
 
 interface BoardViewerProps {
   boardName: string;
 }
 
 export default function BoardViewer({ boardName }: BoardViewerProps) {
-  const [posts, setPosts] = useState<PostSummary[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: posts = [], isLoading: loading, error } = useBoardPosts(boardName);
 
-  useEffect(() => {
-    loadBoardPosts();
-  }, [boardName]);
-
-  const loadBoardPosts = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      // GitHub REST API를 통해 게시글 폴더 목록 가져오기
-      const apiResponse = await fetch(
-        `https://api.github.com/repos/jook1356/contents/contents/boards/${boardName}`,
-        {
-          headers: {
-            'Accept': 'application/vnd.github.v3+json',
-          }
-        }
-      );
-
-      if (!apiResponse.ok) {
-        const errorData = await apiResponse.json().catch(() => ({}));
-        
-        // documentation_url로 rate limiting 정확히 판단
-        if (apiResponse.status === 403 && 
-            errorData.documentation_url?.includes('rate-limiting')) {
-          throw new Error('RATE_LIMIT');
-        } else if (apiResponse.status === 404) {
-          throw new Error('NOT_FOUND');
-        } else {
-          throw new Error('API_ERROR');
-        }
-      }
-
-      const items = await apiResponse.json();
-      
-      // 폴더만 필터링 (게시글 폴더들)
-      const postFolders = items.filter((item: any) => 
-        item.type === 'dir' && !item.name.startsWith('_')
-      );
-
-      // 빈 게시판 처리
-      if (postFolders.length === 0) {
-        throw new Error('EMPTY_POSTS');
-      }
-
-      // 각 게시글의 메타데이터 병렬로 가져오기
-      const postsPromises = postFolders.map(async (folder: any) => {
-        try {
-          const metaResponse = await fetch(
-            `https://jook1356.github.io/contents/boards/${boardName}/${folder.name}/meta.json`
-          );
-          
-          if (metaResponse.ok) {
-            const meta = await metaResponse.json();
-            // 토스 스타일 색상 팔레트
-            const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#f97316', '#6366f1'];
-            const colorIndex = postFolders.indexOf(folder) % colors.length;
-            
-            return {
-              id: folder.name,
-              title: meta.title,
-              description: meta.description,
-              author: meta.author,
-              createdAt: meta.createdAt,
-              tags: meta.tags || [],
-              readingTime: meta.readingTime || 5,
-              color: colors[colorIndex]
-            };
-          }
-          return null;
-        } catch {
-          return null;
-        }
-      });
-
-      const postsResults = await Promise.all(postsPromises);
-      const validPosts = postsResults.filter(post => post !== null) as PostSummary[];
-      
-      // 생성일 기준으로 내림차순 정렬
-      const sortedPosts = validPosts.sort(
-        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-
-      setPosts(sortedPosts);
-      
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'UNKNOWN_ERROR';
-      
-      if (errorMessage === 'RATE_LIMIT') {
-        setError('RATE_LIMIT:GitHub API 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.');
-      } else if (errorMessage === 'EMPTY_POSTS') {
-        setError(`EMPTY_POSTS:'${boardName}' 게시판에 아직 게시글이 없습니다.`);
-      } else if (errorMessage === 'NOT_FOUND') {
-        setError(`NOT_FOUND:'${boardName}' 게시판을 찾을 수 없습니다.`);
-      } else {
-        setError('API_ERROR:게시글을 불러오는 중 오류가 발생했습니다.');
-      }
-    } finally {
-      setLoading(false);
+  // 에러 처리를 위한 헬퍼 함수
+  const getErrorMessage = (error: any) => {
+    if (!error) return null;
+    
+    const errorMessage = error instanceof Error ? error.message : 'UNKNOWN_ERROR';
+    
+    if (errorMessage === 'RATE_LIMIT') {
+      return 'RATE_LIMIT:GitHub API 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.';
+    } else if (errorMessage === 'EMPTY_POSTS') {
+      return `EMPTY_POSTS:'${boardName}' 게시판에 아직 게시글이 없습니다.`;
+    } else if (errorMessage === 'NOT_FOUND') {
+      return `NOT_FOUND:'${boardName}' 게시판을 찾을 수 없습니다.`;
+    } else {
+      return 'API_ERROR:게시글을 불러오는 중 오류가 발생했습니다.';
     }
   };
+
+  const errorMessage = getErrorMessage(error);
 
   if (loading) {
     return (
@@ -142,8 +47,8 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
     );
   }
 
-  if (error) {
-    const [errorType, errorMessage] = error.split(':');
+  if (errorMessage) {
+    const [errorType, errorMsg] = errorMessage.split(':');
     
     return (
       <Frame>
@@ -167,7 +72,7 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
              '오류가 발생했습니다'}
           </h1>
           
-          <p className={styles.errorMessage}>{errorMessage}</p>
+          <p className={styles.errorMessage}>{errorMsg}</p>
           
           {errorType === 'RATE_LIMIT' && (
             <div className={styles.errorDetails}>
@@ -186,7 +91,7 @@ export default function BoardViewer({ boardName }: BoardViewerProps) {
           <div className={styles.errorActions}>
             {errorType !== 'NOT_FOUND' && (
               <button 
-                onClick={() => loadBoardPosts()} 
+                onClick={() => window.location.reload()} 
                 className={styles.retryButton}
               >
                 {errorType === 'EMPTY_POSTS' ? '새로고침' : '다시 시도'}
