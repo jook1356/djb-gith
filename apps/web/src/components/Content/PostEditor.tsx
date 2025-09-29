@@ -40,10 +40,9 @@ export default function PostEditor({
   return (
     <Tiptap
     content={content}
-    mode={previewMode ? "viewer" : "editor"}
+    readonly={previewMode}
     onChange={handleContentChange}
     placeholder="마크다운으로 글을 작성해보세요..."
-    className={styles.editor}
   />
   );
 }
