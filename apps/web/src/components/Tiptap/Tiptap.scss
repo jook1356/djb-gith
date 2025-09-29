@@ -1,10 +1,10 @@
 /* CSS Variables */
-:global(:root) {
+:root {
   --black: #000000;
   --white: #ffffff;
 }
 
-:global([data-theme="dark"]) {
+[data-theme="dark"] {
   --black: #0d1117;
   --white: #c9d1d9;
 }
@@ -52,10 +52,11 @@
     }
   }
   
-  :global(.tiptap) {
+.tiptap {
     padding: 16px;
     min-height: 200px;
     outline: none;
+    
     
     &:focus {
       outline: none;
@@ -208,7 +209,7 @@
 }
 
 // 다크 테마 지원
-:global([data-theme="dark"]) .tiptapEditor {
+[data-theme="dark"] .tiptapEditor {
   border-color: #374151;
   background: #1f2937;
   
@@ -234,7 +235,7 @@
     }
   }
   
-  :global(.tiptap) {
+.tiptap {
     color: #f9fafb;
     
     h1, h2, h3, h4, h5, h6 {

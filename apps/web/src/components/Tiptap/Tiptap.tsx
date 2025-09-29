@@ -22,7 +22,7 @@ import React from 'react'
 
 // eslint-disable-next-line
 import CodeBlockComponent from './CodeBlockComponent'
-import styles from './Tiptap.module.scss'
+import './Tiptap.scss'
 
 // create a lowlight instance
 const lowlight = createLowlight(all)
@@ -52,32 +52,32 @@ const MenuBar = ({ editor, editable = true }: { editor: any, editable?: boolean 
   }
 
   return (
-    <div className={styles.tiptapToolbar}>
+    <div className={'tiptapToolbar'}>
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={editor.isActive('bold') ? styles.isActive : ''}
+        className={editor.isActive('bold') ? 'isActive' : ''}
       >
         Bold
       </button>
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={!editor.can().chain().focus().toggleItalic().run()}
-        className={editor.isActive('italic') ? styles.isActive : ''}
+        className={editor.isActive('italic') ? 'isActive' : ''}
       >
         Italic
       </button>
       <button
         onClick={() => editor.chain().focus().toggleStrike().run()}
         disabled={!editor.can().chain().focus().toggleStrike().run()}
-        className={editor.isActive('strike') ? styles.isActive : ''}
+        className={editor.isActive('strike') ? 'isActive' : ''}
       >
         Strike
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCode().run()}
         disabled={!editor.can().chain().focus().toggleCode().run()}
-        className={editor.isActive('code') ? styles.isActive : ''}
+        className={editor.isActive('code') ? 'isActive' : ''}
       >
         Code
       </button>
@@ -93,67 +93,67 @@ const MenuBar = ({ editor, editable = true }: { editor: any, editable?: boolean 
       </button>
       <button
         onClick={() => editor.chain().focus().setParagraph().run()}
-        className={editor.isActive('paragraph') ? styles.isActive : ''}
+        className={editor.isActive('paragraph') ? 'isActive' : ''}
       >
         Paragraph
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={editor.isActive('heading', { level: 1 }) ? styles.isActive : ''}
+        className={editor.isActive('heading', { level: 1 }) ? 'isActive' : ''}
       >
         H1
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={editor.isActive('heading', { level: 2 }) ? styles.isActive : ''}
+        className={editor.isActive('heading', { level: 2 }) ? 'isActive' : ''}
       >
         H2
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={editor.isActive('heading', { level: 3 }) ? styles.isActive : ''}
+        className={editor.isActive('heading', { level: 3 }) ? 'isActive' : ''}
       >
         H3
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-        className={editor.isActive('heading', { level: 4 }) ? styles.isActive : ''}
+        className={editor.isActive('heading', { level: 4 }) ? 'isActive' : ''}
       >
         H4
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-        className={editor.isActive('heading', { level: 5 }) ? styles.isActive : ''}
+        className={editor.isActive('heading', { level: 5 }) ? 'isActive' : ''}
       >
         H5
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-        className={editor.isActive('heading', { level: 6 }) ? styles.isActive : ''}
+        className={editor.isActive('heading', { level: 6 }) ? 'isActive' : ''}
       >
         H6
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={editor.isActive('bulletList') ? styles.isActive : ''}
+        className={editor.isActive('bulletList') ? 'isActive' : ''}
       >
         Bullet list
       </button>
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={editor.isActive('orderedList') ? styles.isActive : ''}
+        className={editor.isActive('orderedList') ? 'isActive' : ''}
       >
         Ordered list
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        className={editor.isActive('codeBlock') ? styles.isActive : ''}
+        className={editor.isActive('codeBlock') ? 'isActive' : ''}
       >
         Code block
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={editor.isActive('blockquote') ? styles.isActive : ''}
+        className={editor.isActive('blockquote') ? 'isActive' : ''}
       >
         Blockquote
       </button>
@@ -231,7 +231,7 @@ export default function Tiptap({
   }
 
   return (
-    <div className={styles.tiptapEditor}>
+    <div className={'tiptapEditor'}>
       <MenuBar editor={editor} editable={editable} />
       <EditorContent editor={editor} />
     </div>
