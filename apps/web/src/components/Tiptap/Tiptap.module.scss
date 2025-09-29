@@ -1,3 +1,15 @@
+/* CSS Variables */
+:global(:root) {
+  --black: #000000;
+  --white: #ffffff;
+}
+
+:global([data-theme="dark"]) {
+  --black: #0d1117;
+  --white: #c9d1d9;
+}
+
+/* Basic editor styles */
 .tiptapEditor {
   border: 1px solid #e5e7eb;
   border-radius: 8px;
@@ -40,13 +52,86 @@
     }
   }
   
-  :global(.ProseMirror) {
+  :global(.tiptap) {
     padding: 16px;
     min-height: 200px;
     outline: none;
     
     &:focus {
       outline: none;
+    }
+    
+    :first-child {
+      margin-top: 0;
+    }
+
+    pre {
+      background: var(--black, #000);
+      border-radius: 0.5rem;
+      color: var(--white, #fff);
+      font-family: 'JetBrainsMono', 'Courier New', monospace;
+      margin: 1.5rem 0;
+      padding: 0.75rem 1rem;
+
+      code {
+        background: none;
+        color: inherit;
+        font-size: 0.8rem;
+        padding: 0;
+      }
+
+      /* Code styling */
+      .hljs-comment,
+      .hljs-quote {
+        color: #616161;
+      }
+
+      .hljs-variable,
+      .hljs-template-variable,
+      .hljs-attribute,
+      .hljs-tag,
+      .hljs-name,
+      .hljs-regexp,
+      .hljs-link,
+      .hljs-name,
+      .hljs-selector-id,
+      .hljs-selector-class {
+        color: #f98181;
+      }
+
+      .hljs-number,
+      .hljs-meta,
+      .hljs-built_in,
+      .hljs-builtin-name,
+      .hljs-literal,
+      .hljs-type,
+      .hljs-params {
+        color: #fbbc88;
+      }
+
+      .hljs-string,
+      .hljs-symbol,
+      .hljs-bullet {
+        color: #b9f18d;
+      }
+
+      .hljs-title,
+      .hljs-section {
+        color: #faf594;
+      }
+
+      .hljs-keyword,
+      .hljs-selector-tag {
+        color: #70cff8;
+      }
+
+      .hljs-emphasis {
+        font-style: italic;
+      }
+
+      .hljs-strong {
+        font-weight: 700;
+      }
     }
     
     p {
@@ -67,37 +152,15 @@
       }
     }
     
-    h1 {
-      font-size: 2rem;
-    }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.25rem; }
+    h4 { font-size: 1.125rem; }
+    h5 { font-size: 1rem; }
+    h6 { font-size: 0.875rem; }
     
-    h2 {
-      font-size: 1.5rem;
-    }
-    
-    h3 {
-      font-size: 1.25rem;
-    }
-    
-    h4 {
-      font-size: 1.125rem;
-    }
-    
-    h5 {
-      font-size: 1rem;
-    }
-    
-    h6 {
-      font-size: 0.875rem;
-    }
-    
-    strong {
-      font-weight: 600;
-    }
-    
-    em {
-      font-style: italic;
-    }
+    strong { font-weight: 600; }
+    em { font-style: italic; }
     
     code {
       background: #f3f4f6;
@@ -105,21 +168,6 @@
       border-radius: 4px;
       font-family: 'Courier New', Courier, monospace;
       font-size: 0.875em;
-    }
-    
-    pre {
-      background: #1f2937;
-      color: #f9fafb;
-      padding: 16px;
-      border-radius: 8px;
-      overflow-x: auto;
-      margin: 16px 0;
-      
-      code {
-        background: transparent;
-        padding: 0;
-        color: inherit;
-      }
     }
     
     blockquote {
@@ -139,13 +187,8 @@
       }
     }
     
-    ul {
-      list-style-type: disc;
-    }
-    
-    ol {
-      list-style-type: decimal;
-    }
+    ul { list-style-type: disc; }
+    ol { list-style-type: decimal; }
     
     hr {
       border: none;
@@ -165,7 +208,7 @@
 }
 
 // 다크 테마 지원
-[data-theme="dark"] .tiptapEditor {
+:global([data-theme="dark"]) .tiptapEditor {
   border-color: #374151;
   background: #1f2937;
   
@@ -191,7 +234,7 @@
     }
   }
   
-  :global(.ProseMirror) {
+  :global(.tiptap) {
     color: #f9fafb;
     
     h1, h2, h3, h4, h5, h6 {
@@ -201,6 +244,11 @@
     code {
       background: #374151;
       color: #f9fafb;
+    }
+    
+    pre {
+      background: var(--black, #0d1117) !important;
+      color: var(--white, #c9d1d9) !important;
     }
     
     blockquote {
