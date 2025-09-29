@@ -150,6 +150,16 @@ export default function Header() {
 
         <div className={styles.header__controls}>
           <div className={styles.controlsWrapper}>
+            <Link 
+              href="/write" 
+              className={styles.writeButton}
+              onClick={handleLinkClick}
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" className={styles.writeIcon}>
+                <path d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
+              </svg>
+              <span className={styles.writeText}>글쓰기</span>
+            </Link>
             <AuthButton />
             <ThemeToggle />
           </div>
@@ -202,6 +212,16 @@ export default function Header() {
           {/* 컨트롤 섹션 */}
           <div className={styles.mobileControlsSection}>
             <div className={styles.mobileControls}>
+              <Link 
+                href="/write" 
+                className={styles.mobileWriteButton}
+                onClick={handleLinkClick}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className={styles.mobileWriteIcon}>
+                  <path d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
+                </svg>
+                <span>새 글 작성</span>
+              </Link>
               <AuthButton />
               <ThemeToggle />
             </div>
