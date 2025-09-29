@@ -1,37 +1,41 @@
-.tiptap {
-  .codeBlock {
-    position: relative;
+// 코드 블록 컴포넌트 스타일
+.codeBlock {
+  position: relative;
 
-    select {
-      position: absolute;
+  select {
+    position: absolute;
+    background-color: var(--background);
+    color: var(--foreground);
+    border: 1px solid var(--border);
+    right: 0.5rem;
+    top: 0.5rem;
+    padding: 0.25rem 1.5rem 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    appearance: none;
+    cursor: pointer;
+    z-index: 1;
+    
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px var(--color-primary-light);
+    }
+    
+    &:hover {
+      background-color: var(--background-secondary);
+      border-color: var(--border);
+    }
+    
+    option {
       background-color: var(--background);
       color: var(--foreground);
-      border: 1px solid var(--border);
-      right: 0.5rem;
-      top: 0.5rem;
-      padding: 0.25rem 1.5rem 0.25rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      appearance: none;
-      cursor: pointer;
-      
-      &:focus {
-        outline: none;
-        border-color: var(--color-primary);
-        box-shadow: 0 0 0 2px var(--color-primary-light);
-      }
-      
-      &:hover {
-        background-color: var(--background-secondary);
-        border-color: var(--border);
-      }
-      
-      option {
-        background-color: var(--background);
-        color: var(--foreground);
-      }
     }
   }
+}
+
+// Tiptap 에디터 내부 스타일
+.tiptap {
 
   // 코드 블록 스타일
   pre {
@@ -105,8 +109,65 @@
   }
 }
 
-  // 다크 테마용 코드 블록 스타일
+// 읽기전용 모드에서 언어 선택 드롭다운을 텍스트 라벨로 변경
+.tiptapEditor.readonly {
+  .codeBlock {
+    select {
+      pointer-events: none; // 클릭 비활성화
+      cursor: default; // 커서 변경
+      border: none; // 테두리 제거
+      background: rgba(0, 0, 0, 0.1); // 반투명 배경
+      color: var(--color-text-secondary); // 보조 텍스트 색상
+      font-size: 0.7rem; // 폰트 크기 축소
+      padding: 0.2rem 0.4rem; // 패딩 축소
+      border-radius: 3px; // 모서리 둥글게
+      backdrop-filter: blur(4px); // 블러 효과
+      font-weight: 500; // 폰트 굵기
+      text-transform: uppercase; // 대문자 변환
+      letter-spacing: 0.5px; // 글자 간격
+      text-align: center; // 텍스트 중앙 정렬
+      
+      &:hover {
+        background: rgba(0, 0, 0, 0.1); // 호버 시에도 동일한 배경
+        border: none;
+      }
+      
+      &:focus {
+        outline: none; // 포커스 아웃라인 제거
+        border: none;
+        box-shadow: none;
+      }
+      
+      // 드롭다운 화살표 숨기기
+      appearance: none;
+      background-image: none;
+      
+      // 옵션 숨기기 (드롭다운 기능 비활성화)
+      option {
+        display: none;
+      }
+    }
+  }
+}
+
+// 다크 테마에서 읽기전용 모드
+[data-theme="dark"] .tiptapEditor.readonly {
+  .codeBlock {
+    select {
+      background: rgba(255, 255, 255, 0.1); // 다크 테마용 반투명 배경
+      color: var(--color-text-tertiary);
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
+  // 다크 테마 코드 블록
   pre {
+    background: var(--background-secondary) !important;
+    color: var(--color-code-text) !important;
+    
     /* Code styling - 다크 테마용 */
     .hljs-comment,
     .hljs-quote {
@@ -151,66 +212,5 @@
     .hljs-selector-tag {
       color: #79c0ff; // 다크 테마용 파란색
     }
-  }
-}
-
-// 읽기전용 모드에서 언어 선택 드롭다운을 텍스트 라벨로 변경
-.tiptapEditor.readonly .tiptap {
-  .codeBlock {
-    select {
-      pointer-events: none; // 클릭 비활성화
-      cursor: default; // 커서 변경
-      border: none; // 테두리 제거
-      background: rgba(0, 0, 0, 0.1); // 반투명 배경
-      color: var(--color-text-secondary); // 보조 텍스트 색상
-      font-size: 0.7rem; // 폰트 크기 축소
-      padding: 0.2rem 0.4rem; // 패딩 축소
-      border-radius: 3px; // 모서리 둥글게
-      backdrop-filter: blur(4px); // 블러 효과
-      font-weight: 500; // 폰트 굵기
-      text-transform: uppercase; // 대문자 변환
-      letter-spacing: 0.5px; // 글자 간격
-      text-align: center; // 텍스트 중앙 정렬
-      
-      &:hover {
-        background: rgba(0, 0, 0, 0.1); // 호버 시에도 동일한 배경
-        border: none;
-      }
-      
-      &:focus {
-        outline: none; // 포커스 아웃라인 제거
-        border: none;
-        box-shadow: none;
-      }
-      
-      // 드롭다운 화살표 숨기기
-      appearance: none;
-      background-image: none;
-      
-      // 옵션 숨기기 (드롭다운 기능 비활성화)
-      option {
-        display: none;
-      }
-    }
-  }
-}
-
-// 다크 테마에서 읽기전용 모드
-[data-theme="dark"] .tiptapEditor.readonly .tiptap {
-  .codeBlock {
-    select {
-      background: rgba(255, 255, 255, 0.1); // 다크 테마용 반투명 배경
-      color: var(--color-text-tertiary);
-      
-      &:hover {
-        background: rgba(255, 255, 255, 0.1);
-      }
-    }
-  }
-
-  // 다크 테마 코드 블록
-  pre {
-    background: var(--background-secondary) !important;
-    color: var(--color-code-text) !important;
   }
 }

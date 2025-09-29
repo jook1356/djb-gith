@@ -1,6 +1,6 @@
 import { NodeViewContent, NodeViewWrapper, ReactNodeViewProps } from '@tiptap/react'
 import React from 'react'
-import styles from './CodeBlockComponent.module.scss'
+import './CodeBlockComponent.scss'
 
 export default ({
   node: {
@@ -9,7 +9,7 @@ export default ({
   updateAttributes,
   extension,
 }: ReactNodeViewProps) => (
-  <NodeViewWrapper className={styles.codeBlock}>
+  <NodeViewWrapper className="codeBlock">
     <select
       contentEditable={false}
       defaultValue={defaultLanguage}
