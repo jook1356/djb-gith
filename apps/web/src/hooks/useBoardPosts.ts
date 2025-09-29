@@ -123,9 +123,9 @@ const fetchBoardPostsInfinite = async ({
   queryKey 
 }: { 
   pageParam: number; 
-  queryKey: [string, string, number] 
+  queryKey: (string | number)[];
 }): Promise<PaginatedPosts> => {
-  const [, boardName, pageSize] = queryKey;
+  const [, boardName, pageSize] = queryKey as [string, string, number];
   return fetchBoardPostsPaginated(boardName, pageParam, pageSize);
 };
 
