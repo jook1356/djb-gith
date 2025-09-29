@@ -1,23 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { marked } from "marked";
+import DOMPurify from "dompurify";
 import Link from "next/link";
 import Frame from "@/components/Frame/Frame";
 import { usePost } from "@/hooks/usePost";
-import { 
-  MDXEditor, 
-  headingsPlugin, 
-  listsPlugin, 
-  quotePlugin, 
-  thematicBreakPlugin,
-  markdownShortcutPlugin,
-  linkPlugin,
-  imagePlugin,
-  tablePlugin,
-  codeBlockPlugin,
-  codeMirrorPlugin
-} from "@mdxeditor/editor";
-import "@mdxeditor/editor/style.css";
 import styles from "./PostViewer.module.scss";
 
 interface PostViewerProps {
@@ -27,17 +15,14 @@ interface PostViewerProps {
 
 export default function PostViewer({ boardName, postId }: PostViewerProps) {
   const { data: post, isLoading: loading, error } = usePost(boardName, postId);
-  const [mdxError, setMdxError] = useState(false);
 
   // 에러 메시지 처리
   const errorMessage = error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.";
 
-  // MDXEditor 에러 핸들러
-  const handleMdxError = () => {
-    console.error("MDXEditor 렌더링 실패, fallback으로 전환");
-    setMdxError(true);
+  const parseMarkdown = (markdown: string) => {
+    const html = marked(markdown);
+    return DOMPurify.sanitize(html as string);
   };
-
 
   if (loading) {
     return (
@@ -165,99 +150,10 @@ export default function PostViewer({ boardName, postId }: PostViewerProps) {
           )}
         </header>
 
-        <div className={styles.content}>
-          {post?.content ? (
-            <>
-              {/* 디버깅용: 원본 마크다운 내용 확인 */}
-              <div style={{ display: 'none' }}>
-                <pre>{post.content}</pre>
-              </div>
-              
-              {!mdxError ? (
-                <div>
-                  <MDXEditor
-                    key={`mdx-${boardName}-${postId}`}
-                    markdown={post.content}
-                    readOnly={true}
-                    contentEditableClassName={styles.mdxContent}
-                    plugins={[
-                      headingsPlugin(),
-                      listsPlugin(),
-                      quotePlugin(),
-                      thematicBreakPlugin(),
-                      markdownShortcutPlugin(),
-                      linkPlugin(),
-                      imagePlugin(),
-                      tablePlugin(),
-                      codeBlockPlugin({ defaultCodeBlockLanguage: 'javascript' }),
-                      codeMirrorPlugin({ 
-                        codeBlockLanguages: {
-                          js: 'JavaScript',
-                          javascript: 'JavaScript',
-                          ts: 'TypeScript',
-                          typescript: 'TypeScript',
-                          jsx: 'JSX',
-                          tsx: 'TSX',
-                          css: 'CSS',
-                          scss: 'SCSS',
-                          html: 'HTML',
-                          json: 'JSON',
-                          md: 'Markdown',
-                          markdown: 'Markdown',
-                          bash: 'Bash',
-                          shell: 'Shell',
-                          python: 'Python',
-                          py: 'Python',
-                          java: 'Java',
-                          cpp: 'C++',
-                          c: 'C',
-                          php: 'PHP',
-                          sql: 'SQL',
-                          xml: 'XML',
-                          yaml: 'YAML',
-                          yml: 'YAML'
-                        }
-                      })
-                    ]}
-                  />
-                </div>
-              ) : (
-                <div className={styles.fallbackContent}>
-                  <p>MDXEditor를 불러올 수 없어 원본 마크다운을 표시합니다:</p>
-                  <pre style={{ 
-                    whiteSpace: 'pre-wrap', 
-                    fontFamily: 'inherit',
-                    background: 'var(--color-surface-secondary)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    overflow: 'auto'
-                  }}>
-                    {post.content}
-                  </pre>
-                </div>
-              )}
-              
-              {/* MDXEditor가 비어있을 경우 fallback 버튼 */}
-              <div style={{ marginTop: '16px' }}>
-                <button 
-                  onClick={handleMdxError}
-                  style={{ 
-                    padding: '8px 16px', 
-                    background: 'var(--color-primary)', 
-                    color: 'white', 
-                    border: 'none', 
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  원본 마크다운 보기
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className={styles.mdxLoading}>콘텐츠를 불러오는 중...</div>
-          )}
-        </div>
+        <div
+          className={styles.content}
+          dangerouslySetInnerHTML={{ __html: parseMarkdown(post?.content || '') }}
+        />
       </article>
 
       <div className={styles.navigation}>
