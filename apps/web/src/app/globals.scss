@@ -2,6 +2,7 @@
   &[data-theme="light"] {
     --background: #ffffff;
     --background-secondary: #f6f8fa;
+    --background-tertiary: #f7f7f7;
     --foreground: #171717;
     --border: #e1e5e9;
     --background-blur: rgba(255, 255, 255, 0.8);
@@ -26,6 +27,7 @@
   &[data-theme="dark"] {
     --background: #0a0a0a;
     --background-secondary: #1f2937;
+    --background-tertiary: #2d3748;
     --foreground: #ededed;
     --border: #374151;
     --background-blur: rgba(10, 10, 10, 0.8);

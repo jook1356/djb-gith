@@ -6,6 +6,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { Typography } from '@tiptap/extension-typography'
 import { TextStyle } from '@tiptap/extension-text-style'
 import { EditorContent, ReactNodeViewRenderer, useEditor } from '@tiptap/react'
+import { Markdown } from 'tiptap-markdown'
 import css from 'highlight.js/lib/languages/css'
 import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'
@@ -42,8 +43,11 @@ lowlight.register('sql', sql)
 interface TiptapProps {
   content?: string
   onChange?: (content: string) => void
+  onMarkdownChange?: (markdown: string) => void // 마크다운 변경 콜백
   placeholder?: string
   editable?: boolean
+  readonly?: boolean // 읽기전용 모드
+  markdownContent?: string // 마크다운 초기 콘텐츠
 }
 
 const MenuBar = ({ editor, editable = true }: { editor: any, editable?: boolean }) => {
@@ -186,8 +190,11 @@ const MenuBar = ({ editor, editable = true }: { editor: any, editable?: boolean 
 export default function Tiptap({
   content = '',
   onChange,
+  onMarkdownChange,
   placeholder = '텍스트를 입력하세요...',
-  editable = true
+  editable = true,
+  readonly = false,
+  markdownContent
 }: TiptapProps) {
   const editor = useEditor({
     extensions: [
@@ -209,13 +216,33 @@ export default function Tiptap({
           return ReactNodeViewRenderer(CodeBlockComponent)
         },
       }).configure({ lowlight }),
+      Markdown.configure({
+        html: true, // HTML 태그 허용
+        tightLists: true, // 더 깔끔한 리스트 렌더링
+        tightListClass: 'tight', // tight 리스트에 클래스 추가
+        bulletListMarker: '-', // 불릿 리스트 마커
+        linkify: true, // URL 자동 링크 변환
+        breaks: true, // 줄바꿈을 <br>로 변환
+        transformPastedText: true, // 붙여넣기 시 마크다운 변환
+        transformCopiedText: true, // 복사 시 마크다운 변환
+      }),
     ],
-    content,
-    editable,
+    content: markdownContent ? undefined : content, // 마크다운 콘텐츠가 있으면 HTML content 무시
+    editable: readonly ? false : editable,
     immediatelyRender: false, // SSR 환경에서 hydration 오류 방지
     onUpdate: ({ editor }) => {
       if (onChange) {
         onChange(editor.getHTML())
+      }
+      if (onMarkdownChange) {
+        // @ts-ignore - tiptap-markdown 확장의 타입이 정의되지 않음
+        onMarkdownChange(editor.storage.markdown?.getMarkdown?.() || '')
+      }
+    },
+    onCreate: ({ editor }) => {
+      // 마크다운 콘텐츠가 있으면 에디터 생성 후 설정
+      if (markdownContent) {
+        editor.commands.setContent(markdownContent)
       }
     },
     editorProps: {
@@ -231,8 +258,8 @@ export default function Tiptap({
   }
 
   return (
-    <div className={'tiptapEditor'}>
-      <MenuBar editor={editor} editable={editable} />
+    <div className={readonly ? 'tiptapEditor readonly' : 'tiptapEditor'}>
+      <MenuBar editor={editor} editable={editable && !readonly} />
       <EditorContent editor={editor} />
     </div>
   )

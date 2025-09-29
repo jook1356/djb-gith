@@ -16,6 +16,18 @@
   overflow: hidden;
   background: white;
   
+  // 읽기전용 모드
+  &.readonly {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    overflow: visible;
+    
+    .tiptap {
+      padding: 0;
+    }
+  }
+  
   .tiptapToolbar {
     display: flex;
     flex-wrap: wrap;
@@ -67,10 +79,11 @@
     }
 
     pre {
-      background: var(--background-secondary);
+      background: var(--background-tertiary);
       border-radius: 0.5rem;
       color: var(--color-code-text);
-      font-family: 'JetBrainsMono', 'Courier New', monospace;
+      // font-family: 'JetBrainsMono', 'Courier New', monospace;
+      font-weight: 500;
       margin: 1.5rem 0;
       padding: 0.75rem 1rem;
 
@@ -213,7 +226,13 @@
 // 다크 테마 지원
 [data-theme="dark"] .tiptapEditor {
   border-color: #374151;
-  background: #1f2937;
+  background: var(--background-secondary);
+  
+  // 다크 테마 읽기전용 모드
+  &.readonly {
+    border: none;
+    background: transparent;
+  }
   
   .tiptapToolbar {
     background: #111827;
@@ -250,7 +269,7 @@
     }
     
     pre {
-      background: var(--background) !important;
+      background: var(--background-tertiary) !important;
       color: var(--color-code-text) !important;
       
       /* Code styling - 다크 테마용 */

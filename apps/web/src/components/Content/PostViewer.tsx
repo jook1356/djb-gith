@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
-import { marked } from "marked";
-import DOMPurify from "dompurify";
 import Link from "next/link";
 import Frame from "@/components/Frame/Frame";
 import { usePost } from "@/hooks/usePost";
+import Tiptap from "@/components/Tiptap/Tiptap";
 import styles from "./PostViewer.module.scss";
 
 interface PostViewerProps {
@@ -19,10 +18,6 @@ export default function PostViewer({ boardName, postId }: PostViewerProps) {
   // 에러 메시지 처리
   const errorMessage = error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.";
 
-  const parseMarkdown = (markdown: string) => {
-    const html = marked(markdown);
-    return DOMPurify.sanitize(html as string);
-  };
 
   if (loading) {
     return (
@@ -150,10 +145,13 @@ export default function PostViewer({ boardName, postId }: PostViewerProps) {
           )}
         </header>
 
-        <div
-          className={styles.content}
-          dangerouslySetInnerHTML={{ __html: parseMarkdown(post?.content || '') }}
-        />
+        <div className={styles.content}>
+          <Tiptap
+            markdownContent={post?.content || ''}
+            readonly={true}
+            editable={false}
+          />
+        </div>
       </article>
 
       <div className={styles.navigation}>

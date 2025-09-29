@@ -33,3 +33,61 @@
     }
   }
 }
+
+// 읽기전용 모드에서 언어 선택 드롭다운을 텍스트 라벨로 변경
+:global(.tiptapEditor.readonly) :global(.tiptap) {
+  .codeBlock {
+    select {
+      pointer-events: none; // 클릭 비활성화
+      cursor: default; // 커서 변경
+      border: none; // 테두리 제거
+      background: rgba(0, 0, 0, 0.1); // 반투명 배경
+      color: var(--color-text-secondary); // 보조 텍스트 색상
+      font-size: 0.7rem; // 폰트 크기 축소
+      padding: 0.2rem 0.4rem; // 패딩 축소
+      border-radius: 3px; // 모서리 둥글게
+      backdrop-filter: blur(4px); // 블러 효과
+      font-weight: 500; // 폰트 굵기
+      text-transform: uppercase; // 대문자 변환
+      letter-spacing: 0.5px; // 글자 간격
+      text-align: center; // 텍스트 중앙 정렬
+      // width: auto !important; // 자동 너비
+      // min-width: fit-content; // 콘텐츠에 맞는 최소 너비
+      // max-width: max-content; // 콘텐츠에 맞는 최대 너비
+      
+      &:hover {
+        background: rgba(0, 0, 0, 0.1); // 호버 시에도 동일한 배경
+        border: none;
+      }
+      
+      &:focus {
+        outline: none; // 포커스 아웃라인 제거
+        border: none;
+        box-shadow: none;
+      }
+      
+      // 드롭다운 화살표 숨기기
+      appearance: none;
+      background-image: none;
+      
+      // 옵션 숨기기 (드롭다운 기능 비활성화)
+      option {
+        display: none;
+      }
+    }
+  }
+}
+
+// 다크 테마에서 읽기전용 모드
+:global([data-theme="dark"]) :global(.tiptapEditor.readonly) :global(.tiptap) {
+  .codeBlock {
+    select {
+      background: rgba(255, 255, 255, 0.1); // 다크 테마용 반투명 배경
+      color: var(--color-text-tertiary);
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+}
