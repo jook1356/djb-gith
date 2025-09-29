@@ -67,9 +67,9 @@
     }
 
     pre {
-      background: var(--black, #000);
+      background: var(--background-secondary);
       border-radius: 0.5rem;
-      color: var(--white, #fff);
+      color: var(--color-code-text);
       font-family: 'JetBrainsMono', 'Courier New', monospace;
       margin: 1.5rem 0;
       padding: 0.75rem 1rem;
@@ -81,10 +81,11 @@
         padding: 0;
       }
 
-      /* Code styling */
+      /* Code styling - 라이트 테마용 */
       .hljs-comment,
       .hljs-quote {
-        color: #616161;
+        color: var(--color-text-tertiary);
+        font-style: italic;
       }
 
       .hljs-variable,
@@ -97,7 +98,7 @@
       .hljs-name,
       .hljs-selector-id,
       .hljs-selector-class {
-        color: #f98181;
+        color: #dc2626; // 라이트 테마용 빨간색
       }
 
       .hljs-number,
@@ -107,23 +108,23 @@
       .hljs-literal,
       .hljs-type,
       .hljs-params {
-        color: #fbbc88;
+        color: #d97706; // 라이트 테마용 오렌지색
       }
 
       .hljs-string,
       .hljs-symbol,
       .hljs-bullet {
-        color: #b9f18d;
+        color: #059669; // 라이트 테마용 초록색
       }
 
       .hljs-title,
       .hljs-section {
-        color: #faf594;
+        color: #7c3aed; // 라이트 테마용 보라색
       }
 
       .hljs-keyword,
       .hljs-selector-tag {
-        color: #70cff8;
+        color: #2563eb; // 라이트 테마용 파란색
       }
 
       .hljs-emphasis {
@@ -164,7 +165,8 @@
     em { font-style: italic; }
     
     code {
-      background: #f3f4f6;
+      background: var(--color-border-light);
+      color: var(--color-text-primary);
       padding: 2px 4px;
       border-radius: 4px;
       font-family: 'Courier New', Courier, monospace;
@@ -243,13 +245,59 @@
     }
     
     code {
-      background: #374151;
-      color: #f9fafb;
+      background: var(--color-border-light);
+      color: var(--color-text-primary);
     }
     
     pre {
-      background: var(--black, #0d1117) !important;
-      color: var(--white, #c9d1d9) !important;
+      background: var(--background) !important;
+      color: var(--color-code-text) !important;
+      
+      /* Code styling - 다크 테마용 */
+      .hljs-comment,
+      .hljs-quote {
+        color: #8b949e;
+        font-style: italic;
+      }
+
+      .hljs-variable,
+      .hljs-template-variable,
+      .hljs-attribute,
+      .hljs-tag,
+      .hljs-name,
+      .hljs-regexp,
+      .hljs-link,
+      .hljs-name,
+      .hljs-selector-id,
+      .hljs-selector-class {
+        color: #f85149; // 다크 테마용 빨간색
+      }
+
+      .hljs-number,
+      .hljs-meta,
+      .hljs-built_in,
+      .hljs-builtin-name,
+      .hljs-literal,
+      .hljs-type,
+      .hljs-params {
+        color: #ffa657; // 다크 테마용 오렌지색
+      }
+
+      .hljs-string,
+      .hljs-symbol,
+      .hljs-bullet {
+        color: #7ee787; // 다크 테마용 초록색
+      }
+
+      .hljs-title,
+      .hljs-section {
+        color: #d2a8ff; // 다크 테마용 보라색
+      }
+
+      .hljs-keyword,
+      .hljs-selector-tag {
+        color: #79c0ff; // 다크 테마용 파란색
+      }
     }
     
     blockquote {

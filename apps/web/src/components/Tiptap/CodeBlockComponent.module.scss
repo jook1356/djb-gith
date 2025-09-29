@@ -4,11 +4,12 @@
 
     select {
       position: absolute;
-      background-color: var(--white);
+      background-color: var(--background);
+      color: var(--foreground);
+      border: 1px solid var(--border);
       right: 0.5rem;
       top: 0.5rem;
       padding: 0.25rem 1.5rem 0.25rem 0.5rem;
-      border: 1px solid #d1d5db;
       border-radius: 4px;
       font-size: 0.75rem;
       appearance: none;
@@ -16,28 +17,18 @@
       
       &:focus {
         outline: none;
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px var(--color-primary-light);
       }
-    }
-  }
-}
-
-// 다크 테마 지원
-:global([data-theme="dark"]) :global(.tiptap) {
-  .codeBlock {
-    select {
-      background-color: #374151;
-      color: #f9fafb;
-      border-color: #4b5563;
       
-      &:focus {
-        border-color: #3b82f6;
+      &:hover {
+        background-color: var(--background-secondary);
+        border-color: var(--border);
       }
       
       option {
-        background-color: #374151;
-        color: #f9fafb;
+        background-color: var(--background);
+        color: var(--foreground);
       }
     }
   }
