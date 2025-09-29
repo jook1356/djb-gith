@@ -9,15 +9,15 @@ import Header from "@/components/Header/Header";
 import Background from "@/components/Background";
 import styles from "./layout.module.scss";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 export const metadata: Metadata = {
   title: {
@@ -116,7 +116,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>
+        {/* className={`${geistSans.variable} ${geistMono.variable}`} */}
         <QueryProvider>
           <ThemeProvider>
             <ViewportProvider>
