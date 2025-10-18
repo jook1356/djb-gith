@@ -5,7 +5,7 @@ import styles from './Button.module.scss';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  theme?: 'primary' | 'modern' | 'secondary' | 'outline' | 'ghost';
+  theme?: 'primary' | 'modern' | 'secondary' | 'outline' | 'ghost' | 'text';
   size?: 'small' | 'medium' | 'large';
 }
 

@@ -154,6 +154,82 @@
   border-radius: 6px;
 }
 
+// 텍스트 스타일 버튼 추가
+.button-text {
+  background: transparent;
+  color: var(--color-primary);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  line-height: 100%;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+
+  &:hover {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover {
+      background: transparent;
+      color: var(--color-primary);
+    }
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// 텍스트 버튼 사이즈
+.button-text.button-size-large {
+  height: 40px;
+  padding: 0 16px;
+  font-size: 15px;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.button-text.button-size-medium {
+  height: 36px;
+  padding: 0 14px;
+  font-size: 14px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.button-text.button-size-small {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
 // 다크 테마 특별 처리
 :root[data-theme="dark"] {
   .button-modern:hover {
@@ -162,5 +238,9 @@
 
   .button-outline:hover {
     color: var(--color-surface);
+  }
+
+  .button-text:hover {
+    background: var(--color-primary-light);
   }
 }

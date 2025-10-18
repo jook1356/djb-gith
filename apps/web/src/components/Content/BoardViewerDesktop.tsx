@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Frame from '@/components/Frame/Frame';
+import { Button } from '@/components/Button/Button';
+import { PermissionGuard } from '@/components/Auth/PermissionGuard';
 import { generateRandomLayout, getItemIcon } from '@/lib/randomLayout';
 import { useBoardPostsPaginated } from '@/hooks/useBoardPosts';
 import styles from './BoardViewer.module.scss';
@@ -219,13 +221,27 @@ export default function BoardViewerDesktop({ boardName }: BoardViewerDesktopProp
       </nav>
 
       <div className={styles.boardHeader}>
-        <h1>{boardName} 게시판</h1>
-        <p>총 {totalCount}개의 게시글</p>
-        {totalPages > 1 && (
-          <p className={styles.pageInfo}>
-            {currentPage} / {totalPages} 페이지
-          </p>
-        )}
+        <div className={styles.boardHeaderLeft}>
+          <h1>{boardName} 게시판</h1>
+          <p>총 {totalCount}개의 게시글</p>
+          {totalPages > 1 && (
+            <p className={styles.pageInfo}>
+              {currentPage} / {totalPages} 페이지
+            </p>
+          )}
+        </div>
+        <PermissionGuard requires={['writer', 'admin']}>
+          <div className={styles.boardHeaderRight}>
+            <Link href="/write">
+              <Button theme="text" size="medium">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
+                </svg>
+                글쓰기
+              </Button>
+            </Link>
+          </div>
+        </PermissionGuard>
       </div>
 
       {posts.length === 0 ? (

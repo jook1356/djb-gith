@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Frame from "@/components/Frame/Frame";
 import PostEditor from "@/components/Content/PostEditor";
+import { ProtectedRoute } from "@/components/Auth/ProtectedRoute";
 import styles from "./page.module.scss";
 
 export default function WritePage() {
@@ -77,19 +78,24 @@ function example() {
 `;
 
   return (
-    <Frame>
-      <div className={styles.writePage}>
-        <main className={styles.main}>
-          <div className={styles.editorContainer}>
-            <PostEditor
-              initialContent={initialContent}
-              onSave={handleSave}
-              onCancel={handleCancel}
-              className={styles.editor}
-            />
-          </div>
-        </main>
-      </div>
-    </Frame>
+    <ProtectedRoute 
+      requires={['writer', 'admin']}
+      loginRedirectTo="/contents"
+    >
+      <Frame>
+        <div className={styles.writePage}>
+          <main className={styles.main}>
+            <div className={styles.editorContainer}>
+              <PostEditor
+                initialContent={initialContent}
+                onSave={handleSave}
+                onCancel={handleCancel}
+                className={styles.editor}
+              />
+            </div>
+          </main>
+        </div>
+      </Frame>
+    </ProtectedRoute>
   );
 }

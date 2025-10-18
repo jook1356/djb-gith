@@ -212,9 +212,9 @@
   gap: 8px;
   margin-bottom: 2.5rem;
   font-size: 0.9rem;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
 
   .breadcrumbLink {
     color: var(--color-primary);
@@ -237,16 +237,28 @@
     color: var(--color-text-primary);
     font-weight: 600;
   }
+  
+  @media (max-width: 768px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
 
 .boardHeader {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 3rem;
   padding-bottom: 2rem;
   position: relative;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
 
   &::after {
     content: '';
@@ -260,17 +272,38 @@
     border-radius: 2px;
   }
 
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+.boardHeaderLeft {
+  flex: 1;
+
   h1 {
     font-size: 2.5rem;
     font-weight: 800;
     color: var(--color-text-primary);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+    margin-top: 0;
     letter-spacing: -0.02em;
-    line-height: 1.2; // root의 line-height: 100%를 오버라이드
+    line-height: 1.2;
     
     @media (max-width: 768px) {
-    font-size: 2rem;
+      font-size: 2rem;
       line-height: 1.2;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 1.6rem;
     }
   }
 
@@ -278,7 +311,24 @@
     color: var(--color-text-secondary);
     font-size: 1.1rem;
     font-weight: 500;
-    line-height: 1.4; // 명시적으로 line-height 설정
+    line-height: 1.4;
+    margin: 0.25rem 0;
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+.boardHeaderRight {
+  flex-shrink: 0;
+  
+  a {
+    text-decoration: none;
+  }
+  
+  @media (max-width: 768px) {
+    align-self: flex-end;
   }
 }
 
@@ -306,8 +356,7 @@
 .randomGrid {
   display: grid;
   gap: clamp(1rem, 2vw, 1.5rem);
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
   padding: 2rem;
   min-height: 600px;
   
