@@ -11,10 +11,10 @@
 
 /* Basic editor styles */
 .tiptapEditor {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  overflow: hidden;
-  background: white;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
   
   // 읽기전용 모드
   &.readonly {
@@ -28,154 +28,162 @@
     }
   }
   
-  .tiptapToolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    padding: 12px;
-    border-bottom: 1px solid #e5e7eb;
-    background: #f9fafb;
-    
-    button {
-      padding: 6px 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 4px;
-      background: white;
-      color: #374151;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s;
-      
-      &:hover {
-        background: #f3f4f6;
-        border-color: #9ca3af;
-      }
-      
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-      
-      &.isActive {
-        background: #3b82f6;
-        color: white;
-        border-color: #3b82f6;
-      }
-    }
-  }
-  
-.tiptap {
-    padding: 16px;
-    min-height: 200px;
-    outline: none;
-    
-    
-    &:focus {
-      outline: none;
-    }
-    
-    :first-child {
-      margin-top: 0;
-    }
-
-    
-    p {
-      margin: 0 0 16px 0;
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-    
-    h1, h2, h3, h4, h5, h6 {
-      margin: 24px 0 16px 0;
-      font-weight: 600;
-      line-height: 1.25;
-      
-      &:first-child {
-        margin-top: 0;
-      }
-    }
-    
-    h1 { font-size: 2rem; }
-    h2 { font-size: 1.5rem; }
-    h3 { font-size: 1.25rem; }
-    h4 { font-size: 1.125rem; }
-    h5 { font-size: 1rem; }
-    h6 { font-size: 0.875rem; }
-    
-    strong { font-weight: 600; }
-    em { font-style: italic; }
-    
-    code {
-      background: var(--color-border-light);
-      color: var(--color-text-primary);
-      padding: 2px 4px;
-      border-radius: 4px;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 0.875em;
-    }
-    
-    blockquote {
-      border-left: 4px solid #e5e7eb;
-      padding-left: 16px;
-      margin: 16px 0;
-      color: #6b7280;
-      font-style: italic;
-    }
-    
-    ul, ol {
-      padding-left: 24px;
-      margin: 16px 0;
-      
-      li {
-        margin: 4px 0;
-      }
-    }
-    
-    ul { list-style-type: disc; }
-    ol { list-style-type: decimal; }
-    
-    hr {
-      border: none;
-      border-top: 1px solid #e5e7eb;
-      margin: 24px 0;
-    }
-    
-    // 플레이스홀더 스타일
-    p.is-editor-empty:first-child::before {
-      content: attr(data-placeholder);
-      float: left;
-      color: #9ca3af;
-      pointer-events: none;
-      height: 0;
+  // 툴바 없는 에디터
+  &.tiptapEditorNoToolbar {
+    .tiptap {
+      padding: 0;
+      min-height: auto;
     }
   }
 }
 
-// 다크 테마 지원
-[data-theme="dark"] .tiptapEditor {
-  border-color: #374151;
-  background: var(--background-secondary);
+// 툴바 스타일 (분리되어 상단에 표시)
+.tiptapToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 12px 0;
+  background: white;
   
-  // 다크 테마 읽기전용 모드
-  &.readonly {
+  button {
+    padding: 6px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    background: white;
+    color: #374151;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    
+    &:hover {
+      background: #f3f4f6;
+      border-color: #9ca3af;
+    }
+    
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    &.isActive {
+      background: #3b82f6;
+      color: white;
+      border-color: #3b82f6;
+    }
+  }
+}
+  
+.tiptap {
+  padding: 0;
+  min-height: 500px;
+  outline: none;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text-primary, #1a1a1a);
+  
+  &:focus {
+    outline: none;
+  }
+  
+  :first-child {
+    margin-top: 0;
+  }
+
+  p {
+    margin: 0 0 1em 0;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    margin: 1.5em 0 0.75em 0;
+    font-weight: 700;
+    line-height: 1.3;
+    
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
+  h5 { font-size: 1.125rem; }
+  h6 { font-size: 1rem; }
+  
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+  
+  code {
+    background: #f3f4f6;
+    color: #1f2937;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+  }
+  
+  blockquote {
+    border-left: 4px solid #e5e7eb;
+    padding-left: 1em;
+    margin: 1.5em 0;
+    color: #6b7280;
+    font-style: italic;
+  }
+  
+  ul, ol {
+    padding-left: 1.5em;
+    margin: 1em 0;
+    
+    li {
+      margin: 0.5em 0;
+    }
+  }
+  
+  ul { list-style-type: disc; }
+  ol { list-style-type: decimal; }
+  
+  hr {
     border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 2em 0;
+  }
+  
+  // 플레이스홀더 스타일
+  p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #d1d5db;
+    pointer-events: none;
+    height: 0;
+  }
+}
+
+// 다크 테마 지원
+[data-theme="dark"] {
+  .tiptapEditor {
     background: transparent;
+    
+    &.readonly {
+      border: none;
+      background: transparent;
+    }
   }
   
   .tiptapToolbar {
-    background: #111827;
-    border-bottom-color: #374151;
+    background: #161b22;
     
     button {
-      background: #374151;
-      color: #f9fafb;
-      border-color: #4b5563;
+      background: #21262d;
+      color: #c9d1d9;
+      border-color: #30363d;
       
       &:hover {
-        background: #4b5563;
-        border-color: #6b7280;
+        background: #30363d;
+        border-color: #484f58;
       }
       
       &.isActive {
@@ -186,30 +194,29 @@
     }
   }
   
-.tiptap {
-    color: #f9fafb;
+  .tiptap {
+    color: #c9d1d9;
     
     h1, h2, h3, h4, h5, h6 {
-      color: #f9fafb;
+      color: #f0f6fc;
     }
     
     code {
-      background: var(--color-border-light);
-      color: var(--color-text-primary);
+      background: #21262d;
+      color: #f0f6fc;
     }
     
-    
     blockquote {
-      border-left-color: #4b5563;
-      color: #9ca3af;
+      border-left-color: #30363d;
+      color: #8b949e;
     }
     
     hr {
-      border-top-color: #4b5563;
+      border-top-color: #30363d;
     }
     
     p.is-editor-empty:first-child::before {
-      color: #6b7280;
+      color: #484f58;
     }
   }
 }

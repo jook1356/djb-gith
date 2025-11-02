@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Dropdown } from '@/components/Dropdown';
-import type { DropdownOption } from '@/components/Dropdown';
 import type { PostMeta } from '@/types/contents';
 import styles from './PostMetaEditor.module.scss';
 
@@ -51,84 +49,52 @@ export default function PostMetaEditor({
     updateMeta('tags', meta.tags?.filter(tag => tag !== tagToRemove) || []);
   };
 
-  // 게시판 옵션
-  const boardOptions: DropdownOption[] = boards.map(board => ({
-    value: board.name,
-    label: board.displayName,
-    description: board.description,
-    icon: (
-      <div 
-        style={{ 
-          width: '1rem', 
-          height: '1rem', 
-          borderRadius: '0.25rem',
-          backgroundColor: board.color 
-        }} 
-      />
-    ),
-  }));
-
   return (
     <div className={styles.metaEditor}>
-      <div className={styles.metaForm}>
-        {/* 제목 & 게시판 */}
-        <div className={styles.formRow}>
-          <div className={styles.formGroup}>
-            <label htmlFor="post-title" className={styles.label}>
-              제목 <span className={styles.required}>*</span>
-            </label>
-            <input
-              id="post-title"
-              type="text"
-              className={styles.input}
-              placeholder="게시글 제목"
-              value={meta.title}
-              onChange={(e) => updateMeta('title', e.target.value)}
-              required
-            />
-          </div>
+      {/* 제목 - 큰 입력란, border 없음 */}
+      <input
+        type="text"
+        className={styles.titleInput}
+        placeholder="제목"
+        value={meta.title}
+        onChange={(e) => updateMeta('title', e.target.value)}
+      />
 
-          <div className={styles.formGroup}>
-            <Dropdown
-              options={boardOptions}
-              value={meta.board}
-              onChange={(value) => updateMeta('board', value)}
-              placeholder="게시판 선택"
-              label="게시판"
-              required
-              searchable
-              clearable
-              size="small"
-            />
-          </div>
+      {/* 기타 메타데이터 */}
+      <div className={styles.metaFields}>
+        {/* 게시판 선택 */}
+        <div className={styles.metaField}>
+          <select
+            className={styles.selectInput}
+            value={meta.board}
+            onChange={(e) => updateMeta('board', e.target.value)}
+          >
+            <option value="">게시판 선택</option>
+            {boards.map(board => (
+              <option key={board.name} value={board.name}>
+                {board.displayName}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* 설명 */}
-        <div className={styles.formGroup}>
-          <label htmlFor="post-description" className={styles.label}>
-            설명 <span className={styles.required}>*</span>
-          </label>
-          <textarea
-            id="post-description"
-            className={styles.textarea}
+        <div className={styles.metaField}>
+          <input
+            type="text"
+            className={styles.textInput}
             placeholder="게시글 설명 (SEO에 사용됩니다)"
             value={meta.description}
             onChange={(e) => updateMeta('description', e.target.value)}
-            rows={2}
-            required
           />
         </div>
 
-        {/* 태그 */}
-        <div className={styles.formGroup}>
-          <label htmlFor="post-tags" className={styles.label}>
-            태그
-          </label>
-          <div className={styles.tagInput}>
+        {/* 태그 입력 */}
+        <div className={styles.metaField}>
+          <div className={styles.tagInputWrapper}>
             <input
-              id="post-tags"
               type="text"
-              className={styles.input}
+              className={styles.textInput}
               placeholder="태그 입력 후 Enter"
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
@@ -139,32 +105,24 @@ export default function PostMetaEditor({
                 }
               }}
             />
-            <button
-              type="button"
-              className={styles.addButton}
-              onClick={addTag}
-              disabled={!tagInput.trim()}
-            >
-              추가
-            </button>
+            {meta.tags && meta.tags.length > 0 && (
+              <div className={styles.chips}>
+                {meta.tags.map(tag => (
+                  <div key={tag} className={styles.chip}>
+                    <span className={styles.chipLabel}>#{tag}</span>
+                    <button
+                      type="button"
+                      className={styles.chipRemove}
+                      onClick={() => removeTag(tag)}
+                      aria-label={`Remove ${tag}`}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-          {meta.tags && meta.tags.length > 0 && (
-            <div className={styles.chips}>
-              {meta.tags.map(tag => (
-                <div key={tag} className={styles.chip}>
-                  <span className={styles.chipLabel}>#{tag}</span>
-                  <button
-                    type="button"
-                    className={styles.chipRemove}
-                    onClick={() => removeTag(tag)}
-                    aria-label={`Remove ${tag}`}
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </div>

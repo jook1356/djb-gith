@@ -49,6 +49,8 @@ interface TiptapProps {
   readonly?: boolean // 읽기전용 모드
   markdownContent?: string // 마크다운 초기 콘텐츠
   className?: string // CSS 클래스명
+  showToolbarOnly?: boolean // 툴바만 표시
+  hideToolbar?: boolean // 툴바 숨기기
 }
 
 const MenuBar = ({ editor, editable = true }: { editor: any, editable?: boolean }) => {
@@ -196,7 +198,9 @@ export default function Tiptap({
   editable = true,
   readonly = false,
   markdownContent,
-  className
+  className,
+  showToolbarOnly = false,
+  hideToolbar = false
 }: TiptapProps) {
   const editor = useEditor({
     extensions: [
@@ -259,6 +263,21 @@ export default function Tiptap({
     return null
   }
 
+  // 툴바만 표시
+  if (showToolbarOnly) {
+    return <MenuBar editor={editor} editable={editable && !readonly} />
+  }
+
+  // 에디터만 표시 (툴바 숨김)
+  if (hideToolbar) {
+    return (
+      <div className={`${readonly ? 'tiptapEditor readonly' : 'tiptapEditor'}${className ? ` ${className}` : ''} tiptapEditorNoToolbar`}>
+        <EditorContent editor={editor} />
+      </div>
+    )
+  }
+
+  // 기본: 툴바 + 에디터
   return (
     <div className={`${readonly ? 'tiptapEditor readonly' : 'tiptapEditor'}${className ? ` ${className}` : ''}`}>
       <MenuBar editor={editor} editable={editable && !readonly} />

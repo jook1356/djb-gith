@@ -1,10 +1,9 @@
-// 헤더 - 프로젝트 테마 시스템 사용
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 24px;
-  border-bottom: 1px solid var(--color-border);
+// PostEditor toolbar 포탈 영역
+.toolbarPortal {
+  width: 100%;
+}
+
+.headerContainer {
   position: sticky;
   top: 0;
   z-index: 100;
@@ -13,12 +12,39 @@
   backdrop-filter: blur(12px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  min-height: 68px;
 
   &__hidden {
-    transform: translateY(-100%);
+    transform: translateY(-80px);
     box-shadow: none;
   }
+
+  // 스크롤 시 스타일 변화
+  &.scrolled {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+    :root[data-theme="dark"] & {
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .controlsWrapper {
+      background: transparent;
+    }
+  }
+}
+
+// 헤더 - 프로젝트 테마 시스템 사용
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 24px;
+  border-bottom: 1px solid var(--color-border);
+  
+
+
+  height: 80px;
+
+  
 
   &__left {
     display: flex;
@@ -266,6 +292,13 @@
   border-radius: 12px;
   border: none;
   transition: all 0.2s ease;
+}
+
+// 포털로 주입되는 액션 버튼들을 위한 컨테이너
+.portalActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 // 모바일 메뉴 버튼
@@ -618,19 +651,9 @@
   }
 }
 
-// 스크롤 시 헤더 스타일 변화
-.header.scrolled {
-  // background: var(--background-blur);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+// 스크롤 시 헤더 내 border 강조
+.headerContainer.scrolled .header {
   border-bottom-color: var(--color-border);
-
-  :root[data-theme="dark"] & {
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
-  }
-
-  .controlsWrapper {
-    background: transparent;
-  }
 }
 
 // 토스 스타일 애니메이션

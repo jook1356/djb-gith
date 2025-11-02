@@ -122,10 +122,11 @@ export default function Header() {
 
   return (
     <>
-      <header
-        className={`${styles.header} ${
-          isScrollingDown ? styles.header__hidden : ""
-        } ${isScrolled ? styles.scrolled : ""}`}
+    <div         className={`${styles.headerContainer} ${
+          isScrollingDown ? styles.headerContainer__hidden : ""
+        } ${isScrolled ? styles.scrolled : ""}`}>
+    <header
+        className={`${styles.header}`}
       >
         <div className={styles.header__left}>
           <Link href="/" onClick={handleLinkClick}>
@@ -150,8 +151,11 @@ export default function Header() {
 
         <div className={styles.header__controls}>
           <div className={styles.controlsWrapper}>
+            {/* 포털을 통해 주입될 액션 버튼들 */}
+            
             <AuthButton />
             <ThemeToggle />
+            <div id="header-portal-actions" className={styles.portalActions} />
           </div>
         </div>
 
@@ -170,6 +174,13 @@ export default function Header() {
           </svg>
         </button>
       </header>
+
+      
+      {/* PostEditor toolbar 포탈 영역 */}
+      <div id="editor-toolbar-portal" className={styles.toolbarPortal} />
+    </div>
+      
+
 
       {/* 사이드바 배경 오버레이 */}
       {isMobileMenuOpen && (
